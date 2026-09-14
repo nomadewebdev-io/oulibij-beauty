@@ -354,6 +354,20 @@ VALUES
     ('00000000-0000-0000-0003-000000000004', '00000000-0000-0000-0000-000000000001', 'Soin Botox Réparateur & Lissage', 'Régénération complète de la fibre capillaire.', '/images/hero-2.jpg', 'Soins', '2026-09-10')
 ON CONFLICT (id) DO NOTHING;
 
+-- DISPONIBILITES DU STAFF (Lundi au Samedi: 09:00 - 19:00)
+INSERT INTO public.disponibilites (salon_id, staff_id, jour_semaine, heure_debut, heure_fin, is_active)
+SELECT 
+    '00000000-0000-0000-0000-000000000001',
+    s.id,
+    j.jour,
+    '09:00'::time,
+    '19:00'::time,
+    true
+FROM public.staff s
+CROSS JOIN (SELECT generate_series(1, 6) AS jour) j
+WHERE s.salon_id = '00000000-0000-0000-0000-000000000001'
+ON CONFLICT DO NOTHING;
+
 -- ==============================================================================
 -- 7. STORAGE BUCKETS SETUP (Public read)
 -- ==============================================================================
