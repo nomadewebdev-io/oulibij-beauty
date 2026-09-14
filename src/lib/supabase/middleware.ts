@@ -39,11 +39,36 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (request.nextUrl.pathname.startsWith('/dashboard') && !user) {
+  // Protection espace client (/compte ou /dashboard)
+  if ((request.nextUrl.pathname.startsWith('/dashboard') || request.nextUrl.pathname.startsWith('/compte')) && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     url.searchParams.set('redirect', request.nextUrl.pathname)
     return NextResponse.redirect(url)
+  }
+
+  // Protection espace admin (/admin)
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    if (!user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      url.searchParams.set('redirect', request.nextUrl.pathname)
+      return NextResponse.redirect(url)
+    }
+
+    // Contrôle serveur du rôle admin
+    const { data: profile } = await (supabase
+      .from('profiles') as any)
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle()
+
+    if (!profile || profile.role !== 'admin') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/'
+      url.searchParams.set('error', 'unauthorized')
+      return NextResponse.redirect(url)
+    }
   }
 
   return supabaseResponse
