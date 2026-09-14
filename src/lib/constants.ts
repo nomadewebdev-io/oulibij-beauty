@@ -1,14 +1,15 @@
 export const SALON_INFO = {
   id: process.env.NEXT_PUBLIC_SALON_ID || '00000000-0000-0000-0000-000000000001',
-  name: 'OULIBIJ',
-  tagline: "L'art de la coiffure & des soins d'exception",
-  description: "Salon de coiffure & esthétique haut de gamme. Experts en coiffure mixte, tresses créatives, balayages lumineux, soins botox & kératine.",
+  name: 'OULIBIJ BEAUTY',
+  brandName: 'Oulibij Beauty',
+  tagline: "L'art de la coiffure & des soins d'exception pour femmes",
+  description: "Salon de coiffure & esthétique haut de gamme dédié à la beauté féminine. Experts en coupes stylisées, tresses d'art, balayages lumineux, lissages et soins botox & kératine.",
   address: "15 Avenue de l'Élégance",
   postalCode: '75008',
   city: 'Paris',
   phone: '+33 1 42 68 00 00',
   whatsapp: '+33 6 12 34 56 78',
-  email: 'contact@oulibij-salon.fr',
+  email: 'contact@oulibij-beauty.fr',
   openingHours: [
     { day: 'Lundi - Mercredi', hours: '09:00 - 19:00' },
     { day: 'Jeudi', hours: '09:00 - 19:30' },
@@ -17,28 +18,45 @@ export const SALON_INFO = {
     { day: 'Dimanche', hours: 'Fermé (sur privatisation)' },
   ],
   socials: {
-    instagram: 'https://instagram.com/oulibij_salon',
+    instagram: 'https://instagram.com/oulibij_beauty',
     tiktok: 'https://tiktok.com/@oulibij_paris',
-    facebook: 'https://facebook.com/oulibij.salon',
+    facebook: 'https://facebook.com/oulibij.beauty',
   },
 }
 
 export const NAV_LINKS = [
   { label: 'Accueil', href: '/' },
-  { label: 'Services & Tarifs', href: '/services' },
-  { label: 'Galerie', href: '/galerie' },
-  { label: 'Notre Équipe', href: '/equipe' },
+  { label: 'Prestations', href: '/prestations' },
+  { label: 'Réalisations', href: '/realisations' },
+  { label: 'À propos', href: '/a-propos' },
   { label: 'Contact', href: '/contact' },
+]
+
+export const HERO_HIGHLIGHTS = [
+  {
+    icon: 'Scissors',
+    title: 'Coupe & Brushing',
+    description: 'Stylisme sur-mesure & finitions éclat',
+  },
+  {
+    icon: 'Sparkles',
+    title: 'Coloration & Balayage',
+    description: 'Nuances fondues & brillance miroir',
+  },
+  {
+    icon: 'ShieldCheck',
+    title: 'Soins & Textures',
+    description: 'Botox, kératine & tresses artistiques',
+  },
 ]
 
 export const SERVICE_CATEGORIES = [
   'Tous',
-  'Coiffure & Coupe',
+  'Coupe & Coiffage',
   'Tresses & Braids',
   'Coloration & Balayage',
-  'Soins Profonds',
-  'Lissages',
-  'Homme & Barbe',
+  'Soins & Traitements',
+  'Lissages & Détente',
 ]
 
 export const TIME_SLOTS = [

@@ -1,58 +1,57 @@
 import React from 'react'
+import Image from 'next/image'
 import { Realisation } from '@/types'
-import { Badge } from '@/components/ui/Badge'
 import { Sparkles, ArrowRight } from '@/components/ui/Icons'
 import Link from 'next/link'
-import { Button } from '@/components/ui/Button'
 
 const DEFAULT_REALISATIONS: Realisation[] = [
   {
     id: 'r1',
     salon_id: '00000000-0000-0000-0000-000000000001',
     staff_id: null,
-    titre: 'Balayage Miel & Ondulations Hollywood',
-    description: 'Éclaircissement fondu sur base brune avec brushing wavy souple.',
-    image_url: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80',
-    categorie: 'Coloration',
+    titre: 'Brushing Wavy Éclat & Volume',
+    description: 'Ondulations souples sur base soyeuse.',
+    image_url: '/images/hero-1.jpg',
+    categorie: 'Coiffage',
     date_realisation: '2026-09-01',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+    created_at: '',
+    updated_at: '',
   },
   {
     id: 'r2',
     salon_id: '00000000-0000-0000-0000-000000000001',
     staff_id: null,
-    titre: 'Box Braids Knotless Haute Précision',
-    description: 'Tresses légères et impeccables avec séparation nette et finition soyeuse.',
-    image_url: 'https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=800&q=80',
+    titre: 'Art des Tresses & Finition Nette',
+    description: 'Box braids géométriques légères et soignées.',
+    image_url: '/images/hero-3.jpg',
     categorie: 'Tresses',
     date_realisation: '2026-09-05',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+    created_at: '',
+    updated_at: '',
   },
   {
     id: 'r3',
     salon_id: '00000000-0000-0000-0000-000000000001',
     staff_id: null,
-    titre: 'Dégradé Américain & Sculpting Barbe',
-    description: 'Tracé ultra net au rasoir traditionnel et soin hydratant barbe.',
-    image_url: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=800&q=80',
-    categorie: 'Homme',
+    titre: 'Balayage Soleil & Patine Gloss',
+    description: 'Blond miel fondu et reflets miroir.',
+    image_url: '/images/hero-4.jpg',
+    categorie: 'Coloration',
     date_realisation: '2026-09-08',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+    created_at: '',
+    updated_at: '',
   },
   {
     id: 'r4',
     salon_id: '00000000-0000-0000-0000-000000000001',
     staff_id: null,
-    titre: 'Soin Botox & Lissage Organique Miroir',
-    description: 'Transformation cheveux rebelles en matière lisse et lumineuse.',
-    image_url: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80',
+    titre: 'Soin Botox Réparateur & Lissage',
+    description: 'Régénération complète de la fibre capillaire.',
+    image_url: '/images/hero-2.jpg',
     categorie: 'Soins',
     date_realisation: '2026-09-10',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+    created_at: '',
+    updated_at: '',
   },
 ]
 
@@ -64,25 +63,27 @@ export function GallerySection({ initialRealisations }: GallerySectionProps) {
   const items = (initialRealisations && initialRealisations.length > 0) ? initialRealisations : DEFAULT_REALISATIONS
 
   return (
-    <section className="py-24 bg-zinc-900/40 border-t border-b border-zinc-800/60 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+    <section className="py-20 px-4 sm:px-8 lg:px-12 border-t border-rose-100/70">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
-            <Badge variant="gold" className="mb-4">
-              Portfolio & Créations
-            </Badge>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-100 tracking-tight">
-              Nos Réalisations Récentes
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100 border border-pink-200 text-pink-600 text-xs font-bold tracking-wider uppercase mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-pink-500" />
+              <span>Nos Réalisations</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight">
+              Inspirations & Métamorphoses
             </h2>
-            <p className="mt-3 text-zinc-400 text-sm sm:text-base max-w-xl">
-              Découvrez en images quelques-unes des métamorphoses et coiffures confectionnées par nos experts chez OULIBIJ.
+            <p className="mt-2 text-zinc-600 text-sm sm:text-base max-w-xl">
+              Découvrez en images quelques créations conçues dans notre salon.
             </p>
           </div>
-          <Link href="/galerie">
-            <Button variant="outline" size="sm" className="gap-2 shrink-0">
-              <span>Voir tout le book</span>
-              <ArrowRight className="w-4 h-4" />
-            </Button>
+          <Link
+            href="/realisations"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-zinc-950 border-2 border-zinc-950 hover:bg-zinc-950 hover:text-white transition-all self-start md:self-end"
+          >
+            <span>Voir toute la galerie</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
@@ -90,32 +91,26 @@ export function GallerySection({ initialRealisations }: GallerySectionProps) {
           {items.map((item) => (
             <div
               key={item.id}
-              className="group relative rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 shadow-lg aspect-[4/5] flex flex-col justify-end p-6 hover:border-amber-500/50 transition-all duration-300"
+              className="group relative rounded-3xl overflow-hidden shadow-md aspect-[3/4] flex flex-col justify-end p-5 border border-rose-100 transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
             >
-              {/* Image Background */}
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                style={{ backgroundImage: `url(${item.image_url})` }}
+              <Image
+                src={item.image_url}
+                alt={item.titre}
+                fill
+                sizes="(max-width: 768px) 100vw, 25vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent opacity-90 group-hover:opacity-95 transition-opacity" />
-
-              {/* Card Content */}
-              <div className="relative z-10 space-y-2">
+              <div className="relative z-10 space-y-1">
                 {item.categorie && (
-                  <span className="inline-block text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 backdrop-blur-md">
+                  <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30">
                     {item.categorie}
                   </span>
                 )}
-                <h3 className="text-base font-bold text-zinc-100 leading-snug group-hover:text-amber-400 transition-colors">
+                <h3 className="text-sm font-bold text-white leading-snug">
                   {item.titre}
                 </h3>
-                {item.description && (
-                  <p className="text-xs text-zinc-400 line-clamp-2">
-                    {item.description}
-                  </p>
-                )}
               </div>
             </div>
           ))}

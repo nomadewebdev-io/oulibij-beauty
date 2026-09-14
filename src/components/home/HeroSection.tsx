@@ -1,89 +1,179 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/Button'
-import { Calendar, Sparkles, Star, ShieldCheck, Clock } from '@/components/ui/Icons'
-import { SALON_INFO } from '@/lib/constants'
+import Image from 'next/image'
+import { SALON_INFO, HERO_HIGHLIGHTS } from '@/lib/constants'
+import { Scissors, Sparkles, ShieldCheck } from '@/components/ui/Icons'
+
+const iconMap: { [key: string]: React.FC<{ className?: string }> } = {
+  Scissors: Scissors,
+  Sparkles: Sparkles,
+  ShieldCheck: ShieldCheck,
+}
 
 export function HeroSection() {
+  const scrollToPrestations = (e: React.MouseEvent) => {
+    e.preventDefault()
+    const element = document.getElementById('prestations')
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-16 overflow-hidden bg-zinc-950">
-      {/* Background Decorative Gradients & Glows */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-900/20 via-zinc-950/80 to-zinc-950 pointer-events-none" />
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 -right-40 w-96 h-96 bg-yellow-600/10 rounded-full blur-3xl pointer-events-none" />
-
-      {/* Subtle Pattern Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#27272a10_1px,transparent_1px),linear-gradient(to_bottom,#27272a10_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
-        {/* Prestige Tag */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-widest mb-8 backdrop-blur-md animate-fadeIn">
-          <Sparkles className="w-3.5 h-3.5 fill-amber-400" />
-          <span>Salon de Coiffure & Esthétique Haute Couture</span>
-        </div>
-
-        {/* Main Headline */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-zinc-100 max-w-4xl mx-auto leading-[1.15]">
-          Sublimez Votre Style,{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500">
-            Révélez Votre Éclat
-          </span>
-        </h1>
-
-        {/* Tagline */}
-        <p className="mt-6 text-lg sm:text-xl text-zinc-300 max-w-2xl mx-auto font-light leading-relaxed">
-          Bienvenue chez <span className="font-semibold text-amber-400">{SALON_INFO.name}</span>. L'alliance parfaite de l'expertise technique, des soins bien-être sur-mesure et de la haute précision pour sublimer chaque chevelure.
-        </p>
-
-        {/* CTA Buttons */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="/rendez-vous" className="w-full sm:w-auto">
-            <Button variant="gold" size="lg" className="w-full sm:w-auto gap-3 text-base shadow-xl shadow-amber-500/20">
-              <Calendar className="w-5 h-5" />
-              <span>Réserver Votre Rendez-vous</span>
-            </Button>
-          </Link>
-          <Link href="/services" className="w-full sm:w-auto">
-            <Button variant="outline" size="lg" className="w-full sm:w-auto">
-              Consulter Nos Prestations & Tarifs
-            </Button>
-          </Link>
-        </div>
-
-        {/* Trust Badges */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-zinc-800/60">
-          <div className="flex items-center justify-center gap-3 p-3 rounded-2xl bg-zinc-900/40 border border-zinc-800/40 backdrop-blur-sm">
-            <Star className="w-5 h-5 text-amber-400 fill-amber-400" />
-            <div className="text-left">
-              <div className="text-sm font-bold text-zinc-100">4.9 / 5</div>
-              <div className="text-[11px] text-zinc-400">+500 avis vérifiés</div>
-            </div>
+    <section className="relative pt-6 sm:pt-12 pb-16 px-4 sm:px-8 lg:px-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        {/* Left Column: Headline, Description, CTAs, Highlights */}
+        <div className="lg:col-span-6 xl:col-span-7 space-y-8 text-left">
+          {/* Subtle Tag */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100/80 border border-pink-200 text-pink-600 text-xs font-bold tracking-wider uppercase">
+            <Sparkles className="w-3.5 h-3.5 text-pink-500" />
+            <span>Salon de Coiffure & Esthétique Féminine</span>
           </div>
 
-          <div className="flex items-center justify-center gap-3 p-3 rounded-2xl bg-zinc-900/40 border border-zinc-800/40 backdrop-blur-sm">
-            <Sparkles className="w-5 h-5 text-amber-400" />
-            <div className="text-left">
-              <div className="text-sm font-bold text-zinc-100">Mixte & Texturé</div>
-              <div className="text-[11px] text-zinc-400">Tous types de cheveux</div>
-            </div>
+          {/* Main Title on 2 Lines: Bold Sans-Serif */}
+          <h1 className="text-4xl sm:text-6xl xl:text-7xl font-black text-zinc-950 tracking-tight leading-[1.08]">
+            Révélez Votre Éclat,<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-rose-500 to-pink-500">
+              Sublimez Votre Chevelure.
+            </span>
+          </h1>
+
+          {/* Short Subtitle */}
+          <p className="text-zinc-600 text-base sm:text-lg max-w-xl font-normal leading-relaxed">
+            Bienvenue chez <span className="font-semibold text-zinc-900">{SALON_INFO.name}</span>. Une expérience haute coiffure sur-mesure combinant créativité, soins bien-être intenses et maîtrise parfaite de toutes les textures.
+          </p>
+
+          {/* Two Pill-Shaped CTAs */}
+          <div className="flex flex-wrap items-center gap-4 pt-2">
+            <Link
+              href="/reserver"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-full text-sm sm:text-base font-bold text-white bg-gradient-to-r from-pink-500 via-rose-400 to-pink-500 shadow-xl shadow-pink-500/25 hover:shadow-pink-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+            >
+              Réserver un créneau
+            </Link>
+
+            <a
+              href="#prestations"
+              onClick={scrollToPrestations}
+              className="inline-flex items-center justify-center px-8 py-4 rounded-full text-sm sm:text-base font-bold text-zinc-950 bg-white border-2 border-zinc-950 hover:bg-zinc-950 hover:text-white active:scale-[0.98] transition-all cursor-pointer shadow-sm"
+            >
+              Découvrir nos soins
+            </a>
           </div>
 
-          <div className="flex items-center justify-center gap-3 p-3 rounded-2xl bg-zinc-900/40 border border-zinc-800/40 backdrop-blur-sm">
-            <ShieldCheck className="w-5 h-5 text-amber-400" />
-            <div className="text-left">
-              <div className="text-sm font-bold text-zinc-100">Produits Prémium</div>
-              <div className="text-[11px] text-zinc-400">100% de qualité certifiée</div>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-center gap-3 p-3 rounded-2xl bg-zinc-900/40 border border-zinc-800/40 backdrop-blur-sm">
-            <Clock className="w-5 h-5 text-amber-400" />
-            <div className="text-left">
-              <div className="text-sm font-bold text-zinc-100">Réservation 24/7</div>
-              <div className="text-[11px] text-zinc-400">Confirmation instantanée</div>
-            </div>
+          {/* Row of 3 Highlights with Icons */}
+          <div className="pt-8 border-t border-rose-100/90 grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {HERO_HIGHLIGHTS.map((item, idx) => {
+              const IconComp = iconMap[item.icon] || Sparkles
+              return (
+                <div key={idx} className="flex items-start gap-3 group">
+                  <div className="w-10 h-10 rounded-2xl bg-pink-50 border border-pink-100 flex items-center justify-center text-pink-600 shrink-0 group-hover:scale-105 group-hover:bg-pink-100 transition-all">
+                    <IconComp className="w-5 h-5 text-pink-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-zinc-900 tracking-wide uppercase">
+                      {item.title}
+                    </h3>
+                    <p className="text-[12px] text-zinc-500 leading-snug mt-0.5">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
+
+        {/* Right Column: Photo Collage (2 columns, varied heights) */}
+        <div className="lg:col-span-6 xl:col-span-5 relative">
+          {/* Subtle Ambient Glow behind collage */}
+          <div className="absolute -inset-4 bg-gradient-to-tr from-pink-200/50 via-rose-100/40 to-pink-300/30 rounded-[3rem] blur-2xl -z-10 pointer-events-none" />
+
+          <div className="grid grid-cols-2 gap-4 sm:gap-5">
+            {/* Left Collage Column */}
+            <div className="space-y-4 sm:space-y-5">
+              <div className="relative h-64 sm:h-80 rounded-3xl overflow-hidden shadow-lg border border-white/60 group">
+                <Image
+                  src="/images/hero-1.jpg"
+                  alt="Coiffure Wavy & Brushing Oulibij"
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                  <span className="text-xs font-bold text-white tracking-wide">Brushing Signature</span>
+                </div>
+              </div>
+
+              <div className="relative h-44 sm:h-52 rounded-3xl overflow-hidden shadow-lg border border-white/60 group">
+                <Image
+                  src="/images/hero-2.jpg"
+                  alt="Gestes de coiffure délicats"
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                  <span className="text-xs font-bold text-white tracking-wide">Soins Délicats</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Collage Column */}
+            <div className="space-y-4 sm:space-y-5 pt-8 sm:pt-10">
+              <div className="relative h-48 sm:h-56 rounded-3xl overflow-hidden shadow-lg border border-white/60 group">
+                <Image
+                  src="/images/hero-4.jpg"
+                  alt="Balayage lumineux et éclat"
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                  <span className="text-xs font-bold text-white tracking-wide">Balayage Soleil</span>
+                </div>
+              </div>
+
+              <div className="relative h-60 sm:h-72 rounded-3xl overflow-hidden shadow-lg border border-white/60 group">
+                <Image
+                  src="/images/hero-3.jpg"
+                  alt="Tresses artistiques & coiffure texturée"
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                  <span className="text-xs font-bold text-white tracking-wide">Art des Tresses</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Circular "Scroll Down" Badge */}
+      <div className="flex justify-center mt-12 sm:mt-16">
+        <a
+          href="#prestations"
+          onClick={scrollToPrestations}
+          className="group relative flex items-center justify-center w-16 h-16 rounded-full bg-white border border-pink-200 shadow-md hover:shadow-lg hover:border-pink-400 hover:scale-110 transition-all cursor-pointer"
+          aria-label="Faire défiler vers les prestations"
+        >
+          {/* Subtle spinning ring */}
+          <div className="absolute inset-0 rounded-full border border-dashed border-pink-300 animate-spin-slow" />
+          {/* Bouncing down arrow */}
+          <svg
+            className="w-5 h-5 text-pink-500 group-hover:text-pink-600 animate-bounce"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
       </div>
     </section>
   )

@@ -1,43 +1,38 @@
 import React from 'react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/Button'
-import { Calendar, Phone, Sparkles } from '@/components/ui/Icons'
 import { SALON_INFO } from '@/lib/constants'
+import { Sparkles, Phone } from '@/components/ui/Icons'
 
 export function CtaBookingSection() {
   return (
-    <section className="py-20 relative overflow-hidden bg-gradient-to-b from-zinc-900 to-zinc-950 border-t border-zinc-800">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-600/15 via-transparent to-transparent pointer-events-none" />
-
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-wider mb-6">
+    <section className="py-16 px-4 sm:px-8 lg:px-12 bg-gradient-to-r from-pink-500 via-rose-400 to-pink-500 text-white rounded-b-[2rem] sm:rounded-b-[2.75rem]">
+      <div className="max-w-4xl mx-auto text-center space-y-6">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Prêt pour une nouvelle métamorphose ?</span>
+          <span>Offrez-vous un moment rien qu'à vous</span>
         </div>
 
-        <h2 className="text-3xl sm:text-5xl font-black text-zinc-100 tracking-tight leading-tight">
-          Réservez Votre Moment Privilégié Chez{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500">
-            {SALON_INFO.name}
-          </span>
+        <h2 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+          Prête Pour Votre Prochaine Coiffure ?
         </h2>
 
-        <p className="mt-4 text-zinc-300 text-base sm:text-lg max-w-2xl mx-auto font-light">
-          Choisissez votre prestation, votre coiffeur préféré et votre horaire en quelques clics. Confirmation instantanée par e-mail et SMS.
+        <p className="text-pink-50 text-sm sm:text-base max-w-xl mx-auto font-light leading-relaxed">
+          Sélectionnez votre prestation et votre horaire en quelques instants. Confirmation immédiate.
         </p>
 
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="/rendez-vous" className="w-full sm:w-auto">
-            <Button variant="gold" size="lg" className="w-full sm:w-auto gap-3 text-base shadow-xl shadow-amber-500/20">
-              <Calendar className="w-5 h-5" />
-              <span>Prendre Rendez-vous en Ligne</span>
-            </Button>
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link
+            href="/reserver"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-full text-sm font-bold bg-white text-zinc-950 shadow-xl hover:bg-pink-50 hover:scale-105 active:scale-95 transition-all"
+          >
+            Prendre rendez-vous en ligne
           </Link>
-          <a href={`tel:${SALON_INFO.phone}`} className="w-full sm:w-auto">
-            <Button variant="outline" size="lg" className="w-full sm:w-auto gap-2">
-              <Phone className="w-4 h-4" />
-              <span>{SALON_INFO.phone}</span>
-            </Button>
+          <a
+            href={`tel:${SALON_INFO.phone}`}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-bold bg-pink-600/40 text-white border border-white/40 hover:bg-pink-600/60 active:scale-95 transition-all"
+          >
+            <Phone className="w-4 h-4" />
+            <span>{SALON_INFO.phone}</span>
           </a>
         </div>
       </div>

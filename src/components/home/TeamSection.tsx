@@ -1,9 +1,7 @@
 import React from 'react'
 import { Staff } from '@/types'
-import { Badge } from '@/components/ui/Badge'
 import { Sparkles, Calendar } from '@/components/ui/Icons'
 import Link from 'next/link'
-import { Button } from '@/components/ui/Button'
 
 const DEFAULT_STAFF: Staff[] = [
   {
@@ -13,13 +11,13 @@ const DEFAULT_STAFF: Staff[] = [
     nom: 'Diallo',
     prenom: 'Aminata',
     specialite: 'Master Styliste & Coloriste',
-    bio: '12 ans d’expérience en salons prestigieux parisiens. Passionnée de transformations, balayages lumineux et visagisme.',
+    bio: '12 ans d’expérience en haute coiffure. Spécialiste des transformations éclat, balayages lumineux et visagisme féminin.',
     avatar_url: null,
-    email: 'aminata@oulibij-salon.fr',
+    email: 'aminata@oulibij-beauty.fr',
     telephone: '+33 6 11 22 33 44',
     is_active: true,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+    created_at: '',
+    updated_at: '',
   },
   {
     id: 'st2',
@@ -28,13 +26,13 @@ const DEFAULT_STAFF: Staff[] = [
     nom: 'Koffi',
     prenom: 'Yannick',
     specialite: 'Artiste Braider & Soins Texturés',
-    bio: 'Virtuose des tresses géométriques, nattes artistiques, box braids et soins profonds pour cheveux frisés et crépus.',
+    bio: 'Virtuose des tresses géométriques, nattes artistiques, box braids et soins intenses pour cheveux texturés.',
     avatar_url: null,
-    email: 'yannick@oulibij-salon.fr',
+    email: 'yannick@oulibij-beauty.fr',
     telephone: '+33 6 22 33 44 55',
     is_active: true,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+    created_at: '',
+    updated_at: '',
   },
   {
     id: 'st3',
@@ -42,14 +40,14 @@ const DEFAULT_STAFF: Staff[] = [
     user_id: null,
     nom: 'Laurent',
     prenom: 'Chloé',
-    specialite: 'Barber & Coiffeuse Visagiste',
-    bio: 'Spécialiste des coupes précises hommes & femmes, soins botox restructurants et lissages brésiliens soyeux.',
+    specialite: 'Styliste Soins & Lissages',
+    bio: 'Experte en soins botox réparateurs, lissages brésiliens et brushings soyeux longue durée.',
     avatar_url: null,
-    email: 'chloe@oulibij-salon.fr',
+    email: 'chloe@oulibij-beauty.fr',
     telephone: '+33 6 33 44 55 66',
     is_active: true,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+    created_at: '',
+    updated_at: '',
   },
 ]
 
@@ -61,50 +59,50 @@ export function TeamSection({ initialStaff }: TeamSectionProps) {
   const staffMembers = (initialStaff && initialStaff.length > 0) ? initialStaff : DEFAULT_STAFF
 
   return (
-    <section className="py-24 bg-zinc-950 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <Badge variant="gold" className="mb-4">
-            Notre Équipe d'Experts
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-100 tracking-tight">
-            Des Passionnés au Service de Votre Image
+    <section className="py-20 px-4 sm:px-8 lg:px-12 bg-pink-50/40 border-t border-rose-100/70">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100 border border-pink-200 text-pink-600 text-xs font-bold tracking-wider uppercase mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-pink-500" />
+            <span>Notre Équipe d'Expertes</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight">
+            Des Passionnées à Votre Écoute
           </h2>
-          <p className="mt-4 text-zinc-400 text-sm sm:text-base">
-            Chaque membre de l'équipe OULIBIJ apporte son savoir-faire unique, sa sensibilité artistique et son écoute attentive.
+          <p className="mt-3 text-zinc-600 text-sm sm:text-base">
+            Chaque membre de l'équipe OULIBIJ apporte sa sensibilité artistique pour sublimer vos envies.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {staffMembers.map((member) => (
             <div
               key={member.id}
-              className="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6 flex flex-col items-center text-center hover:border-amber-500/40 hover:bg-zinc-900/90 transition-all duration-300 group"
+              className="bg-white border border-rose-100 rounded-3xl p-7 flex flex-col items-center text-center hover:shadow-xl hover:border-pink-300 transition-all duration-300 group"
             >
-              {/* Avatar placeholder with luxury monogram */}
-              <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-amber-600 via-yellow-500 to-amber-300 p-[2px] mb-6 group-hover:scale-105 transition-transform duration-300">
-                <div className="w-full h-full rounded-full bg-zinc-950 flex items-center justify-center text-xl font-bold text-amber-400">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-pink-500 to-rose-300 p-[2px] mb-5 group-hover:scale-105 transition-transform">
+                <div className="w-full h-full rounded-full bg-white flex items-center justify-center text-lg font-bold text-pink-600">
                   {member.prenom[0]}{member.nom[0]}
                 </div>
               </div>
 
-              <h3 className="text-xl font-bold text-zinc-100 mb-1">
+              <h3 className="text-lg font-bold text-zinc-950 mb-1">
                 {member.prenom} {member.nom}
               </h3>
-              <p className="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-4 flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5" />
+              <p className="text-xs font-semibold uppercase tracking-wider text-pink-600 mb-3">
                 {member.specialite}
               </p>
-              <p className="text-sm text-zinc-400 leading-relaxed mb-6">
+              <p className="text-xs sm:text-sm text-zinc-500 leading-relaxed mb-6">
                 {member.bio}
               </p>
 
-              <div className="mt-auto w-full pt-4 border-t border-zinc-800/80">
-                <Link href={`/rendez-vous?staff=${member.id}`} className="w-full block">
-                  <Button variant="outline" size="sm" className="w-full justify-center gap-2 text-xs">
-                    <Calendar className="w-3.5 h-3.5" />
-                    <span>Choisir {member.prenom}</span>
-                  </Button>
+              <div className="mt-auto w-full pt-4 border-t border-rose-100/60">
+                <Link
+                  href={`/reserver?staff=${member.id}`}
+                  className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-xs font-bold text-zinc-900 border border-zinc-900 hover:bg-zinc-950 hover:text-white transition-all active:scale-95"
+                >
+                  <Calendar className="w-3.5 h-3.5 text-pink-500" />
+                  <span>Prendre RDV avec {member.prenom}</span>
                 </Link>
               </div>
             </div>

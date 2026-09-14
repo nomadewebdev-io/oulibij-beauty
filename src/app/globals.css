@@ -2,14 +2,15 @@
 
 @layer base {
   :root {
-    --background: #09090b;
-    --foreground: #fafafa;
+    --background: #fffafa;
+    --foreground: #18181b;
   }
 
   body {
-    background-color: var(--background);
-    color: var(--foreground);
+    background: linear-gradient(135deg, #fce7f3 0%, #fff1f2 50%, #fdf2f8 100%);
+    color: #18181b;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
     overflow-x: hidden;
   }
 }
@@ -18,7 +19,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -26,8 +27,34 @@
   }
 }
 
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .animate-fadeIn {
-  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-float {
+  animation: floatSlow 4s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spinSlow 12s linear infinite;
 }
 
 /* Custom sleek scrollbar */
@@ -37,16 +64,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: #fdf2f8;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: #f472b6;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #d97706;
+  background: #ec4899;
 }
 
 /* Utility to hide scrollbar */

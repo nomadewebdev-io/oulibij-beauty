@@ -4,24 +4,14 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NAV_LINKS, SALON_INFO } from '@/lib/constants'
-import { Button } from '@/components/ui/Button'
-import { Menu, X, Calendar, Sparkles, User, LogOut } from '@/components/ui/Icons'
+import { Menu, X, Sparkles, Calendar, User, LogOut } from '@/components/ui/Icons'
 import { createClient } from '@/lib/supabase/client'
 import { signOutAction } from '@/lib/actions/auth'
 
 export function Navbar() {
   const pathname = usePathname()
-  const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [user, setUser] = useState<{ email?: string } | null>(null)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   useEffect(() => {
     try {
@@ -40,117 +30,110 @@ export function Navbar() {
         authListener.subscription.unsubscribe()
       }
     } catch {
-      // Ignore if supabase client is not yet configured with valid keys
+      // client error fallback
     }
   }, [])
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800/80 py-3 shadow-xl'
-          : 'bg-gradient-to-b from-zinc-950/80 via-zinc-950/40 to-transparent py-5'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Logo & Brand */}
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-300 flex items-center justify-center text-zinc-950 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform duration-300">
-              <Sparkles className="w-5 h-5 fill-zinc-950" />
-            </div>
-            <div>
-              <span className="text-xl sm:text-2xl font-black tracking-widest text-zinc-100 uppercase group-hover:text-amber-400 transition-colors">
-                {SALON_INFO.name}
-              </span>
-              <span className="hidden sm:block text-[10px] uppercase tracking-widest text-amber-400/80 font-medium">
-                Haute Coiffure & Beauté
-              </span>
-            </div>
-          </Link>
+    <header className="w-full py-4 px-4 sm:px-8 border-b border-rose-100/70 bg-white/80 backdrop-blur-md sticky top-0 z-50 transition-all">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500 to-rose-400 flex items-center justify-center text-white shadow-md shadow-pink-500/20 group-hover:scale-105 transition-transform">
+            <Sparkles className="w-5 h-5 text-white" />
+          </div>
+          <div className="flex flex-col">
+            <span className="font-serif italic text-2xl font-bold tracking-wide text-zinc-900 group-hover:text-pink-600 transition-colors">
+              {SALON_INFO.brandName}
+            </span>
+            <span className="text-[10px] tracking-widest uppercase font-semibold text-pink-500/90 -mt-1">
+              Haute Coiffure & Soins
+            </span>
+          </div>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.map((link) => {
-              const isActive = pathname === link.href
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-sm font-medium transition-colors hover:text-amber-400 relative py-1 ${
-                    isActive ? 'text-amber-400 font-semibold' : 'text-zinc-300'
-                  }`}
-                >
-                  {link.label}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-amber-500 to-yellow-300 rounded-full animate-fadeIn" />
-                  )}
-                </Link>
-              )
-            })}
-          </nav>
-
-          {/* Right Actions */}
-          <div className="hidden md:flex items-center gap-4">
-            {user ? (
-              <div className="flex items-center gap-3">
-                <Link href="/dashboard">
-                  <Button variant="outline" size="sm" className="gap-2">
-                    <User className="w-4 h-4" />
-                    <span>Mon Espace</span>
-                  </Button>
-                </Link>
-                <form action={signOutAction}>
-                  <Button
-                    type="submit"
-                    variant="ghost"
-                    size="sm"
-                    className="text-zinc-400 hover:text-rose-400 p-2"
-                    title="Se déconnecter"
-                  >
-                    <LogOut className="w-4 h-4" />
-                  </Button>
-                </form>
-              </div>
-            ) : (
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center gap-8">
+          {NAV_LINKS.map((link) => {
+            const isActive = pathname === link.href
+            return (
               <Link
-                href="/login"
-                className="text-sm font-medium text-zinc-300 hover:text-amber-400 transition-colors"
+                key={link.href}
+                href={link.href}
+                className={`text-sm font-medium transition-all relative py-1 hover:text-pink-600 ${
+                  isActive ? 'text-pink-600 font-semibold' : 'text-zinc-600'
+                }`}
               >
-                Connexion
+                {link.label}
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-pink-500 to-rose-400 rounded-full" />
+                )}
               </Link>
-            )}
+            )
+          })}
+        </nav>
 
-            <Link href="/rendez-vous">
-              <Button variant="gold" size="sm" className="gap-2 shadow-amber-500/20">
-                <Calendar className="w-4 h-4" />
-                <span>Prendre RDV</span>
-              </Button>
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center gap-3">
-            <Link href="/rendez-vous">
-              <Button variant="gold" size="sm" className="px-3 py-1.5 text-xs">
-                RDV
-              </Button>
-            </Link>
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-lg text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors"
-              aria-label="Toggle menu"
+        {/* Right CTA Button ("Mes réservations") */}
+        <div className="hidden md:flex items-center gap-4">
+          {user ? (
+            <div className="flex items-center gap-2">
+              <Link
+                href="/compte/mes-rendez-vous"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold bg-zinc-900 text-white hover:bg-zinc-800 transition-all shadow-sm active:scale-95"
+              >
+                <User className="w-3.5 h-3.5" />
+                <span>Mon Espace</span>
+              </Link>
+              <form action={signOutAction}>
+                <button
+                  type="submit"
+                  className="p-2 text-zinc-400 hover:text-rose-500 transition-colors"
+                  title="Se déconnecter"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </form>
+            </div>
+          ) : (
+            <Link
+              href="/compte/mes-rendez-vous"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold bg-zinc-900 hover:bg-zinc-800 text-white transition-all shadow-sm active:scale-95"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
+              <Calendar className="w-3.5 h-3.5 text-pink-300" />
+              <span>Mes réservations</span>
+            </Link>
+          )}
+
+          <Link
+            href="/reserver"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold bg-gradient-to-r from-pink-500 via-rose-400 to-pink-500 text-white shadow-md shadow-pink-500/25 hover:shadow-pink-500/40 hover:scale-[1.02] active:scale-95 transition-all"
+          >
+            <span>Réserver</span>
+          </Link>
+        </div>
+
+        {/* Mobile Hamburger Button */}
+        <div className="lg:hidden flex items-center gap-3">
+          <Link
+            href="/reserver"
+            className="px-3.5 py-1.5 text-xs font-bold rounded-full bg-gradient-to-r from-pink-500 to-rose-400 text-white shadow-sm"
+          >
+            Réserver
+          </Link>
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 rounded-xl text-zinc-700 hover:bg-rose-50 transition-colors"
+            aria-label="Menu"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </div>
 
       {/* Mobile Drawer */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-zinc-950/98 border-b border-zinc-800 px-4 pt-4 pb-6 mt-3 space-y-4 shadow-2xl backdrop-blur-xl animate-fadeIn">
-          <nav className="flex flex-col space-y-2">
+        <div className="lg:hidden pt-4 pb-6 px-4 mt-3 bg-white/95 border-t border-rose-100 rounded-2xl shadow-xl space-y-4 animate-fadeIn">
+          <nav className="flex flex-col space-y-1">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href
               return (
@@ -158,10 +141,10 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`px-3 py-2 rounded-lg text-base font-medium transition-colors ${
+                  className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-amber-500/10 text-amber-400 font-bold border border-amber-500/20'
-                      : 'text-zinc-300 hover:bg-zinc-900 hover:text-white'
+                      ? 'bg-pink-50 text-pink-600 font-bold'
+                      : 'text-zinc-700 hover:bg-rose-50'
                   }`}
                 >
                   {link.label}
@@ -170,38 +153,22 @@ export function Navbar() {
             })}
           </nav>
 
-          <div className="pt-4 border-t border-zinc-800 flex flex-col gap-3">
-            {user ? (
-              <div className="flex items-center justify-between">
-                <Link
-                  href="/dashboard"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-2 text-sm text-zinc-300 hover:text-amber-400"
-                >
-                  <User className="w-4 h-4" />
-                  <span>Mon Espace Client</span>
-                </Link>
-                <form action={signOutAction}>
-                  <Button type="submit" variant="ghost" size="sm" className="text-rose-400 text-xs">
-                    Déconnexion
-                  </Button>
-                </form>
-              </div>
-            ) : (
-              <Link
-                href="/login"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-center py-2 text-sm text-zinc-300 hover:text-amber-400"
-              >
-                Connexion / Espace Membre
-              </Link>
-            )}
-
-            <Link href="/rendez-vous" onClick={() => setIsMobileMenuOpen(false)}>
-              <Button variant="gold" size="md" className="w-full justify-center gap-2">
-                <Calendar className="w-4 h-4" />
-                <span>Réserver un créneau</span>
-              </Button>
+          <div className="pt-3 border-t border-rose-100 flex flex-col gap-2">
+            <Link
+              href="/compte/mes-rendez-vous"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-full text-xs font-bold bg-zinc-900 text-white shadow-sm"
+            >
+              <Calendar className="w-4 h-4 text-pink-300" />
+              <span>Mes réservations</span>
+            </Link>
+            <Link
+              href="/reserver"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-full text-xs font-bold bg-gradient-to-r from-pink-500 to-rose-400 text-white shadow-md shadow-pink-500/25"
+            >
+              <Sparkles className="w-4 h-4" />
+              <span>Prendre un rendez-vous</span>
             </Link>
           </div>
         </div>

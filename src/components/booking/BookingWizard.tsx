@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import { Service, Staff } from '@/types'
 import { SALON_INFO, TIME_SLOTS } from '@/lib/constants'
 import { formatCurrency, formatDuration } from '@/lib/utils'
-import { Button } from '@/components/ui/Button'
 import { createAppointmentAction } from '@/lib/actions/booking'
 import {
   Scissors,
@@ -20,14 +19,13 @@ import {
   FileText,
 } from '@/components/ui/Icons'
 
-// Default fallback lists if DB is not populated yet
 const DEFAULT_SERVICES: Service[] = [
   {
     id: 's1',
     salon_id: '00000000-0000-0000-0000-000000000001',
-    nom: 'Coupe & Coiffage Signature',
-    description: 'Shampoing traitant, coupe personnalisée et brushing haute tenue.',
-    categorie: 'Coiffure & Coupe',
+    nom: 'Coupe & Brushing Signature',
+    description: 'Shampoing traitant, coupe sur-mesure et brushing haute tenue.',
+    categorie: 'Coupe & Coiffage',
     duree_minutes: 50,
     prix: 65,
     image_url: null,
@@ -39,7 +37,7 @@ const DEFAULT_SERVICES: Service[] = [
     id: 's2',
     salon_id: '00000000-0000-0000-0000-000000000001',
     nom: 'Tresses & Braids Artistiques',
-    description: 'Box braids, knotless ou vanilles géométriques soignées.',
+    description: 'Box braids knotless, nattes collées ou vanilles soignées.',
     categorie: 'Tresses & Braids',
     duree_minutes: 120,
     prix: 110,
@@ -52,7 +50,7 @@ const DEFAULT_SERVICES: Service[] = [
     id: 's3',
     salon_id: '00000000-0000-0000-0000-000000000001',
     nom: 'Balayage & Nuance Lumineuse',
-    description: 'Éclaircissement sur-mesure, patine gloss et soin régénérant.',
+    description: 'Éclaircissement fondu sur-mesure, patine gloss et soin réparateur.',
     categorie: 'Coloration & Balayage',
     duree_minutes: 90,
     prix: 135,
@@ -65,8 +63,8 @@ const DEFAULT_SERVICES: Service[] = [
     id: 's4',
     salon_id: '00000000-0000-0000-0000-000000000001',
     nom: 'Soin Botox Capillaire & Kératine',
-    description: 'Traitement réparateur profond et brillance miroir.',
-    categorie: 'Soins Profonds',
+    description: 'Traitement réparateur profond et brillance miroir intense.',
+    categorie: 'Soins & Traitements',
     duree_minutes: 75,
     prix: 95,
     image_url: null,
@@ -77,11 +75,11 @@ const DEFAULT_SERVICES: Service[] = [
   {
     id: 's5',
     salon_id: '00000000-0000-0000-0000-000000000001',
-    nom: 'Coupe Homme & Barbe Prestige',
-    description: 'Dégradé américain, rasage traditionnel et serviette chaude.',
-    categorie: 'Homme & Barbe',
-    duree_minutes: 45,
-    prix: 45,
+    nom: 'Lissage Brésilien Organique',
+    description: 'Lissage soyeux enrichi en acides aminés sans formol.',
+    categorie: 'Lissages & Détente',
+    duree_minutes: 150,
+    prix: 180,
     image_url: null,
     is_active: true,
     created_at: '',
@@ -126,7 +124,7 @@ const DEFAULT_STAFF: Staff[] = [
     user_id: null,
     nom: 'Laurent',
     prenom: 'Chloé',
-    specialite: 'Styliste Visagiste & Barbière',
+    specialite: 'Styliste Soins & Lissages',
     bio: 'Précision coupe, lissages et soins profonds.',
     avatar_url: null,
     email: '',
@@ -156,21 +154,18 @@ export function BookingWizard({
   const [step, setStep] = useState<number>(1)
   const [selectedServiceId, setSelectedServiceId] = useState<string>(preselectedServiceId || '')
   const [selectedStaffId, setSelectedStaffId] = useState<string>(preselectedStaffId || '')
-  
-  // Date selection: default to tomorrow
+
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
   const tomorrowStr = tomorrow.toISOString().split('T')[0]
   const [selectedDate, setSelectedDate] = useState<string>(tomorrowStr)
   const [selectedTime, setSelectedTime] = useState<string>('')
 
-  // Client Details
   const [clientName, setClientName] = useState('')
   const [clientEmail, setClientEmail] = useState('')
   const [clientPhone, setClientPhone] = useState('')
   const [notes, setNotes] = useState('')
 
-  // Submission State
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [confirmationData, setConfirmationData] = useState<{
@@ -184,7 +179,6 @@ export function BookingWizard({
   const selectedService = services.find((s) => s.id === selectedServiceId)
   const selectedStaff = staffList.find((st) => st.id === selectedStaffId)
 
-  // Handle Form Submission
   const handleSubmitBooking = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedServiceId || !selectedDate || !selectedTime || !clientName || !clientEmail || !clientPhone) {
@@ -228,38 +222,38 @@ export function BookingWizard({
   }
 
   return (
-    <div className="max-w-4xl mx-auto bg-zinc-950/90 border border-zinc-800 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-xl relative">
+    <div className="max-w-4xl mx-auto bg-white border border-rose-100 rounded-3xl p-6 sm:p-10 shadow-xl relative">
       {/* Step Indicator */}
       {step < 5 && (
         <div className="mb-10">
           <div className="flex items-center justify-between mb-4 text-xs font-semibold text-zinc-400">
-            <span className={step >= 1 ? 'text-amber-400' : ''}>1. Prestation</span>
-            <ChevronRight className="w-4 h-4 text-zinc-700" />
-            <span className={step >= 2 ? 'text-amber-400' : ''}>2. Coiffeur</span>
-            <ChevronRight className="w-4 h-4 text-zinc-700" />
-            <span className={step >= 3 ? 'text-amber-400' : ''}>3. Date & Heure</span>
-            <ChevronRight className="w-4 h-4 text-zinc-700" />
-            <span className={step >= 4 ? 'text-amber-400' : ''}>4. Vos Coordonnées</span>
+            <span className={step >= 1 ? 'text-pink-600 font-bold' : ''}>1. Prestation</span>
+            <ChevronRight className="w-4 h-4 text-rose-200" />
+            <span className={step >= 2 ? 'text-pink-600 font-bold' : ''}>2. Coiffeuse</span>
+            <ChevronRight className="w-4 h-4 text-rose-200" />
+            <span className={step >= 3 ? 'text-pink-600 font-bold' : ''}>3. Date & Heure</span>
+            <ChevronRight className="w-4 h-4 text-rose-200" />
+            <span className={step >= 4 ? 'text-pink-600 font-bold' : ''}>4. Vos Coordonnées</span>
           </div>
-          <div className="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+          <div className="w-full bg-rose-50 h-2 rounded-full overflow-hidden">
             <div
-              className="bg-gradient-to-r from-amber-500 to-yellow-400 h-full transition-all duration-300 rounded-full"
+              className="bg-gradient-to-r from-pink-500 to-rose-400 h-full transition-all duration-300 rounded-full"
               style={{ width: `${(step / 4) * 100}%` }}
             />
           </div>
         </div>
       )}
 
-      {/* STEP 1: SERVICE SELECTION */}
+      {/* STEP 1: SERVICE */}
       {step === 1 && (
         <div className="space-y-6 animate-fadeIn">
           <div>
-            <h2 className="text-2xl font-bold text-zinc-100 mb-2 flex items-center gap-2">
-              <Scissors className="w-6 h-6 text-amber-400" />
+            <h2 className="text-2xl font-bold text-zinc-950 mb-2 flex items-center gap-2">
+              <Scissors className="w-6 h-6 text-pink-500" />
               Choisissez votre prestation
             </h2>
-            <p className="text-sm text-zinc-400">
-              Sélectionnez le soin ou la coupe adaptée à vos envies du moment.
+            <p className="text-sm text-zinc-500">
+              Sélectionnez le soin ou la coiffure souhaitée.
             </p>
           </div>
 
@@ -272,36 +266,34 @@ export function BookingWizard({
                   onClick={() => setSelectedServiceId(service.id)}
                   className={`p-5 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
                     isSelected
-                      ? 'bg-amber-500/10 border-amber-400 shadow-lg shadow-amber-500/10'
-                      : 'bg-zinc-900/50 border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900'
+                      ? 'bg-pink-50/70 border-pink-500 shadow-md shadow-pink-500/10'
+                      : 'bg-white border-rose-100 hover:border-pink-300 hover:bg-rose-50/30'
                   }`}
                 >
                   <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold uppercase text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-                        {service.categorie}
-                      </span>
-                    </div>
-                    <h3 className="text-lg font-bold text-zinc-100">{service.nom}</h3>
-                    <p className="text-xs text-zinc-400">{service.description}</p>
+                    <span className="text-[10px] font-bold uppercase text-pink-600 bg-pink-100 px-2.5 py-0.5 rounded-full">
+                      {service.categorie}
+                    </span>
+                    <h3 className="text-base sm:text-lg font-bold text-zinc-950">{service.nom}</h3>
+                    <p className="text-xs text-zinc-500">{service.description}</p>
                     <div className="flex items-center gap-1.5 text-xs text-zinc-400 pt-1">
-                      <Clock className="w-3.5 h-3.5 text-amber-400" />
+                      <Clock className="w-3.5 h-3.5 text-pink-500" />
                       <span>{formatDuration(service.duree_minutes)}</span>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between sm:flex-col sm:items-end gap-2 shrink-0">
-                    <span className="text-xl font-black text-zinc-100">
+                    <span className="text-xl font-black text-zinc-950">
                       {formatCurrency(Number(service.prix))}
                     </span>
                     <div
-                      className={`w-5 h-5 rounded-full border flex items-center justify-center ${
+                      className={`w-6 h-6 rounded-full border flex items-center justify-center ${
                         isSelected
-                          ? 'border-amber-400 bg-amber-400 text-zinc-950'
-                          : 'border-zinc-700 bg-zinc-800'
+                          ? 'border-pink-500 bg-pink-500 text-white'
+                          : 'border-zinc-300 bg-zinc-50'
                       }`}
                     >
-                      {isSelected && <CheckCircle2 className="w-4 h-4 fill-amber-400 text-zinc-950" />}
+                      {isSelected && <CheckCircle2 className="w-4 h-4 text-white" />}
                     </div>
                   </div>
                 </div>
@@ -310,53 +302,49 @@ export function BookingWizard({
           </div>
 
           <div className="pt-6 flex justify-end">
-            <Button
-              variant="gold"
-              size="md"
+            <button
               disabled={!selectedServiceId}
               onClick={() => setStep(2)}
-              className="gap-2"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-md shadow-pink-500/20 disabled:opacity-50 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
               <span>Continuer</span>
               <ChevronRight className="w-4 h-4" />
-            </Button>
+            </button>
           </div>
         </div>
       )}
 
-      {/* STEP 2: STYLIST SELECTION */}
+      {/* STEP 2: STYLIST */}
       {step === 2 && (
         <div className="space-y-6 animate-fadeIn">
           <div>
-            <h2 className="text-2xl font-bold text-zinc-100 mb-2 flex items-center gap-2">
-              <User className="w-6 h-6 text-amber-400" />
-              Choisissez votre coiffeur / styliste
+            <h2 className="text-2xl font-bold text-zinc-950 mb-2 flex items-center gap-2">
+              <User className="w-6 h-6 text-pink-500" />
+              Choisissez votre coiffeuse
             </h2>
-            <p className="text-sm text-zinc-400">
-              Optez pour votre expert habituel ou laissez-nous vous attribuer le premier professionnel disponible.
+            <p className="text-sm text-zinc-500">
+              Optez pour une spécialiste ou le premier créneau disponible.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Any Available Option */}
             <div
               onClick={() => setSelectedStaffId('')}
               className={`p-5 rounded-2xl border transition-all cursor-pointer flex items-center gap-4 ${
                 selectedStaffId === ''
-                  ? 'bg-amber-500/10 border-amber-400 shadow-lg shadow-amber-500/10'
-                  : 'bg-zinc-900/50 border-zinc-800 hover:border-zinc-700'
+                  ? 'bg-pink-50/70 border-pink-500 shadow-md'
+                  : 'bg-white border-rose-100 hover:border-pink-300'
               }`}
             >
-              <div className="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center shrink-0">
                 <Sparkles className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-zinc-100">Premier disponible</h3>
-                <p className="text-xs text-zinc-400">Optimise les créneaux horaires disponibles</p>
+                <h3 className="text-sm sm:text-base font-bold text-zinc-950">Premier disponible</h3>
+                <p className="text-xs text-zinc-500">Maximise les horaires possibles</p>
               </div>
             </div>
 
-            {/* Individual Staff */}
             {staffList.map((st) => {
               const isSelected = selectedStaffId === st.id
               return (
@@ -365,16 +353,16 @@ export function BookingWizard({
                   onClick={() => setSelectedStaffId(st.id)}
                   className={`p-5 rounded-2xl border transition-all cursor-pointer flex items-center gap-4 ${
                     isSelected
-                      ? 'bg-amber-500/10 border-amber-400 shadow-lg shadow-amber-500/10'
-                      : 'bg-zinc-900/50 border-zinc-800 hover:border-zinc-700'
+                      ? 'bg-pink-50/70 border-pink-500 shadow-md'
+                      : 'bg-white border-rose-100 hover:border-pink-300'
                   }`}
                 >
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-400 text-zinc-950 font-bold flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-pink-500 to-rose-300 text-white font-bold flex items-center justify-center shrink-0">
                     {st.prenom[0]}{st.nom[0]}
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-zinc-100">{st.prenom} {st.nom}</h3>
-                    <p className="text-xs text-amber-400">{st.specialite}</p>
+                    <h3 className="text-sm sm:text-base font-bold text-zinc-950">{st.prenom} {st.nom}</h3>
+                    <p className="text-xs text-pink-600 font-medium">{st.specialite}</p>
                   </div>
                 </div>
               )
@@ -382,47 +370,51 @@ export function BookingWizard({
           </div>
 
           <div className="pt-6 flex justify-between">
-            <Button variant="ghost" size="md" onClick={() => setStep(1)} className="gap-2">
+            <button
+              onClick={() => setStep(1)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-zinc-700 bg-zinc-100 hover:bg-zinc-200 transition-all cursor-pointer"
+            >
               <ChevronLeft className="w-4 h-4" />
               <span>Retour</span>
-            </Button>
-            <Button variant="gold" size="md" onClick={() => setStep(3)} className="gap-2">
+            </button>
+            <button
+              onClick={() => setStep(3)}
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            >
               <span>Continuer</span>
               <ChevronRight className="w-4 h-4" />
-            </Button>
+            </button>
           </div>
         </div>
       )}
 
-      {/* STEP 3: DATE & TIME SLOT SELECTION */}
+      {/* STEP 3: DATE & TIME */}
       {step === 3 && (
         <div className="space-y-6 animate-fadeIn">
           <div>
-            <h2 className="text-2xl font-bold text-zinc-100 mb-2 flex items-center gap-2">
-              <CalendarIcon className="w-6 h-6 text-amber-400" />
-              Choisissez la date et l'horaire
+            <h2 className="text-2xl font-bold text-zinc-950 mb-2 flex items-center gap-2">
+              <CalendarIcon className="w-6 h-6 text-pink-500" />
+              Date & Horaire
             </h2>
-            <p className="text-sm text-zinc-400">
-              Sélectionnez le jour souhaité puis l'horaire qui vous convient le mieux.
+            <p className="text-sm text-zinc-500">
+              Choisissez le moment idéal pour votre rendez-vous.
             </p>
           </div>
 
-          {/* Date Picker Input */}
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-zinc-300">Date du rendez-vous</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-zinc-700">Date souhaitée</label>
             <input
               type="date"
               min={new Date().toISOString().split('T')[0]}
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="w-full sm:w-80 px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-xl text-zinc-100 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+              className="w-full sm:w-80 px-4 py-3 bg-white border border-rose-200 rounded-2xl text-zinc-950 focus:outline-none focus:border-pink-500 text-sm shadow-sm"
             />
           </div>
 
-          {/* Time Slots Grid */}
           <div className="space-y-3">
-            <label className="text-sm font-semibold text-zinc-300">Créneaux horaires disponibles</label>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+            <label className="text-xs font-bold uppercase tracking-wider text-zinc-700">Créneaux horaires disponibles</label>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5">
               {TIME_SLOTS.map((time) => {
                 const isSelected = selectedTime === time
                 return (
@@ -430,10 +422,10 @@ export function BookingWizard({
                     key={time}
                     type="button"
                     onClick={() => setSelectedTime(time)}
-                    className={`py-3 px-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                    className={`py-3 px-2 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-amber-400 text-zinc-950 shadow-md shadow-amber-500/20 scale-105'
-                        : 'bg-zinc-900 border border-zinc-800 text-zinc-300 hover:border-amber-500/50 hover:text-white'
+                        ? 'bg-gradient-to-r from-pink-500 to-rose-400 text-white shadow-md scale-105'
+                        : 'bg-white border border-rose-100 text-zinc-700 hover:border-pink-300 hover:bg-rose-50'
                     }`}
                   >
                     {time}
@@ -444,59 +436,56 @@ export function BookingWizard({
           </div>
 
           <div className="pt-6 flex justify-between">
-            <Button variant="ghost" size="md" onClick={() => setStep(2)} className="gap-2">
+            <button
+              onClick={() => setStep(2)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-zinc-700 bg-zinc-100 hover:bg-zinc-200 transition-all cursor-pointer"
+            >
               <ChevronLeft className="w-4 h-4" />
               <span>Retour</span>
-            </Button>
-            <Button
-              variant="gold"
-              size="md"
+            </button>
+            <button
               disabled={!selectedDate || !selectedTime}
               onClick={() => setStep(4)}
-              className="gap-2"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-md disabled:opacity-50 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
               <span>Continuer</span>
               <ChevronRight className="w-4 h-4" />
-            </Button>
+            </button>
           </div>
         </div>
       )}
 
-      {/* STEP 4: CLIENT CONTACT INFORMATION */}
+      {/* STEP 4: CLIENT DETAILS */}
       {step === 4 && (
         <form onSubmit={handleSubmitBooking} className="space-y-6 animate-fadeIn">
           <div>
-            <h2 className="text-2xl font-bold text-zinc-100 mb-2 flex items-center gap-2">
-              <FileText className="w-6 h-6 text-amber-400" />
-              Informations & Confirmation
+            <h2 className="text-2xl font-bold text-zinc-950 mb-2 flex items-center gap-2">
+              <FileText className="w-6 h-6 text-pink-500" />
+              Vos Coordonnées
             </h2>
-            <p className="text-sm text-zinc-400">
-              Renseignez vos coordonnées afin de recevoir votre confirmation et rappel de rendez-vous.
+            <p className="text-sm text-zinc-500">
+              Renseignez vos informations pour recevoir la confirmation de votre rendez-vous.
             </p>
           </div>
 
           {errorMessage && (
-            <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm">
+            <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 text-sm">
               {errorMessage}
             </div>
           )}
 
-          {/* Booking Summary Box */}
-          <div className="bg-zinc-900/70 border border-zinc-800 p-5 rounded-2xl space-y-2">
-            <h3 className="text-xs uppercase tracking-wider text-amber-400 font-bold">Récapitulatif</h3>
-            <div className="text-sm text-zinc-200">
-              <p><strong>Prestation :</strong> {selectedService?.nom} ({formatDuration(selectedService?.duree_minutes || 0)})</p>
-              <p><strong>Tarif :</strong> {formatCurrency(Number(selectedService?.prix || 0))}</p>
-              <p><strong>Coiffeur :</strong> {selectedStaff ? `${selectedStaff.prenom} ${selectedStaff.nom}` : 'Premier disponible'}</p>
-              <p><strong>Date & Heure :</strong> {selectedDate} à {selectedTime}</p>
-            </div>
+          <div className="bg-pink-50/60 border border-rose-100 p-5 rounded-2xl space-y-1.5 text-xs text-zinc-700">
+            <p className="font-bold text-pink-600 uppercase tracking-wider">Récapitulatif de votre séance</p>
+            <p><strong>Prestation :</strong> {selectedService?.nom} ({formatDuration(selectedService?.duree_minutes || 0)})</p>
+            <p><strong>Tarif :</strong> {formatCurrency(Number(selectedService?.prix || 0))}</p>
+            <p><strong>Coiffeuse :</strong> {selectedStaff ? `${selectedStaff.prenom} ${selectedStaff.nom}` : 'Premier disponible'}</p>
+            <p><strong>Date & Heure :</strong> {selectedDate} à {selectedTime}</p>
           </div>
 
-          {/* Form Fields */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
-                <User className="w-3.5 h-3.5 text-amber-400" />
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-zinc-700 flex items-center gap-1">
+                <User className="w-3.5 h-3.5 text-pink-500" />
                 Nom complet *
               </label>
               <input
@@ -505,13 +494,13 @@ export function BookingWizard({
                 placeholder="Ex: Amina Touré"
                 value={clientName}
                 onChange={(e) => setClientName(e.target.value)}
-                className="w-full px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 text-sm"
+                className="w-full px-4 py-3 bg-white border border-rose-200 rounded-2xl text-zinc-950 placeholder-zinc-400 focus:outline-none focus:border-pink-500 text-sm"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
-                <Phone className="w-3.5 h-3.5 text-amber-400" />
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-zinc-700 flex items-center gap-1">
+                <Phone className="w-3.5 h-3.5 text-pink-500" />
                 Téléphone portable *
               </label>
               <input
@@ -520,14 +509,14 @@ export function BookingWizard({
                 placeholder="Ex: 06 12 34 56 78"
                 value={clientPhone}
                 onChange={(e) => setClientPhone(e.target.value)}
-                className="w-full px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 text-sm"
+                className="w-full px-4 py-3 bg-white border border-rose-200 rounded-2xl text-zinc-950 placeholder-zinc-400 focus:outline-none focus:border-pink-500 text-sm"
               />
             </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
-              <Mail className="w-3.5 h-3.5 text-amber-400" />
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-zinc-700 flex items-center gap-1">
+              <Mail className="w-3.5 h-3.5 text-pink-500" />
               Adresse e-mail *
             </label>
             <input
@@ -536,95 +525,88 @@ export function BookingWizard({
               placeholder="Ex: amina@exemple.com"
               value={clientEmail}
               onChange={(e) => setClientEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 text-sm"
+              className="w-full px-4 py-3 bg-white border border-rose-200 rounded-2xl text-zinc-950 placeholder-zinc-400 focus:outline-none focus:border-pink-500 text-sm"
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="text-xs font-semibold text-zinc-300">
-              Remarques ou besoins particuliers (optionnel)
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-zinc-700">
+              Remarques éventuelles (optionnel)
             </label>
             <textarea
               rows={3}
-              placeholder="Ex: Longueur des cheveux, cuir chevelu sensible, modèle de tresse souhaité..."
+              placeholder="Ex: Longueur de cheveux, sensibilité particulière, modèle de tresses..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 text-sm resize-none"
+              className="w-full px-4 py-3 bg-white border border-rose-200 rounded-2xl text-zinc-950 placeholder-zinc-400 focus:outline-none focus:border-pink-500 text-sm resize-none"
             />
           </div>
 
           <div className="pt-6 flex justify-between items-center">
-            <Button
+            <button
               type="button"
-              variant="ghost"
-              size="md"
               onClick={() => setStep(3)}
-              className="gap-2"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-zinc-700 bg-zinc-100 hover:bg-zinc-200 transition-all cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
               <span>Retour</span>
-            </Button>
+            </button>
 
-            <Button
+            <button
               type="submit"
-              variant="gold"
-              size="lg"
-              isLoading={isSubmitting}
-              className="gap-2"
+              disabled={isSubmitting}
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm font-bold text-white bg-gradient-to-r from-pink-500 via-rose-400 to-pink-500 shadow-lg shadow-pink-500/25 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
-              <CheckCircle2 className="w-5 h-5" />
-              <span>Confirmer la réservation</span>
-            </Button>
+              <CheckCircle2 className="w-4 h-4" />
+              <span>{isSubmitting ? 'Enregistrement...' : 'Confirmer le rendez-vous'}</span>
+            </button>
           </div>
         </form>
       )}
 
-      {/* STEP 5: SUCCESS CONFIRMATION */}
+      {/* STEP 5: CONFIRMATION */}
       {step === 5 && confirmationData && (
         <div className="text-center py-8 space-y-6 animate-fadeIn">
-          <div className="w-20 h-20 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/40 shadow-lg shadow-emerald-500/10">
+          <div className="w-20 h-20 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center mx-auto border border-pink-200 shadow-md">
             <CheckCircle2 className="w-10 h-10" />
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-3xl font-extrabold text-zinc-100">
+            <h2 className="text-3xl font-extrabold text-zinc-950">
               Réservation Confirmée !
             </h2>
-            <p className="text-sm text-zinc-400 max-w-md mx-auto">
-              Merci pour votre confiance. Votre rendez-vous a été enregistré dans notre système. Un e-mail de récapitulatif vous a été envoyé.
+            <p className="text-sm text-zinc-500 max-w-md mx-auto">
+              Merci pour votre confiance. Votre séance a bien été réservée au salon {SALON_INFO.name}.
             </p>
           </div>
 
-          <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl max-w-md mx-auto text-left space-y-3">
+          <div className="bg-pink-50/50 border border-rose-100 p-6 rounded-3xl max-w-md mx-auto text-left space-y-2 text-sm text-zinc-800">
             {confirmationData.appointmentId && (
-              <div className="text-xs text-zinc-500 font-mono">
-                Réf: {confirmationData.appointmentId}
+              <div className="text-xs text-zinc-400 font-mono">
+                Réf : {confirmationData.appointmentId}
               </div>
             )}
-            <div className="text-sm text-zinc-200 space-y-1">
-              <p><strong>Salon :</strong> {SALON_INFO.name} ({SALON_INFO.address}, {SALON_INFO.city})</p>
-              <p><strong>Prestation :</strong> {confirmationData.service?.nom}</p>
-              <p><strong>Coiffeur :</strong> {confirmationData.staffName}</p>
-              <p><strong>Date :</strong> {confirmationData.date} à {confirmationData.time}</p>
-              <p><strong>Montant :</strong> {formatCurrency(Number(confirmationData.service?.prix || 0))}</p>
-            </div>
+            <p><strong>Prestation :</strong> {confirmationData.service?.nom}</p>
+            <p><strong>Coiffeuse :</strong> {confirmationData.staffName}</p>
+            <p><strong>Date :</strong> {confirmationData.date} à {confirmationData.time}</p>
+            <p><strong>Montant :</strong> {formatCurrency(Number(confirmationData.service?.prix || 0))}</p>
           </div>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button
-              variant="outline"
-              size="md"
+            <button
               onClick={() => {
                 setStep(1)
                 setSelectedTime('')
               }}
+              className="px-6 py-3 rounded-full text-xs font-bold text-zinc-900 border border-zinc-900 hover:bg-zinc-950 hover:text-white transition-all"
             >
               Faire une autre réservation
-            </Button>
-            <a href="/">
-              <Button variant="gold" size="md">
-                Retour à l'accueil
-              </Button>
+            </button>
+            <a
+              href="/"
+              className="px-8 py-3 rounded-full text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-md hover:scale-105 transition-all"
+            >
+              Retour à l'accueil
             </a>
           </div>
         </div>
