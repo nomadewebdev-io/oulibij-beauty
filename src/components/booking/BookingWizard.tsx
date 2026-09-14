@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { Service, Staff } from '@/types'
-import { SALON_INFO, TIME_SLOTS } from '@/lib/constants'
+import { SALON_INFO, TIME_SLOTS, DEFAULT_SERVICES, DEFAULT_STAFF } from '@/lib/constants'
 import { formatCurrency, formatDuration } from '@/lib/utils'
 import { createAppointmentAction } from '@/lib/actions/booking'
 import {
@@ -18,122 +18,6 @@ import {
   Mail,
   FileText,
 } from '@/components/ui/Icons'
-
-const DEFAULT_SERVICES: Service[] = [
-  {
-    id: 's1',
-    salon_id: '00000000-0000-0000-0000-000000000001',
-    nom: 'Coupe & Brushing Signature',
-    description: 'Shampoing traitant, coupe sur-mesure et brushing haute tenue.',
-    categorie: 'Coupe & Coiffage',
-    duree_minutes: 50,
-    prix: 65,
-    image_url: null,
-    is_active: true,
-    created_at: '',
-    updated_at: '',
-  },
-  {
-    id: 's2',
-    salon_id: '00000000-0000-0000-0000-000000000001',
-    nom: 'Tresses & Braids Artistiques',
-    description: 'Box braids knotless, nattes collées ou vanilles soignées.',
-    categorie: 'Tresses & Braids',
-    duree_minutes: 120,
-    prix: 110,
-    image_url: null,
-    is_active: true,
-    created_at: '',
-    updated_at: '',
-  },
-  {
-    id: 's3',
-    salon_id: '00000000-0000-0000-0000-000000000001',
-    nom: 'Balayage & Nuance Lumineuse',
-    description: 'Éclaircissement fondu sur-mesure, patine gloss et soin réparateur.',
-    categorie: 'Coloration & Balayage',
-    duree_minutes: 90,
-    prix: 135,
-    image_url: null,
-    is_active: true,
-    created_at: '',
-    updated_at: '',
-  },
-  {
-    id: 's4',
-    salon_id: '00000000-0000-0000-0000-000000000001',
-    nom: 'Soin Botox Capillaire & Kératine',
-    description: 'Traitement réparateur profond et brillance miroir intense.',
-    categorie: 'Soins & Traitements',
-    duree_minutes: 75,
-    prix: 95,
-    image_url: null,
-    is_active: true,
-    created_at: '',
-    updated_at: '',
-  },
-  {
-    id: 's5',
-    salon_id: '00000000-0000-0000-0000-000000000001',
-    nom: 'Lissage Brésilien Organique',
-    description: 'Lissage soyeux enrichi en acides aminés sans formol.',
-    categorie: 'Lissages & Détente',
-    duree_minutes: 150,
-    prix: 180,
-    image_url: null,
-    is_active: true,
-    created_at: '',
-    updated_at: '',
-  },
-]
-
-const DEFAULT_STAFF: Staff[] = [
-  {
-    id: 'st1',
-    salon_id: '00000000-0000-0000-0000-000000000001',
-    user_id: null,
-    nom: 'Diallo',
-    prenom: 'Aminata',
-    specialite: 'Master Styliste & Coloriste',
-    bio: 'Experte coloration & coupe sur-mesure.',
-    avatar_url: null,
-    email: '',
-    telephone: '',
-    is_active: true,
-    created_at: '',
-    updated_at: '',
-  },
-  {
-    id: 'st2',
-    salon_id: '00000000-0000-0000-0000-000000000001',
-    user_id: null,
-    nom: 'Koffi',
-    prenom: 'Yannick',
-    specialite: 'Expert Tresses & Cheveux Texturés',
-    bio: 'Spécialiste tresses créatives et textures afros.',
-    avatar_url: null,
-    email: '',
-    telephone: '',
-    is_active: true,
-    created_at: '',
-    updated_at: '',
-  },
-  {
-    id: 'st3',
-    salon_id: '00000000-0000-0000-0000-000000000001',
-    user_id: null,
-    nom: 'Laurent',
-    prenom: 'Chloé',
-    specialite: 'Styliste Soins & Lissages',
-    bio: 'Précision coupe, lissages et soins profonds.',
-    avatar_url: null,
-    email: '',
-    telephone: '',
-    is_active: true,
-    created_at: '',
-    updated_at: '',
-  },
-]
 
 interface BookingWizardProps {
   initialServices?: Service[]

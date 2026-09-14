@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS public.disponibilites (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     salon_id UUID NOT NULL REFERENCES public.salons(id) ON DELETE CASCADE,
     staff_id UUID NOT NULL REFERENCES public.staff(id) ON DELETE CASCADE,
-    jour_semaine INTEGER NOT NULL CHECK (jour_semaine BETWEEN 0 AND 6), -- 0 = Dimanche, 1 = Lundi, ...
+    jour_semaine INTEGER NOT NULL CHECK (jour_semaine BETWEEN 0 AND 6),
     heure_debut TIME NOT NULL,
     heure_fin TIME NOT NULL,
     is_active BOOLEAN NOT NULL DEFAULT true,
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS public.rendez_vous (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
 
--- TABLE: realisations (Portfolio / Gallery)
+-- TABLE: realisations
 CREATE TABLE IF NOT EXISTS public.realisations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     salon_id UUID NOT NULL REFERENCES public.salons(id) ON DELETE CASCADE,
@@ -140,13 +140,15 @@ ALTER TABLE public.rendez_vous ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.realisations ENABLE ROW LEVEL SECURITY;
 
 -- ==============================================================================
--- 4. RLS POLICIES
+-- 4. RLS POLICIES & HELPER FUNCTIONS
 -- ==============================================================================
 
--- --- HELPER FUNCTION: Check if user is staff or admin ---
 CREATE OR REPLACE FUNCTION public.is_staff_or_admin(user_id UUID)
 RETURNS BOOLEAN AS $$
 BEGIN
+  IF user_id IS NULL THEN
+    RETURN false;
+  END IF;
   RETURN EXISTS (
     SELECT 1 FROM public.profiles
     WHERE id = user_id AND role IN ('staff', 'admin')
@@ -154,89 +156,80 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- --- SALONS POLICIES ---
-CREATE POLICY "Salons public read access"
-    ON public.salons FOR SELECT
-    USING (true);
+-- --- SALONS ---
+DROP POLICY IF EXISTS "Salons public read access" ON public.salons;
+CREATE POLICY "Salons public read access" ON public.salons FOR SELECT USING (true);
 
-CREATE POLICY "Salons admin full control"
-    ON public.salons FOR ALL
+DROP POLICY IF EXISTS "Salons admin full control" ON public.salons;
+CREATE POLICY "Salons admin full control" ON public.salons FOR ALL
     USING (public.is_staff_or_admin(auth.uid()))
     WITH CHECK (public.is_staff_or_admin(auth.uid()));
 
--- --- PROFILES POLICIES ---
-CREATE POLICY "Profiles read own profile or staff/admin read all"
-    ON public.profiles FOR SELECT
+-- --- PROFILES ---
+DROP POLICY IF EXISTS "Profiles read own profile or staff/admin read all" ON public.profiles;
+CREATE POLICY "Profiles read own profile or staff/admin read all" ON public.profiles FOR SELECT
     USING (auth.uid() = id OR public.is_staff_or_admin(auth.uid()));
 
-CREATE POLICY "Profiles update own profile or admin"
-    ON public.profiles FOR UPDATE
+DROP POLICY IF EXISTS "Profiles update own profile or admin" ON public.profiles;
+CREATE POLICY "Profiles update own profile or admin" ON public.profiles FOR UPDATE
     USING (auth.uid() = id OR public.is_staff_or_admin(auth.uid()))
     WITH CHECK (auth.uid() = id OR public.is_staff_or_admin(auth.uid()));
 
-CREATE POLICY "Profiles insert own profile"
-    ON public.profiles FOR INSERT
+DROP POLICY IF EXISTS "Profiles insert own profile" ON public.profiles;
+CREATE POLICY "Profiles insert own profile" ON public.profiles FOR INSERT
     WITH CHECK (auth.uid() = id);
 
--- --- SERVICES POLICIES ---
-CREATE POLICY "Services public read access"
-    ON public.services FOR SELECT
-    USING (true);
+-- --- SERVICES ---
+DROP POLICY IF EXISTS "Services public read access" ON public.services;
+CREATE POLICY "Services public read access" ON public.services FOR SELECT USING (true);
 
-CREATE POLICY "Services staff/admin manage"
-    ON public.services FOR ALL
+DROP POLICY IF EXISTS "Services staff/admin manage" ON public.services;
+CREATE POLICY "Services staff/admin manage" ON public.services FOR ALL
     USING (public.is_staff_or_admin(auth.uid()))
     WITH CHECK (public.is_staff_or_admin(auth.uid()));
 
--- --- STAFF POLICIES ---
-CREATE POLICY "Staff public read access"
-    ON public.staff FOR SELECT
-    USING (true);
+-- --- STAFF ---
+DROP POLICY IF EXISTS "Staff public read access" ON public.staff;
+CREATE POLICY "Staff public read access" ON public.staff FOR SELECT USING (true);
 
-CREATE POLICY "Staff admin manage"
-    ON public.staff FOR ALL
+DROP POLICY IF EXISTS "Staff admin manage" ON public.staff;
+CREATE POLICY "Staff admin manage" ON public.staff FOR ALL
     USING (public.is_staff_or_admin(auth.uid()))
     WITH CHECK (public.is_staff_or_admin(auth.uid()));
 
--- --- DISPONIBILITES POLICIES ---
-CREATE POLICY "Disponibilites public read access"
-    ON public.disponibilites FOR SELECT
-    USING (true);
+-- --- DISPONIBILITES ---
+DROP POLICY IF EXISTS "Disponibilites public read access" ON public.disponibilites;
+CREATE POLICY "Disponibilites public read access" ON public.disponibilites FOR SELECT USING (true);
 
-CREATE POLICY "Disponibilites staff/admin manage"
-    ON public.disponibilites FOR ALL
+DROP POLICY IF EXISTS "Disponibilites staff/admin manage" ON public.disponibilites;
+CREATE POLICY "Disponibilites staff/admin manage" ON public.disponibilites FOR ALL
     USING (public.is_staff_or_admin(auth.uid()))
     WITH CHECK (public.is_staff_or_admin(auth.uid()));
 
--- --- RENDEZ_VOUS POLICIES ---
-CREATE POLICY "Rendez_vous client read own"
-    ON public.rendez_vous FOR SELECT
+-- --- RENDEZ_VOUS ---
+DROP POLICY IF EXISTS "Rendez_vous client read own" ON public.rendez_vous;
+CREATE POLICY "Rendez_vous client read own" ON public.rendez_vous FOR SELECT
     USING (auth.uid() = client_id OR public.is_staff_or_admin(auth.uid()));
 
-CREATE POLICY "Rendez_vous client or guest insert"
-    ON public.rendez_vous FOR INSERT
-    WITH CHECK (
-        client_id IS NULL 
-        OR auth.uid() = client_id 
-        OR public.is_staff_or_admin(auth.uid())
-    );
+DROP POLICY IF EXISTS "Rendez_vous insert access" ON public.rendez_vous;
+CREATE POLICY "Rendez_vous insert access" ON public.rendez_vous FOR INSERT
+    WITH CHECK (true);
 
-CREATE POLICY "Rendez_vous client update own or staff/admin manage"
-    ON public.rendez_vous FOR UPDATE
+DROP POLICY IF EXISTS "Rendez_vous client update own or staff/admin manage" ON public.rendez_vous;
+CREATE POLICY "Rendez_vous client update own or staff/admin manage" ON public.rendez_vous FOR UPDATE
     USING (auth.uid() = client_id OR public.is_staff_or_admin(auth.uid()))
     WITH CHECK (auth.uid() = client_id OR public.is_staff_or_admin(auth.uid()));
 
-CREATE POLICY "Rendez_vous staff/admin delete"
-    ON public.rendez_vous FOR DELETE
+DROP POLICY IF EXISTS "Rendez_vous staff/admin delete" ON public.rendez_vous;
+CREATE POLICY "Rendez_vous staff/admin delete" ON public.rendez_vous FOR DELETE
     USING (public.is_staff_or_admin(auth.uid()));
 
--- --- REALISATIONS POLICIES ---
-CREATE POLICY "Realisations public read access"
-    ON public.realisations FOR SELECT
-    USING (true);
+-- --- REALISATIONS ---
+DROP POLICY IF EXISTS "Realisations public read access" ON public.realisations;
+CREATE POLICY "Realisations public read access" ON public.realisations FOR SELECT USING (true);
 
-CREATE POLICY "Realisations staff/admin manage"
-    ON public.realisations FOR ALL
+DROP POLICY IF EXISTS "Realisations staff/admin manage" ON public.realisations;
+CREATE POLICY "Realisations staff/admin manage" ON public.realisations FOR ALL
     USING (public.is_staff_or_admin(auth.uid()))
     WITH CHECK (public.is_staff_or_admin(auth.uid()));
 
@@ -258,7 +251,8 @@ BEGIN
         NEW.email,
         COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', NEW.email),
         COALESCE(NEW.raw_user_meta_data->>'role', 'client')
-    );
+    )
+    ON CONFLICT (id) DO NOTHING;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
@@ -312,13 +306,21 @@ VALUES
     ('avatars', 'avatars', true)
 ON CONFLICT (id) DO NOTHING;
 
--- Storage policies for public view
+DROP POLICY IF EXISTS "Public Read Access on Salons Storage" ON storage.objects;
 CREATE POLICY "Public Read Access on Salons Storage" ON storage.objects FOR SELECT USING (bucket_id = 'salons');
+
+DROP POLICY IF EXISTS "Public Read Access on Services Storage" ON storage.objects;
 CREATE POLICY "Public Read Access on Services Storage" ON storage.objects FOR SELECT USING (bucket_id = 'services');
+
+DROP POLICY IF EXISTS "Public Read Access on Staff Storage" ON storage.objects;
 CREATE POLICY "Public Read Access on Staff Storage" ON storage.objects FOR SELECT USING (bucket_id = 'staff');
+
+DROP POLICY IF EXISTS "Public Read Access on Realisations Storage" ON storage.objects;
 CREATE POLICY "Public Read Access on Realisations Storage" ON storage.objects FOR SELECT USING (bucket_id = 'realisations');
+
+DROP POLICY IF EXISTS "Public Read Access on Avatars Storage" ON storage.objects;
 CREATE POLICY "Public Read Access on Avatars Storage" ON storage.objects FOR SELECT USING (bucket_id = 'avatars');
 
--- Storage policy for authenticated uploads
+DROP POLICY IF EXISTS "Authenticated users can upload images" ON storage.objects;
 CREATE POLICY "Authenticated users can upload images" ON storage.objects FOR INSERT
     WITH CHECK (auth.role() = 'authenticated');

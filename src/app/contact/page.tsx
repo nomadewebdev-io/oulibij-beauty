@@ -1,178 +1,238 @@
 import React from 'react'
-import { Badge } from '@/components/ui/Badge'
-import { Button } from '@/components/ui/Button'
+import { getSalon } from '@/lib/actions/salon'
+import { ContactForm } from '@/components/contact/ContactForm'
 import { SALON_INFO } from '@/lib/constants'
-import { MapPin, Phone, Mail, Clock, MessageSquare, Send } from '@/components/ui/Icons'
+import { MapPin, Phone, Mail, Clock, MessageSquare, ExternalLink, Sparkles } from '@/components/ui/Icons'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: `Contact & Accès | ${SALON_INFO.name}`,
-  description: `Coordonnées, horaires d'ouverture et adresse du salon ${SALON_INFO.name} à ${SALON_INFO.city}. Contactez-nous par téléphone, WhatsApp ou formulaire.`,
+  description: `Coordonnées, horaires d'ouverture et adresse du salon ${SALON_INFO.name}. Contactez notre équipe ou prenez rendez-vous en ligne.`,
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const salon = await getSalon()
+
+  const salonNom = salon?.nom || SALON_INFO.brandName
+  const adresse = salon?.adresse || SALON_INFO.address
+  const codePostal = salon?.code_postal || SALON_INFO.postalCode
+  const ville = salon?.ville || SALON_INFO.city
+  const telephone = salon?.telephone || SALON_INFO.phone
+  const email = salon?.email || SALON_INFO.email
+  const fullAddress = `${adresse}, ${codePostal} ${ville}`
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${salonNom} ${fullAddress}`)}`
+
+  // Opening hours processing
+  const rawHours = salon?.horaires_ouverture as Record<string, { ouvert: boolean; debut: string | null; fin: string | null }> | null
+
+  const daysMapping: Record<string, string> = {
+    lundi: 'Lundi',
+    mardi: 'Mardi',
+    mercredi: 'Mercredi',
+    jeudi: 'Jeudi',
+    vendredi: 'Vendredi',
+    samedi: 'Samedi',
+    dimanche: 'Dimanche',
+  }
+
+  const hoursList = rawHours
+    ? Object.entries(rawHours).map(([key, val]) => ({
+        day: daysMapping[key.toLowerCase()] || key,
+        hours: val.ouvert && val.debut && val.fin ? `${val.debut} - ${val.fin}` : 'Fermé',
+        isOpen: val.ouvert,
+      }))
+    : SALON_INFO.openingHours.map((h) => ({
+        day: h.day,
+        hours: h.hours,
+        isOpen: !h.hours.toLowerCase().includes('fermé'),
+      }))
+
   return (
-    <div className="pt-28 pb-20 bg-zinc-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <Badge variant="gold" className="mb-4">
-            Contact & Accès
-          </Badge>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-zinc-100 tracking-tight">
+    <div className="pt-10 pb-20 px-4 sm:px-8 lg:px-12 bg-transparent space-y-12">
+      <div className="max-w-7xl mx-auto">
+        {/* Page Header */}
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100/90 border border-pink-200 text-pink-600 text-xs font-bold tracking-wider uppercase mb-3 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-pink-500" />
+            <span>Contact & Accès</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-zinc-950 tracking-tight font-serif italic">
             Nous Contacter & Nous Trouver
           </h1>
-          <p className="mt-4 text-zinc-400 text-base">
-            Une question sur une prestation ? Besoin d'un diagnostic personnalisé ou d'une privatisation ? Écrivez-nous ou rendez-nous visite.
+          <p className="mt-4 text-zinc-600 text-sm sm:text-base leading-relaxed">
+            Une question sur un soin, une envie de changement capillaire ou une demande de devis sur-mesure ? Écrivez-nous ou rendez-nous visite au salon.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Details & Opening Hours */}
-          <div className="space-y-8">
-            <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-8 space-y-6">
-              <h2 className="text-xl font-bold text-zinc-100">Coordonnées du Salon</h2>
+        {/* 2-Column Layout: Salon Details / Map & Contact Form */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column: Coordinates & Hours & Maps (7 cols) */}
+          <div className="lg:col-span-7 space-y-8">
+            {/* Coordinates Card */}
+            <div className="bg-white/80 backdrop-blur-md border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-lg shadow-pink-900/5 space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl sm:text-2xl font-bold text-zinc-950 font-serif italic">
+                  Coordonnées du Salon
+                </h2>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-pink-600 bg-pink-50 px-3 py-1 rounded-full border border-pink-100">
+                  {salonNom}
+                </span>
+              </div>
 
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {/* Address */}
+                <div className="p-4 rounded-2xl bg-rose-50/50 border border-rose-100/80 flex items-start gap-3.5">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center shrink-0 border border-pink-200">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-zinc-200">Adresse</h3>
-                    <p className="text-sm text-zinc-400">
-                      {SALON_INFO.address}, {SALON_INFO.postalCode} {SALON_INFO.city}
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">Adresse</h3>
+                    <p className="text-sm font-semibold text-zinc-900 mt-0.5 leading-snug">
+                      {adresse}
                     </p>
-                    <p className="text-xs text-zinc-500 mt-0.5">Métro / RER à proximité • Parking disponible</p>
+                    <p className="text-xs text-zinc-600">
+                      {codePostal} {ville}
+                    </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20">
+                {/* Telephone */}
+                <div className="p-4 rounded-2xl bg-rose-50/50 border border-rose-100/80 flex items-start gap-3.5">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center shrink-0 border border-pink-200">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-zinc-200">Téléphone</h3>
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">Téléphone</h3>
                     <a
-                      href={`tel:${SALON_INFO.phone}`}
-                      className="text-sm text-amber-400 hover:text-amber-300 transition-colors"
+                      href={`tel:${telephone.replace(/\s+/g, '')}`}
+                      className="text-sm font-bold text-pink-600 hover:text-pink-700 transition-colors block mt-0.5"
                     >
-                      {SALON_INFO.phone}
+                      {telephone}
                     </a>
+                    <p className="text-[11px] text-zinc-500">Appel direct salon</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20">
+                {/* Email */}
+                <div className="p-4 rounded-2xl bg-rose-50/50 border border-rose-100/80 flex items-start gap-3.5">
+                  <div className="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center shrink-0 border border-pink-200">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">E-mail</h3>
+                    <a
+                      href={`mailto:${email}`}
+                      className="text-sm font-semibold text-zinc-900 hover:text-pink-600 transition-colors block mt-0.5 truncate max-w-[200px]"
+                    >
+                      {email}
+                    </a>
+                    <p className="text-[11px] text-zinc-500">Réponse sous 24h</p>
+                  </div>
+                </div>
+
+                {/* WhatsApp */}
+                <div className="p-4 rounded-2xl bg-rose-50/50 border border-rose-100/80 flex items-start gap-3.5">
+                  <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200">
                     <MessageSquare className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-zinc-200">WhatsApp Direct</h3>
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">WhatsApp</h3>
                     <a
                       href={`https://wa.me/${SALON_INFO.whatsapp.replace(/[^0-9]/g, '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+                      className="text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors block mt-0.5"
                     >
-                      {SALON_INFO.whatsapp} (Discussion rapide)
+                      {SALON_INFO.whatsapp}
                     </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20">
-                    <Mail className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-semibold text-zinc-200">E-mail</h3>
-                    <a
-                      href={`mailto:${SALON_INFO.email}`}
-                      className="text-sm text-zinc-400 hover:text-amber-400 transition-colors"
-                    >
-                      {SALON_INFO.email}
-                    </a>
+                    <p className="text-[11px] text-zinc-500">Discussion instantanée</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Hours card */}
-            <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-8 space-y-4">
-              <h2 className="text-xl font-bold text-zinc-100 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-amber-400" />
-                Horaires d'Ouverture
-              </h2>
-              <div className="space-y-2">
-                {SALON_INFO.openingHours.map((h, i) => (
-                  <div key={i} className="flex justify-between text-sm py-1.5 border-b border-zinc-800/60">
-                    <span className="text-zinc-400">{h.day}</span>
-                    <span className="text-zinc-200 font-medium">{h.hours}</span>
+            {/* Opening Hours Card */}
+            <div className="bg-white/80 backdrop-blur-md border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-lg shadow-pink-900/5 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center">
+                  <Clock className="w-4 h-4" />
+                </div>
+                <h2 className="text-xl sm:text-2xl font-bold text-zinc-950 font-serif italic">
+                  Horaires d'Ouverture
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+                {hoursList.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 rounded-xl bg-rose-50/40 border border-rose-100/60 text-xs"
+                  >
+                    <span className="font-semibold text-zinc-700">{item.day}</span>
+                    <span
+                      className={`font-medium ${
+                        item.isOpen ? 'text-zinc-900 font-bold' : 'text-zinc-400 italic'
+                      }`}
+                    >
+                      {item.hours}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
+
+            {/* Google Maps Card */}
+            <div className="bg-white/80 backdrop-blur-md border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-lg shadow-pink-900/5 space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-zinc-950 font-serif italic">
+                      Plan & Accès au Salon
+                    </h2>
+                    <p className="text-xs text-zinc-500">{fullAddress}</p>
+                  </div>
+                </div>
+
+                <a
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-white bg-zinc-950 hover:bg-zinc-800 transition-all shadow-sm self-start sm:self-auto"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Ouvrir Google Maps</span>
+                </a>
+              </div>
+
+              {/* Map visual card */}
+              <div className="relative rounded-2xl overflow-hidden border border-rose-100 aspect-[16/9] bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 flex flex-col items-center justify-center p-6 text-center shadow-inner">
+                <div className="w-12 h-12 rounded-full bg-pink-500 text-white flex items-center justify-center shadow-lg shadow-pink-500/30 mb-3 animate-float">
+                  <MapPin className="w-6 h-6" />
+                </div>
+                <h3 className="text-base font-bold text-zinc-900">{salonNom}</h3>
+                <p className="text-xs text-zinc-600 max-w-sm mt-1 mb-4">
+                  {fullAddress} • Métro & Transports à proximité immédiate
+                </p>
+                <a
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold text-pink-600 bg-white border border-pink-200 shadow-sm hover:bg-pink-50 hover:scale-105 transition-all"
+                >
+                  <span>Calculer mon itinéraire</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
           </div>
 
-          {/* Contact Form */}
-          <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-8 space-y-6">
-            <h2 className="text-xl font-bold text-zinc-100">Envoyez-nous un message</h2>
-            <p className="text-sm text-zinc-400">
-              Notre équipe vous répondra dans un délai de 24h ouvrées.
-            </p>
-
-            <form className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-xs font-semibold text-zinc-300">Nom & Prénom *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Votre nom"
-                    className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 text-sm"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-semibold text-zinc-300">Téléphone</label>
-                  <input
-                    type="tel"
-                    placeholder="06 00 00 00 00"
-                    className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 text-sm"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-zinc-300">Adresse e-mail *</label>
-                <input
-                  type="email"
-                  required
-                  placeholder="votre@email.com"
-                  className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 text-sm"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-zinc-300">Objet de votre demande</label>
-                <input
-                  type="text"
-                  placeholder="Renseignement soin, privatisation, devis..."
-                  className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 text-sm"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-zinc-300">Votre message *</label>
-                <textarea
-                  rows={4}
-                  required
-                  placeholder="Précisez votre demande ici..."
-                  className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 text-sm resize-none"
-                />
-              </div>
-
-              <Button type="button" variant="gold" size="lg" className="w-full justify-center gap-2">
-                <Send className="w-4 h-4" />
-                <span>Envoyer le message</span>
-              </Button>
-            </form>
+          {/* Right Column: Contact Form (5 cols) */}
+          <div className="lg:col-span-5 sticky top-28">
+            <ContactForm salonId={salon?.id} />
           </div>
         </div>
       </div>

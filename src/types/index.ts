@@ -12,6 +12,7 @@ export type Staff = Tables<'staff'>
 export type Disponibilite = Tables<'disponibilites'>
 export type RendezVous = Tables<'rendez_vous'>
 export type Realisation = Tables<'realisations'>
+export type MessageContact = Tables<'messages_contact'>
 
 export type AppointmentStatus = 'en_attente' | 'confirme' | 'annule' | 'termine'
 export type UserRole = 'client' | 'staff' | 'admin'

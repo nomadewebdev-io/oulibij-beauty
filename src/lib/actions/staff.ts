@@ -13,11 +13,11 @@ export async function getStaffMembers(salonId: string = SALON_INFO.id): Promise<
       .order('created_at', { ascending: true })
 
     if (error) {
-      console.warn('Supabase fetch error for staff:', error.message)
+      console.warn('Supabase fetch notice for staff:', error.message)
       return []
     }
 
-    return (data as Staff[]) || []
+    return (data || []) as Staff[]
   } catch (err) {
     console.error('Error fetching staff:', err)
     return []

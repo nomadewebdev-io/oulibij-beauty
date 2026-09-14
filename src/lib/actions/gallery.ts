@@ -9,14 +9,15 @@ export async function getRealisations(salonId: string = SALON_INFO.id): Promise<
       .from('realisations')
       .select('*')
       .eq('salon_id', salonId)
+      .order('date_realisation', { ascending: false, nullsFirst: false })
       .order('created_at', { ascending: false })
 
     if (error) {
-      console.warn('Supabase fetch error for realisations:', error.message)
+      console.warn('Supabase fetch notice for realisations:', error.message)
       return []
     }
 
-    return (data as Realisation[]) || []
+    return (data || []) as Realisation[]
   } catch (err) {
     console.error('Error fetching realisations:', err)
     return []

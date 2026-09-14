@@ -2,13 +2,18 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { BookingFormData, RendezVous, Service } from '@/types'
-import { SALON_INFO } from '@/lib/constants'
+import { SALON_INFO, DEFAULT_SERVICES } from '@/lib/constants'
 import { revalidatePath } from 'next/cache'
 
 export interface BookingResult {
   success: boolean
   message: string
   appointmentId?: string
+}
+
+function isValidUuid(id?: string | null): boolean {
+  if (!id) return false
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)
 }
 
 export async function createAppointmentAction(formData: BookingFormData): Promise<BookingResult> {
@@ -21,27 +26,50 @@ export async function createAppointmentAction(formData: BookingFormData): Promis
     } = await supabase.auth.getUser()
 
     // 2. Fetch service duration and price to compute end time & total price
-    const { data: serviceData } = await supabase
-      .from('services')
-      .select('duree_minutes, prix')
-      .eq('id', formData.serviceId)
-      .single()
+    let duration = 45
+    let price = 0
 
-    const service = serviceData as unknown as { duree_minutes?: number; prix?: number } | null
-    const duration = service?.duree_minutes || 45
-    const price = service?.prix || 0
+    if (isValidUuid(formData.serviceId)) {
+      const { data: serviceData } = await supabase
+        .from('services')
+        .select('duree_minutes, prix')
+        .eq('id', formData.serviceId)
+        .maybeSingle()
+
+      if (serviceData) {
+        const s = serviceData as unknown as { duree_minutes?: number; prix?: number }
+        duration = s.duree_minutes || 45
+        price = s.prix || 0
+      } else {
+        const fallback = DEFAULT_SERVICES.find((s) => s.id === formData.serviceId)
+        if (fallback) {
+          duration = fallback.duree_minutes || 45
+          price = fallback.prix || 0
+        }
+      }
+    } else {
+      const fallback = DEFAULT_SERVICES.find((s) => s.id === formData.serviceId)
+      if (fallback) {
+        duration = fallback.duree_minutes || 45
+        price = fallback.prix || 0
+      }
+    }
 
     // Compute start and end timestamps
     const startDateTime = new Date(`${formData.date}T${formData.time}:00`)
     const endDateTime = new Date(startDateTime.getTime() + duration * 60 * 1000)
 
+    const cleanServiceId = isValidUuid(formData.serviceId) ? formData.serviceId : null
+    const cleanStaffId = isValidUuid(formData.staffId) ? formData.staffId : null
+    const cleanSalonId = isValidUuid(formData.salonId) ? formData.salonId : SALON_INFO.id
+
     // 3. Insert appointment into rendez_vous table
     const { data: newRdvData, error } = await (supabase
       .from('rendez_vous') as any)
       .insert({
-        salon_id: formData.salonId || SALON_INFO.id,
-        service_id: formData.serviceId,
-        staff_id: formData.staffId || null,
+        salon_id: cleanSalonId,
+        service_id: cleanServiceId,
+        staff_id: cleanStaffId,
         client_id: user?.id || null,
         client_nom: formData.clientName,
         client_email: formData.clientEmail,
@@ -57,9 +85,16 @@ export async function createAppointmentAction(formData: BookingFormData): Promis
 
     if (error) {
       console.error('Supabase error creating appointment:', error)
+      if (error.message?.includes('schema cache') || error.code === 'PGRST205') {
+        return {
+          success: false,
+          message:
+            "Configuration Supabase : les tables de la base de données ne sont pas encore créées. Veuillez exécuter le script SQL 'supabase/setup_complete.sql' dans l'éditeur SQL de votre console Supabase.",
+        }
+      }
       return {
         success: false,
-        message: `Erreur lors de la réservation: ${error.message}`,
+        message: `Erreur lors de la réservation : ${error.message}`,
       }
     }
 
@@ -67,6 +102,7 @@ export async function createAppointmentAction(formData: BookingFormData): Promis
 
     revalidatePath('/dashboard')
     revalidatePath('/rendez-vous')
+    revalidatePath('/compte/mes-rendez-vous')
 
     return {
       success: true,
@@ -103,7 +139,7 @@ export async function getUserAppointments(): Promise<RendezVous[]> {
       .order('date_heure_debut', { ascending: false })
 
     if (error) {
-      console.error('Error fetching user appointments:', error)
+      console.error('Error fetching user appointments:', error.message)
       return []
     }
 
@@ -128,6 +164,7 @@ export async function cancelAppointmentAction(appointmentId: string): Promise<bo
     }
 
     revalidatePath('/dashboard')
+    revalidatePath('/compte/mes-rendez-vous')
     return true
   } catch (err) {
     console.error('Error cancelling appointment:', err)

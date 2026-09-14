@@ -398,6 +398,50 @@ export type Database = {
           }
         ]
       }
+      messages_contact: {
+        Row: {
+          id: string
+          salon_id: string | null
+          nom: string
+          email: string
+          telephone: string | null
+          sujet: string | null
+          message: string
+          lu: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          salon_id?: string | null
+          nom: string
+          email: string
+          telephone?: string | null
+          sujet?: string | null
+          message: string
+          lu?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          salon_id?: string | null
+          nom?: string
+          email?: string
+          telephone?: string | null
+          sujet?: string | null
+          message?: string
+          lu?: boolean
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_contact_salon_id_fkey"
+            columns: ["salon_id"]
+            isOneToOne: false
+            referencedRelation: "salons"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
