@@ -347,7 +347,7 @@ export async function createAppointmentAction(formData: BookingFormData): Promis
   }
 }
 
-export async function getUserAppointments(): Promise<RendezVous[]> {
+export async function getUserAppointments(limit: number = 100): Promise<RendezVous[]> {
   try {
     const supabase = await createClient()
     const {
@@ -365,6 +365,7 @@ export async function getUserAppointments(): Promise<RendezVous[]> {
       `)
       .eq('client_id', user.id)
       .order('date_heure_debut', { ascending: false })
+      .limit(limit)
 
     if (error) {
       console.error('Error fetching user appointments:', error.message)

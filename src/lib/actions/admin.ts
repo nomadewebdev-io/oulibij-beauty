@@ -65,7 +65,7 @@ export async function getAdminStats() {
 /**
  * Récupère tous les rendez-vous reçus avec les détails du service et de la coiffeuse
  */
-export async function getAllAdminAppointments(): Promise<AppointmentWithDetails[]> {
+export async function getAllAdminAppointments(limit: number = 200): Promise<AppointmentWithDetails[]> {
   await verifyAdminUser()
   const supabase = await createClient()
 
@@ -77,6 +77,7 @@ export async function getAllAdminAppointments(): Promise<AppointmentWithDetails[
       staff:staff(*)
     `)
     .order('date_heure_debut', { ascending: false })
+    .limit(limit)
 
   if (error) {
     console.error('Error fetching admin appointments:', error.message)

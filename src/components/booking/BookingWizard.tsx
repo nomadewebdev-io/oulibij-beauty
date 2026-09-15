@@ -733,7 +733,7 @@ export function BookingWizard({
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5">
+                <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 sm:gap-2.5">
                   {availableSlots.map((slot) => {
                     const isSelected = selectedTime === slot.time
                     const isAvailable = slot.available
