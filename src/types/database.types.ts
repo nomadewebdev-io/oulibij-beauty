@@ -112,6 +112,7 @@ export type Database = {
           prix: number
           image_url: string | null
           is_active: boolean
+          necessite_essai: boolean
           created_at: string
           updated_at: string
         }
@@ -125,6 +126,7 @@ export type Database = {
           prix?: number
           image_url?: string | null
           is_active?: boolean
+          necessite_essai?: boolean
           created_at?: string
           updated_at?: string
         }
@@ -138,6 +140,7 @@ export type Database = {
           prix?: number
           image_url?: string | null
           is_active?: boolean
+          necessite_essai?: boolean
           created_at?: string
           updated_at?: string
         }

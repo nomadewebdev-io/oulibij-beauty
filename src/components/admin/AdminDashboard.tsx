@@ -601,9 +601,16 @@ export function AdminDashboard({
               >
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-pink-600 bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-100">
-                      {service.categorie}
-                    </span>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-pink-600 bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-100">
+                        {service.categorie}
+                      </span>
+                      {service.necessite_essai && (
+                        <span className="text-[10px] font-bold uppercase text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-300">
+                          Essai requis
+                        </span>
+                      )}
+                    </div>
                     <span className="text-lg font-black text-zinc-950">
                       {formatCurrency(Number(service.prix))}
                     </span>
@@ -746,9 +753,22 @@ export function AdminDashboard({
                       name="description"
                       rows={3}
                       defaultValue={editingService?.description || ''}
-                      placeholder="Détails du rituel, étapes et bénéfices pour les cheveux..."
+                      placeholder="Détails de la prestation, étapes et bienfaits..."
                       className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500 resize-none"
                     />
+                  </div>
+
+                  <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-rose-50/60 border border-rose-100">
+                    <input
+                      type="checkbox"
+                      id="necessite_essai"
+                      name="necessite_essai"
+                      defaultChecked={editingService?.necessite_essai || false}
+                      className="w-4 h-4 text-pink-600 rounded border-rose-300 focus:ring-pink-500"
+                    />
+                    <label htmlFor="necessite_essai" className="text-xs font-bold text-zinc-800 cursor-pointer">
+                      Nécessite un essai préalable avant le jour J (ex. Maquillage mariée)
+                    </label>
                   </div>
 
                   <div className="pt-3 flex justify-end gap-3">

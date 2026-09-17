@@ -38,7 +38,7 @@ interface BookingWizardProps {
 }
 
 /**
- * Détermine si la coiffeuse a une spécialité compatible avec le service choisi
+ * Détermine si la praticienne / coiffeuse a une spécialité compatible avec le service choisi
  */
 function isStaffSpecialistForService(staff: Staff, service?: Service): boolean {
   if (!service) return true
@@ -49,6 +49,18 @@ function isStaffSpecialistForService(staff: Staff, service?: Service): boolean {
 
   const combinedStaff = `${spec} ${bio}`
 
+  if (sCat.includes('maquillage') || sName.includes('maquillage') || sCat.includes('make-up') || sCat.includes('makeup')) {
+    return (
+      combinedStaff.includes('maquillage') ||
+      combinedStaff.includes('make-up') ||
+      combinedStaff.includes('makeup') ||
+      combinedStaff.includes('beauté') ||
+      combinedStaff.includes('beaute') ||
+      combinedStaff.includes('visagisme') ||
+      combinedStaff.includes('esthétique') ||
+      combinedStaff.includes('esthetique')
+    )
+  }
   if (sCat.includes('tresse') || sCat.includes('braid') || sName.includes('tresse') || sName.includes('braid')) {
     return combinedStaff.includes('tresse') || combinedStaff.includes('braid') || combinedStaff.includes('texturé') || combinedStaff.includes('afro')
   }
@@ -402,7 +414,7 @@ export function BookingWizard({
                 step >= 2 ? 'text-pink-600' : 'text-zinc-400'
               } disabled:cursor-not-allowed`}
             >
-              2. Coiffeuse
+              2. Experte
             </button>
             <button
               onClick={() => selectedServiceId && setStep(3)}
@@ -443,11 +455,11 @@ export function BookingWizard({
               Étape 1 sur 4
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 font-serif italic flex items-center gap-2">
-              <Scissors className="w-6 h-6 text-pink-500" />
+              <Sparkles className="w-6 h-6 text-pink-500" />
               <span>Choisissez votre prestation</span>
             </h2>
             <p className="text-sm text-zinc-500 mt-1">
-              Sélectionnez le soin ou la coiffure que vous souhaitez réaliser.
+              Sélectionnez le soin, la coiffure ou la mise en beauté que vous souhaitez réaliser.
             </p>
           </div>
 
@@ -488,10 +500,15 @@ export function BookingWizard({
                   }`}
                 >
                   <div className="space-y-1.5 flex-1">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-[10px] font-bold uppercase text-pink-600 bg-pink-100/90 px-2.5 py-0.5 rounded-full border border-pink-200">
                         {service.categorie}
                       </span>
+                      {service.necessite_essai && (
+                        <span className="text-[10px] font-bold uppercase text-amber-800 bg-amber-100/90 px-2.5 py-0.5 rounded-full border border-amber-300">
+                          Essai préalable recommandé
+                        </span>
+                      )}
                     </div>
                     <h3 className="text-base sm:text-lg font-bold text-zinc-950">
                       {service.nom}
@@ -526,13 +543,30 @@ export function BookingWizard({
             })}
           </div>
 
+          {/* Recommandation informative si necessite_essai = true */}
+          {selectedService?.necessite_essai && (
+            <div className="p-4 sm:p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 shadow-sm space-y-2 animate-fadeIn">
+              <div className="flex items-start gap-3">
+                <Sparkles className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <h4 className="text-sm font-bold text-amber-950">
+                    Conseil pour votre grand jour : Réservez également votre essai
+                  </h4>
+                  <p className="text-xs sm:text-sm text-amber-800 leading-relaxed">
+                    Pour la prestation <strong>{selectedService.nom}</strong>, nous vous invitons à réserver également la prestation <strong>« Essai maquillage mariée »</strong> quelques semaines avant le jour J afin de tester les teintes, valider les harmonies et assurer un résultat sur-mesure en toute sérénité.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="pt-6 flex justify-end">
             <button
               disabled={!selectedServiceId}
               onClick={() => setStep(2)}
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-md shadow-pink-500/20 disabled:opacity-40 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
-              <span>Continuer vers le choix de la coiffeuse</span>
+              <span>Continuer vers le choix de l&apos;experte</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -540,7 +574,7 @@ export function BookingWizard({
       )}
 
       {/* ========================================================================= */}
-      {/* ÉTAPE 2 : CHOIX DE LA COIFFEUSE (filtrée par spécialité compatible) */}
+      {/* ÉTAPE 2 : CHOIX DE L'EXPERTE (filtrée par spécialité compatible) */}
       {/* ========================================================================= */}
       {step === 2 && (
         <div className="space-y-6 animate-fadeIn">
@@ -550,7 +584,7 @@ export function BookingWizard({
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 font-serif italic flex items-center gap-2">
               <User className="w-6 h-6 text-pink-500" />
-              <span>Choisissez votre coiffeuse</span>
+              <span>Choisissez votre experte</span>
             </h2>
             <p className="text-sm text-zinc-500 mt-1">
               Sélection pour : <strong className="text-zinc-900">{selectedService?.nom}</strong> ({selectedService?.categorie})
@@ -558,7 +592,7 @@ export function BookingWizard({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Option : N'importe quelle coiffeuse disponible */}
+            {/* Option : N'importe quelle experte disponible */}
             <div
               onClick={() => setSelectedStaffId('')}
               className={`p-5 rounded-3xl border transition-all cursor-pointer flex items-center gap-4 ${
@@ -710,6 +744,16 @@ export function BookingWizard({
             </div>
           )}
 
+          {/* Rappel informatif d'essai en étape 3 */}
+          {selectedService?.necessite_essai && (
+            <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-start gap-2.5">
+              <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+              <p className="leading-relaxed">
+                <strong>Rappel Jour J :</strong> N&apos;oubliez pas de prévoir et réserver également votre séance <strong>« Essai maquillage mariée »</strong> avant la date de la cérémonie.
+              </p>
+            </div>
+          )}
+
           {/* Slots Grid */}
           {!isLoadingSlots && !slotsError && (
             <div className="space-y-3">
@@ -813,12 +857,19 @@ export function BookingWizard({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-zinc-700">
               <div className="space-y-1">
                 <span className="text-zinc-400 uppercase font-semibold text-[10px]">Prestation</span>
-                <p className="font-bold text-sm text-zinc-900">{selectedService?.nom}</p>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <p className="font-bold text-sm text-zinc-900">{selectedService?.nom}</p>
+                  {selectedService?.necessite_essai && (
+                    <span className="text-[10px] font-bold uppercase text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-300">
+                      Essai requis
+                    </span>
+                  )}
+                </div>
                 <p className="text-zinc-500">{selectedService?.categorie} • {formatDuration(selectedService?.duree_minutes || 45)}</p>
               </div>
 
               <div className="space-y-1">
-                <span className="text-zinc-400 uppercase font-semibold text-[10px]">Coiffeuse</span>
+                <span className="text-zinc-400 uppercase font-semibold text-[10px]">Experte</span>
                 <p className="font-bold text-sm text-zinc-900">
                   {selectedStaff ? `${selectedStaff.prenom} ${selectedStaff.nom}` : 'Première disponible'}
                 </p>

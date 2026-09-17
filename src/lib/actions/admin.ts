@@ -151,6 +151,7 @@ export async function saveServiceAction(formData: FormData): Promise<{ success: 
     const duree_minutes = Number(formData.get('duree_minutes')) || 45
     const prix = Number(formData.get('prix')) || 0
     const is_active = formData.get('is_active') === 'true' || formData.get('is_active') === 'on'
+    const necessite_essai = formData.get('necessite_essai') === 'true' || formData.get('necessite_essai') === 'on'
 
     if (!nom) {
       return { success: false, message: 'Le nom du service est obligatoire.' }
@@ -167,6 +168,7 @@ export async function saveServiceAction(formData: FormData): Promise<{ success: 
           duree_minutes,
           prix,
           is_active,
+          necessite_essai,
         })
         .eq('id', id)
 
@@ -183,6 +185,7 @@ export async function saveServiceAction(formData: FormData): Promise<{ success: 
           duree_minutes,
           prix,
           is_active: true,
+          necessite_essai,
         })
 
       if (error) return { success: false, message: error.message }

@@ -79,47 +79,62 @@ export function ServicesSection({ initialServices = [], showAllLink = true }: Se
 
             {/* Services Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredServices.map((service) => (
-                <div
-                  key={service.id}
-                  className="bg-white border border-rose-100/90 rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:border-pink-300 hover:shadow-xl hover:shadow-pink-500/5 transition-all duration-300 group"
-                >
-                  <div>
-                    <div className="flex items-start justify-between gap-4 mb-4">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-pink-600 bg-pink-50 px-3 py-1 rounded-full border border-pink-100">
-                        {service.categorie}
-                      </span>
-                      <span className="text-xl font-black text-zinc-950 group-hover:text-pink-600 transition-colors">
-                        {formatCurrency(Number(service.prix))}
-                      </span>
+              {filteredServices.map((service) => {
+                const isMakeup = (service.categorie || '').toLowerCase().includes('maquillage')
+
+                return (
+                  <div
+                    key={service.id}
+                    className="bg-white border border-rose-100/90 rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:border-pink-300 hover:shadow-xl hover:shadow-pink-500/5 transition-all duration-300 group"
+                  >
+                    <div>
+                      <div className="flex items-start justify-between gap-4 mb-4">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-pink-600 bg-pink-50 px-3 py-1 rounded-full border border-pink-100">
+                            {service.categorie}
+                          </span>
+                          {service.necessite_essai && (
+                            <span className="text-[10px] font-bold uppercase text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-300">
+                              Essai requis
+                            </span>
+                          )}
+                        </div>
+                        <span className="text-xl font-black text-zinc-950 group-hover:text-pink-600 transition-colors">
+                          {formatCurrency(Number(service.prix))}
+                        </span>
+                      </div>
+
+                      <h3 className="text-lg font-bold text-zinc-950 mb-2 flex items-center gap-2 group-hover:text-pink-600 transition-colors">
+                        {isMakeup ? (
+                          <Sparkles className="w-4 h-4 text-pink-500 shrink-0" />
+                        ) : (
+                          <Scissors className="w-4 h-4 text-pink-500 shrink-0" />
+                        )}
+                        {service.nom}
+                      </h3>
+
+                      <p className="text-xs sm:text-sm text-zinc-500 leading-relaxed line-clamp-3 mb-6">
+                        {service.description}
+                      </p>
                     </div>
 
-                    <h3 className="text-lg font-bold text-zinc-950 mb-2 flex items-center gap-2 group-hover:text-pink-600 transition-colors">
-                      <Scissors className="w-4 h-4 text-pink-500 shrink-0" />
-                      {service.nom}
-                    </h3>
+                    <div className="pt-4 border-t border-rose-100/60 flex items-center justify-between">
+                      <div className="flex items-center gap-1.5 text-xs font-medium text-zinc-500">
+                        <Clock className="w-3.5 h-3.5 text-pink-500" />
+                        <span>{formatDuration(service.duree_minutes)}</span>
+                      </div>
 
-                    <p className="text-xs sm:text-sm text-zinc-500 leading-relaxed line-clamp-3 mb-6">
-                      {service.description}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-rose-100/60 flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 text-xs font-medium text-zinc-500">
-                      <Clock className="w-3.5 h-3.5 text-pink-500" />
-                      <span>{formatDuration(service.duree_minutes)}</span>
+                      <Link
+                        href={`/reserver?service=${service.id}`}
+                        className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-sm hover:shadow-md hover:scale-105 active:scale-95 transition-all"
+                      >
+                        <span>Réserver</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </Link>
                     </div>
-
-                    <Link
-                      href={`/reserver?service=${service.id}`}
-                      className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-sm hover:shadow-md hover:scale-105 active:scale-95 transition-all"
-                    >
-                      <span>Réserver</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
 
             {/* Bottom Link */}
