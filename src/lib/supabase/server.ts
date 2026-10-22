@@ -1,30 +1,35 @@
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
-import { Database } from '@/types/database.types'
+/**
+ * Client Supabase Serveur (Stub sécurisé pour mode sans Supabase)
+ * Le code complet de production est archivé dans @/lib/supabase-archive/server.ts
+ */
 
 export async function createClient() {
-  const cookieStore = await cookies()
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key'
-
-  return createServerClient<Database>(
-    supabaseUrl,
-    supabaseAnonKey,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
-        setAll(cookiesToSet: Array<{ name: string; value: string; options?: Record<string, unknown> }>) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options as any)
-            )
-          } catch {
-            // Server Component context
+  return {
+    auth: {
+      async getUser() {
+        return { data: { user: null }, error: null }
+      },
+    },
+    from(_table: string) {
+      return {
+        select() {
+          return {
+            eq() {
+              return {
+                maybeSingle() {
+                  return Promise.resolve({ data: null, error: null })
+                },
+                single() {
+                  return Promise.resolve({ data: null, error: null })
+                },
+              }
+            },
+            maybeSingle() {
+              return Promise.resolve({ data: null, error: null })
+            },
           }
         },
-      },
-    }
-  )
+      }
+    },
+  } as any
 }

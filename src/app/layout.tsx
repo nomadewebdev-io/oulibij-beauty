@@ -5,25 +5,26 @@ import { Footer } from '@/components/layout/Footer'
 import { SALON_INFO } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: `${SALON_INFO.name} | Salon de Coiffure & Soins Féminins d'Exception`,
-  description: `${SALON_INFO.name} - Prestations sur-mesure, coupes tendance, balayages lumineux, tresses d'art et soins botox. Prenez rendez-vous en ligne 24/7.`,
+  title: `${SALON_INFO.name} | Salon de Coiffure & Soins Féminins d'Exception à Dakar`,
+  description: `${SALON_INFO.name} (Almadies, Dakar) - Tresses d'art (knotless braids), coupes sur-mesure, balayages lumineux, lissages et soins botox. Réservation directe sur WhatsApp.`,
   keywords: [
-    'salon de coiffure',
-    'OULIBIJ-BEAUTY',
-    'coiffure femme',
-    'tresses',
-    'braids',
+    'salon de coiffure Dakar',
+    'OULIBIJ BEAUTY',
+    'coiffure femme Dakar',
+    'Almadies',
+    'tresses knotless',
+    'braids Dakar',
     'balayage',
     'lissage brésilien',
-    'soin botox',
+    'soin botox capillaire',
   ],
   authors: [{ name: SALON_INFO.name }],
   openGraph: {
-    title: `${SALON_INFO.name} | Salon de Coiffure Féminin`,
+    title: `${SALON_INFO.name} | Salon de Coiffure Féminin à Dakar`,
     description: SALON_INFO.description,
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://oulibij-beauty.fr',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://oulibij-beauty.sn',
     siteName: SALON_INFO.name,
-    locale: 'fr_FR',
+    locale: 'fr_SN',
     type: 'website',
   },
 }

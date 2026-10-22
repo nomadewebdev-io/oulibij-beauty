@@ -1,25 +1,17 @@
-import { createClient } from '@/lib/supabase/server'
 import { Staff } from '@/types'
-import { SALON_INFO } from '@/lib/constants'
+import { DEFAULT_STAFF, SALON_INFO } from '@/lib/constants'
 
-export async function getStaffMembers(salonId: string = SALON_INFO.id): Promise<Staff[]> {
-  try {
-    const supabase = await createClient()
-    const { data, error } = await supabase
-      .from('staff')
-      .select('*')
-      .eq('salon_id', salonId)
-      .eq('is_active', true)
-      .order('created_at', { ascending: true })
+/**
+ * Récupère les membres de l'équipe du salon (mode autonome sans Supabase)
+ */
+export async function getStaffMembers(_salonId: string = SALON_INFO.id): Promise<Staff[]> {
+  return DEFAULT_STAFF
+}
 
-    if (error) {
-      console.warn('Supabase fetch notice for staff:', error.message)
-      return []
-    }
-
-    return (data || []) as Staff[]
-  } catch (err) {
-    console.error('Error fetching staff:', err)
-    return []
-  }
+/**
+ * Récupère un membre du staff par son identifiant
+ */
+export async function getStaffById(id: string): Promise<Staff | null> {
+  const staff = DEFAULT_STAFF.find((s) => s.id === id)
+  return staff || null
 }

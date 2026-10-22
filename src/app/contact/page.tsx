@@ -1,8 +1,8 @@
 import React from 'react'
 import { getSalon } from '@/lib/actions/salon'
 import { ContactForm } from '@/components/contact/ContactForm'
-import { SALON_INFO } from '@/lib/constants'
-import { MapPin, Phone, Mail, Clock, MessageSquare, ExternalLink, Sparkles } from '@/components/ui/Icons'
+import { SALON_INFO, getWhatsAppBookingUrl } from '@/lib/constants'
+import { MapPin, Phone, Mail, Clock, MessageSquare, ExternalLink, Sparkles, WhatsApp } from '@/components/ui/Icons'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,11 +16,10 @@ export default async function ContactPage() {
 
   const salonNom = salon?.nom || SALON_INFO.brandName
   const adresse = salon?.adresse || SALON_INFO.address
-  const codePostal = salon?.code_postal || SALON_INFO.postalCode
   const ville = salon?.ville || SALON_INFO.city
   const telephone = salon?.telephone || SALON_INFO.phone
   const email = salon?.email || SALON_INFO.email
-  const fullAddress = `${adresse}, ${codePostal} ${ville}`
+  const fullAddress = `${adresse}, ${SALON_INFO.district}, ${ville}`
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${salonNom} ${fullAddress}`)}`
 
   // Opening hours processing
@@ -92,7 +91,7 @@ export default async function ContactPage() {
                       {adresse}
                     </p>
                     <p className="text-xs text-zinc-600">
-                      {codePostal} {ville}
+                      {SALON_INFO.district}, {ville}
                     </p>
                   </div>
                 </div>
@@ -132,21 +131,21 @@ export default async function ContactPage() {
                 </div>
 
                 {/* WhatsApp */}
-                <div className="p-4 rounded-2xl bg-rose-50/50 border border-rose-100/80 flex items-start gap-3.5">
+                <div className="p-4 rounded-2xl bg-emerald-50/50 border border-emerald-100 flex items-start gap-3.5">
                   <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200">
-                    <MessageSquare className="w-5 h-5" />
+                    <WhatsApp className="w-5 h-5" />
                   </div>
                   <div>
                     <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">WhatsApp</h3>
                     <a
-                      href={`https://wa.me/${SALON_INFO.whatsapp.replace(/[^0-9]/g, '')}`}
+                      href={getWhatsAppBookingUrl()}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors block mt-0.5"
                     >
                       {SALON_INFO.whatsapp}
                     </a>
-                    <p className="text-[11px] text-zinc-500">Discussion instantanée</p>
+                    <p className="text-[11px] text-zinc-500">Discussion & Réservation instantanée</p>
                   </div>
                 </div>
               </div>
@@ -215,7 +214,7 @@ export default async function ContactPage() {
                 </div>
                 <h3 className="text-base font-bold text-zinc-900">{salonNom}</h3>
                 <p className="text-xs text-zinc-600 max-w-sm mt-1 mb-4">
-                  {fullAddress} • Métro & Transports à proximité immédiate
+                  {fullAddress} • En face du Club Olympique, Almadies • Parking facile
                 </p>
                 <a
                   href={googleMapsUrl}

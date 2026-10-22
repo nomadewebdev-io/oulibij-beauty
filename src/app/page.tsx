@@ -3,6 +3,7 @@ import { ServicesSection } from '@/components/home/ServicesSection'
 import { TeamSection } from '@/components/home/TeamSection'
 import { GallerySection } from '@/components/home/GallerySection'
 import { TestimonialsSection } from '@/components/home/TestimonialsSection'
+import { HoursAndLocationSection } from '@/components/home/HoursAndLocationSection'
 import { CtaBookingSection } from '@/components/home/CtaBookingSection'
 import { getServices } from '@/lib/actions/services'
 import { getStaffMembers } from '@/lib/actions/staff'
@@ -24,6 +25,7 @@ export default async function HomePage() {
       <TeamSection initialStaff={staff} />
       <GallerySection initialRealisations={realisations} />
       <TestimonialsSection />
+      <HoursAndLocationSection />
       <CtaBookingSection />
     </div>
   )

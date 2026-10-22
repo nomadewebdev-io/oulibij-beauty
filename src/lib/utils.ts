@@ -6,12 +6,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  }).format(amount)
+  return `${new Intl.NumberFormat('fr-FR', {
+    maximumFractionDigits: 0,
+  }).format(amount)} FCFA`
 }
 
 export function formatDuration(minutes: number): string {

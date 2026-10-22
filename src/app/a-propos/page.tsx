@@ -3,8 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getStaffMembers } from '@/lib/actions/staff'
 import { getSalon } from '@/lib/actions/salon'
-import { SALON_INFO } from '@/lib/constants'
-import { Sparkles, Scissors, Heart, ShieldCheck, Calendar, ArrowRight, User } from '@/components/ui/Icons'
+import { SALON_INFO, getWhatsAppBookingUrl } from '@/lib/constants'
+import { Sparkles, Scissors, Heart, ShieldCheck, Calendar, ArrowRight, User, WhatsApp } from '@/components/ui/Icons'
 import { EmptyState } from '@/components/ui/EmptyState'
 
 export const dynamic = 'force-dynamic'
@@ -201,13 +201,15 @@ export default async function AProposPage() {
 
                 {/* Direct Booking CTA */}
                 <div className="mt-auto w-full pt-4 border-t border-rose-100/60">
-                  <Link
-                    href={`/reserver?staff=${member.id}`}
-                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-xs font-bold text-zinc-900 border border-zinc-900 hover:bg-zinc-950 hover:text-white transition-all active:scale-95 shadow-sm"
+                  <a
+                    href={getWhatsAppBookingUrl(`Rendez-vous avec ${member.prenom} ${member.nom}`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition-all active:scale-95 shadow-sm"
                   >
-                    <Calendar className="w-3.5 h-3.5 text-pink-500" />
-                    <span>Prendre RDV avec {member.prenom}</span>
-                  </Link>
+                    <WhatsApp className="w-3.5 h-3.5 text-white" />
+                    <span>Réserver avec {member.prenom} sur WhatsApp</span>
+                  </a>
                 </div>
               </div>
             ))}
@@ -216,22 +218,24 @@ export default async function AProposPage() {
       </section>
 
       {/* 3. BOTTOM CALL TO ACTION */}
-      <section className="max-w-7xl mx-auto rounded-3xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 p-8 sm:p-12 text-center text-white shadow-xl shadow-pink-500/20">
+      <section className="max-w-7xl mx-auto rounded-3xl bg-gradient-to-r from-rose-600 via-pink-600 to-rose-500 p-8 sm:p-12 text-center text-white shadow-xl shadow-rose-500/20">
         <div className="max-w-2xl mx-auto space-y-4">
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight font-serif italic">
             Prête à sublimer votre chevelure ?
           </h2>
           <p className="text-pink-100 text-sm sm:text-base leading-relaxed">
-            Consultez notre carte de prestations ou réservez dès maintenant votre créneau en ligne en quelques clics.
+            Consultez notre carte de prestations ou réservez dès maintenant votre créneau sur WhatsApp en quelques secondes.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Link
-              href="/reserver"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-pink-600 bg-white shadow-lg hover:bg-pink-50 hover:scale-105 active:scale-95 transition-all"
+            <a
+              href={getWhatsAppBookingUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-emerald-800 bg-white shadow-lg hover:bg-rose-50 hover:scale-105 active:scale-95 transition-all"
             >
-              <Calendar className="w-4 h-4" />
-              <span>Prendre rendez-vous</span>
-            </Link>
+              <WhatsApp className="w-4 h-4 text-emerald-600" />
+              <span>Réserver sur WhatsApp</span>
+            </a>
             <Link
               href="/prestations"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white border-2 border-white/60 hover:bg-white/10 hover:border-white transition-all"

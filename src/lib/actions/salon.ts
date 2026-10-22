@@ -1,30 +1,20 @@
-import { createClient } from '@/lib/supabase/server'
 import { Salon } from '@/types'
 import { SALON_INFO } from '@/lib/constants'
 
-export async function getSalon(salonId: string = SALON_INFO.id): Promise<Salon | null> {
-  try {
-    const supabase = await createClient()
-    const { data, error } = await supabase
-      .from('salons')
-      .select('*')
-      .eq('id', salonId)
-      .maybeSingle()
-
-    if (error || !data) {
-      // If table doesn't have this specific ID, try fetching first salon in table
-      const { data: firstSalon } = await supabase
-        .from('salons')
-        .select('*')
-        .limit(1)
-        .maybeSingle()
-
-      return firstSalon ? (firstSalon as unknown as Salon) : null
-    }
-
-    return data as unknown as Salon
-  } catch (err) {
-    console.error('Error fetching salon:', err)
-    return null
-  }
+/**
+ * Récupère les données du salon Oulibij Beauty (mode autonome sans Supabase)
+ */
+export async function getSalon(_salonId: string = SALON_INFO.id): Promise<Salon | null> {
+  return {
+    id: SALON_INFO.id,
+    nom: SALON_INFO.name,
+    slug: 'oulibij-beauty',
+    adresse: `${SALON_INFO.address}, ${SALON_INFO.city}, ${SALON_INFO.country}`,
+    telephone: SALON_INFO.phone,
+    email: SALON_INFO.email,
+    logo_url: null,
+    couleur_theme: '#ec4899',
+    created_at: '2026-09-14T00:00:00.000Z',
+    updated_at: '2026-09-14T00:00:00.000Z',
+  } as unknown as Salon
 }

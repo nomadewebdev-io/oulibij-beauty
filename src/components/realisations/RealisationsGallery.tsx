@@ -5,7 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Realisation } from '@/types'
 import { formatDateFrench } from '@/lib/utils'
-import { Sparkles, Calendar, X, ArrowRight, Eye } from '@/components/ui/Icons'
+import { getWhatsAppBookingUrl } from '@/lib/constants'
+import { Sparkles, Calendar, X, ArrowRight, Eye, WhatsApp } from '@/components/ui/Icons'
 import { EmptyState } from '@/components/ui/EmptyState'
 
 interface RealisationsGalleryProps {
@@ -221,14 +222,16 @@ export function RealisationsGallery({ realisations }: RealisationsGalleryProps) 
                 <span className="text-xs text-zinc-500">
                   Envie du même style ou d'une personnalisation ?
                 </span>
-                <Link
-                  href="/reserver"
+                <a
+                  href={getWhatsAppBookingUrl(selectedItem.titre)}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setSelectedItem(null)}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-md shadow-pink-500/20 hover:scale-105 active:scale-95 transition-all"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/20 hover:scale-105 active:scale-95 transition-all"
                 >
-                  <Calendar className="w-3.5 h-3.5" />
-                  <span>Réserver ce type de soin</span>
-                </Link>
+                  <WhatsApp className="w-3.5 h-3.5 text-white" />
+                  <span>Demander cette coiffure sur WhatsApp</span>
+                </a>
               </div>
             </div>
           </div>

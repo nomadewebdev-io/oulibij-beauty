@@ -36,7 +36,7 @@ export default async function ReserverPage({ searchParams }: ReserverPageProps) 
             Réserver Votre Séance
           </h1>
           <p className="mt-4 text-zinc-600 text-sm sm:text-base leading-relaxed">
-            Planifiez votre soin en 4 étapes simples : prestation, coiffeuse, date & horaire, puis confirmation en attente de validation par l'équipe.
+            Sélectionnez votre prestation ci-dessous et échangez directement sur WhatsApp avec notre équipe aux Almadies pour bloquer votre créneau.
           </p>
         </div>
 
