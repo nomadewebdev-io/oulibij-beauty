@@ -36,7 +36,7 @@ export function HeroSection() {
           {/* Main Title on 2 Lines: Bold Sans-Serif */}
           <h1 className="text-4xl sm:text-6xl xl:text-7xl font-black text-zinc-950 tracking-tight leading-[1.08]">
             Révélez Votre Éclat,<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-pink-600 to-rose-500">
+            <span className="text-rose-700">
               Sublimez Votre Chevelure.
             </span>
           </h1>
@@ -93,7 +93,7 @@ export function HeroSection() {
         {/* Right Column: Photo Collage (2 columns, varied heights) */}
         <div className="lg:col-span-6 xl:col-span-5 relative">
           {/* Subtle Ambient Glow behind collage */}
-          <div className="absolute -inset-4 bg-gradient-to-tr from-pink-200/50 via-rose-100/40 to-pink-300/30 rounded-[3rem] blur-2xl -z-10 pointer-events-none" />
+          <div className="absolute -inset-4 bg-rose-100/40 rounded-[3rem] blur-xl -z-10 pointer-events-none" />
 
           <div className="grid grid-cols-2 gap-4 sm:gap-5">
             {/* Left Collage Column */}

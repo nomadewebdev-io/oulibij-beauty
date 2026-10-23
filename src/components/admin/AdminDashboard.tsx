@@ -304,7 +304,7 @@ export function AdminDashboard({
       )}
 
       {/* Top Admin Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/80 backdrop-blur-md border border-rose-100 rounded-3xl p-6 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border border-rose-100 rounded-3xl p-6 shadow-sm">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-pink-100 text-pink-700">
@@ -574,8 +574,9 @@ export function AdminDashboard({
                       )}
 
                       {rdv.statut === 'termine' && (
-                        <span className="text-xs text-blue-600 font-semibold bg-blue-50 px-3 py-1 rounded-full">
-                          ✓ Terminé
+                        <span className="inline-flex items-center gap-1 text-xs text-blue-600 font-semibold bg-blue-50 px-3 py-1 rounded-full">
+                          <CheckCircle2 className="w-3 h-3 text-blue-600" />
+                          <span>Terminé</span>
                         </span>
                       )}
 

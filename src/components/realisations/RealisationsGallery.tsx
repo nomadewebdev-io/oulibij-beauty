@@ -124,7 +124,7 @@ export function RealisationsGallery({ realisations }: RealisationsGalleryProps) 
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent transition-opacity" />
 
             {/* Zoom icon on hover */}
-            <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:scale-105 transition-all">
+            <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 border border-white/30 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:scale-105 transition-all">
               <Eye className="w-4 h-4" />
             </div>
 
@@ -132,12 +132,12 @@ export function RealisationsGallery({ realisations }: RealisationsGalleryProps) 
             <div className="relative z-10 space-y-2">
               <div className="flex items-center gap-2">
                 {item.categorie && (
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-pink-500/90 text-white backdrop-blur-md shadow-sm">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-700 text-white shadow-xs">
                     {item.categorie}
                   </span>
                 )}
                 {item.date_realisation && (
-                  <span className="text-[10px] text-zinc-300 backdrop-blur-md">
+                  <span className="text-[10px] text-zinc-300">
                     {formatDateFrench(item.date_realisation)}
                   </span>
                 )}

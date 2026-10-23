@@ -12,18 +12,18 @@ export function Navbar() {
   const whatsappUrl = getWhatsAppBookingUrl()
 
   return (
-    <header className="w-full py-3.5 px-4 sm:px-8 border-b border-rose-100/70 bg-white/90 backdrop-blur-md sticky top-0 z-50 transition-all">
+    <header className="w-full py-3.5 px-4 sm:px-8 border-b border-rose-100/80 bg-white sticky top-0 z-50 transition-all shadow-xs">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-rose-500 via-pink-500 to-rose-400 flex items-center justify-center text-white shadow-md shadow-pink-500/20 group-hover:scale-105 transition-transform">
+          <div className="w-10 h-10 rounded-full bg-rose-700 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="font-serif italic text-2xl font-bold tracking-tight text-zinc-950 group-hover:text-pink-600 transition-colors">
+            <span className="font-serif italic text-2xl font-bold tracking-tight text-zinc-950 group-hover:text-rose-700 transition-colors">
               {SALON_INFO.brandName}
             </span>
-            <span className="text-[10px] tracking-widest uppercase font-semibold text-pink-600/90 -mt-1">
+            <span className="text-[10px] tracking-widest uppercase font-semibold text-rose-700/90 -mt-1">
               Dakar • Almadies
             </span>
           </div>
@@ -37,13 +37,13 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-all relative py-1 hover:text-pink-600 ${
-                  isActive ? 'text-pink-600 font-bold' : 'text-zinc-700'
+                className={`text-sm font-medium transition-all relative py-1 hover:text-rose-700 ${
+                  isActive ? 'text-rose-700 font-bold' : 'text-zinc-700'
                 }`}
               >
                 {link.label}
                 {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-pink-500 to-rose-400 rounded-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-rose-700 rounded-full" />
                 )}
               </Link>
             )

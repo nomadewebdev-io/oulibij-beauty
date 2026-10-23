@@ -22,7 +22,7 @@ export function ContactForm({ salonId }: ContactFormProps) {
   }, [state])
 
   return (
-    <div className="bg-white/80 backdrop-blur-md border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-lg shadow-pink-900/5 space-y-6">
+    <div className="bg-white border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
       <div>
         <h2 className="text-xl sm:text-2xl font-bold text-zinc-950 font-serif italic">
           Envoyez-nous un Message
@@ -130,7 +130,7 @@ export function ContactForm({ salonId }: ContactFormProps) {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full py-3.5 px-6 rounded-full text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-md shadow-pink-500/25 hover:shadow-pink-500/40 hover:scale-[1.01] active:scale-95 disabled:opacity-60 disabled:pointer-events-none transition-all flex items-center justify-center gap-2 cursor-pointer"
+          className="w-full py-3.5 px-6 rounded-full text-xs font-bold text-white bg-rose-700 hover:bg-rose-800 shadow-sm hover:scale-[1.01] active:scale-95 disabled:opacity-60 disabled:pointer-events-none transition-all flex items-center justify-center gap-2 cursor-pointer min-h-[44px]"
         >
           {isPending ? (
             <>

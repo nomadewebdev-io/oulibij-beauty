@@ -44,8 +44,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className={`scroll-smooth ${jakartaSans.variable}`}>
-      <body className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 p-2 sm:p-5 lg:p-7 flex flex-col items-center justify-center antialiased font-[var(--font-jakarta)]">
-        <div className="w-full max-w-7xl bg-white rounded-[2rem] sm:rounded-[2.75rem] shadow-2xl shadow-pink-900/10 border border-pink-100/90 overflow-hidden flex flex-col relative">
+      <body className="min-h-screen bg-[#f7f2ee] p-2 sm:p-5 lg:p-7 flex flex-col items-center justify-center antialiased font-[var(--font-jakarta)]">
+        <div className="w-full max-w-7xl bg-white rounded-[2rem] sm:rounded-[2.75rem] shadow-xl shadow-stone-900/5 border border-stone-200/80 overflow-hidden flex flex-col relative">
           <Navbar />
           <main className="flex-1 w-full">{children}</main>
           <Footer />

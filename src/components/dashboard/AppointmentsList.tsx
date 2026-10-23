@@ -72,8 +72,8 @@ export function AppointmentsList({ initialAppointments }: AppointmentsListProps)
 
   if (appointments.length === 0) {
     return (
-      <div className="bg-white/80 backdrop-blur-md border border-rose-100 rounded-3xl p-10 sm:p-12 text-center max-w-xl mx-auto space-y-5 shadow-lg shadow-pink-900/5 animate-fadeIn">
-        <div className="w-16 h-16 bg-gradient-to-tr from-pink-100 to-rose-50 border border-pink-200 rounded-2xl flex items-center justify-center mx-auto text-pink-500 shadow-sm">
+      <div className="bg-white border border-rose-100 rounded-3xl p-10 sm:p-12 text-center max-w-xl mx-auto space-y-5 shadow-sm animate-fadeIn">
+        <div className="w-16 h-16 bg-rose-50 border border-rose-100 rounded-2xl flex items-center justify-center mx-auto text-rose-600 shadow-xs">
           <Calendar className="w-8 h-8" />
         </div>
         <div>
@@ -87,7 +87,7 @@ export function AppointmentsList({ initialAppointments }: AppointmentsListProps)
         <div className="pt-2">
           <Link
             href="/reserver"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-md shadow-pink-500/20 hover:scale-105 active:scale-95 transition-all"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-xs font-bold text-white bg-zinc-950 hover:bg-zinc-800 shadow-sm hover:scale-[1.02] active:scale-95 transition-all min-h-[44px]"
           >
             <Sparkles className="w-4 h-4" />
             <span>Prendre un rendez-vous</span>

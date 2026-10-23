@@ -2,12 +2,12 @@
 
 @layer base {
   :root {
-    --background: #fffafa;
+    --background: #fdfbf9;
     --foreground: #18181b;
   }
 
   body {
-    background: linear-gradient(135deg, #fce7f3 0%, #fff1f2 50%, #fdf2f8 100%);
+    background-color: #f7f2ee;
     color: #18181b;
     font-family: var(--font-jakarta), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     min-height: 100vh;

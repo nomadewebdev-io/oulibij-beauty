@@ -42,9 +42,9 @@ export default async function AProposPage() {
         </div>
 
         {/* Story & Philosophy Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center bg-white/70 backdrop-blur-md border border-rose-100 rounded-3xl p-6 sm:p-10 shadow-lg shadow-pink-900/5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center bg-white border border-rose-100 rounded-3xl p-6 sm:p-10 shadow-sm">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-pink-50 border border-pink-100 text-pink-600 text-xs font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-rose-50 border border-rose-100 text-rose-700 text-xs font-bold uppercase tracking-wider">
               Notre Philosophie
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight">
@@ -61,7 +61,7 @@ export default async function AProposPage() {
             {/* Commitments */}
             <div className="space-y-3 pt-2">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-full bg-rose-50 text-rose-700 flex items-center justify-center shrink-0 mt-0.5">
                   <Scissors className="w-4 h-4" />
                 </div>
                 <div>
@@ -71,7 +71,7 @@ export default async function AProposPage() {
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-full bg-rose-50 text-rose-700 flex items-center justify-center shrink-0 mt-0.5">
                   <Heart className="w-4 h-4" />
                 </div>
                 <div>
@@ -81,7 +81,7 @@ export default async function AProposPage() {
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-full bg-rose-50 text-rose-700 flex items-center justify-center shrink-0 mt-0.5">
                   <ShieldCheck className="w-4 h-4" />
                 </div>
                 <div>
@@ -94,17 +94,17 @@ export default async function AProposPage() {
 
           {/* Side Highlights Card */}
           <div className="space-y-6">
-            <div className="relative rounded-3xl overflow-hidden aspect-[4/3] bg-gradient-to-tr from-pink-400 via-rose-300 to-amber-200 p-8 flex flex-col justify-between shadow-xl">
+            <div className="relative rounded-3xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-rose-900 via-rose-800 to-stone-900 p-8 flex flex-col justify-between shadow-md">
               <div className="space-y-2 text-white">
-                <span className="text-xs uppercase tracking-widest font-bold bg-white/20 backdrop-blur-md px-3 py-1 rounded-full inline-block border border-white/30">
+                <span className="text-xs uppercase tracking-widest font-bold bg-black/40 px-3 py-1 rounded-full inline-block border border-white/20">
                   L&apos;Atmosphère {salonName}
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-serif italic font-bold">
                   Détente, Élégance & Confiance
                 </h3>
               </div>
-              <div className="bg-white/90 backdrop-blur-md rounded-2xl p-5 border border-white/50 text-zinc-900 space-y-1">
-                <div className="text-xs font-bold text-pink-600 uppercase tracking-wide">
+              <div className="bg-white rounded-2xl p-5 border border-rose-100 text-zinc-900 space-y-1 shadow-sm">
+                <div className="text-xs font-bold text-rose-700 uppercase tracking-wide">
                   Notre Engagement
                 </div>
                 <p className="text-xs text-zinc-600 leading-snug">

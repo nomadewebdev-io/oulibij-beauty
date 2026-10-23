@@ -69,7 +69,7 @@ export default async function ContactPage() {
           {/* Left Column: Coordinates & Hours & Maps (7 cols) */}
           <div className="lg:col-span-7 space-y-8">
             {/* Coordinates Card */}
-            <div className="bg-white/80 backdrop-blur-md border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-lg shadow-pink-900/5 space-y-6">
+            <div className="bg-white border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl sm:text-2xl font-bold text-zinc-950 font-serif italic">
                   Coordonnées du Salon
@@ -152,7 +152,7 @@ export default async function ContactPage() {
             </div>
 
             {/* Opening Hours Card */}
-            <div className="bg-white/80 backdrop-blur-md border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-lg shadow-pink-900/5 space-y-4">
+            <div className="bg-white border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center">
                   <Clock className="w-4 h-4" />
@@ -182,7 +182,7 @@ export default async function ContactPage() {
             </div>
 
             {/* Google Maps Card */}
-            <div className="bg-white/80 backdrop-blur-md border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-lg shadow-pink-900/5 space-y-5">
+            <div className="bg-white border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center">
