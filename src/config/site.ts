@@ -130,6 +130,8 @@ export interface SiteConfig {
     defaultTitle: string
     titleTemplate: string
     metaDescription: string
+    ogTitle: string
+    ogDescription: string
     keywords: string[]
     locale: string
     ogImage: {
@@ -224,13 +226,14 @@ export const siteConfig: SiteConfig = {
 
   // SEO & Open Graph
   seo: {
-    siteUrl:
-      process.env.NEXT_PUBLIC_SITE_URL ||
-      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://oulibij-beauty.sn'),
-    defaultTitle: "OULIBIJ BEAUTY | Salon de Coiffure & Soins Féminins d'Exception aux Almadies, Dakar",
+    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://oulibij-beauty.vercel.app',
+    defaultTitle: 'OULIBIJ BEAUTY | Salon de Coiffure à Dakar',
     titleTemplate: '%s | OULIBIJ BEAUTY Dakar',
     metaDescription:
-      "OULIBIJ BEAUTY aux Almadies (Dakar) : tresses d'art (knotless braids), soins botox & kératine, balayages lumineux, coupes sur-mesure. Réservation directe sans attente sur WhatsApp.",
+      'Haute coiffure aux Almadies, Dakar : tresses, soins botox et réservation directe sur WhatsApp.',
+    ogTitle: 'OULIBIJ BEAUTY | Salon de Coiffure à Dakar',
+    ogDescription:
+      'Haute coiffure aux Almadies, Dakar : tresses, soins botox et réservation directe sur WhatsApp.',
     keywords: [
       'salon de coiffure Dakar',
       'OULIBIJ BEAUTY',
@@ -243,7 +246,7 @@ export const siteConfig: SiteConfig = {
       'balayage Dakar',
       'salon de beauté Sénégal',
     ],
-    locale: 'fr_SN',
+    locale: 'fr_FR',
     ogImage: {
       url: '/images/og-image.jpg',
       width: 1200,
