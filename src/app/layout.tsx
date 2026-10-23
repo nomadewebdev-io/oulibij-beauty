@@ -12,6 +12,13 @@ const jakartaSans = Plus_Jakarta_Sans({
   display: 'swap',
 })
 
+const baseUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : siteConfig.seo.siteUrl)
+).replace(/\/$/, '')
+
+const absoluteOgImage = `${baseUrl}/images/og-image.jpg`
+
 export const viewport: Viewport = {
   themeColor: '#be123c',
   width: 'device-width',
@@ -19,14 +26,14 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.seo.siteUrl),
+  metadataBase: new URL(baseUrl),
   title: {
     default: siteConfig.seo.defaultTitle,
     template: siteConfig.seo.titleTemplate,
   },
   description: siteConfig.seo.metaDescription,
   keywords: siteConfig.seo.keywords,
-  authors: [{ name: siteConfig.name, url: siteConfig.seo.siteUrl }],
+  authors: [{ name: siteConfig.name, url: baseUrl }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
   formatDetection: {
@@ -51,15 +58,17 @@ export const metadata: Metadata = {
   openGraph: {
     title: siteConfig.seo.defaultTitle,
     description: siteConfig.seo.metaDescription,
-    url: siteConfig.seo.siteUrl,
+    url: baseUrl,
     siteName: siteConfig.name,
     locale: siteConfig.seo.locale,
     type: 'website',
     images: [
       {
-        url: siteConfig.seo.ogImage.url,
-        width: siteConfig.seo.ogImage.width,
-        height: siteConfig.seo.ogImage.height,
+        url: absoluteOgImage,
+        secureUrl: absoluteOgImage,
+        width: 1200,
+        height: 630,
+        type: 'image/jpeg',
         alt: siteConfig.seo.ogImage.alt,
       },
     ],
@@ -68,7 +77,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.seo.defaultTitle,
     description: siteConfig.seo.metaDescription,
-    images: [siteConfig.seo.ogImage.url],
+    images: [absoluteOgImage],
     creator: siteConfig.seo.twitterHandle,
   },
   robots: {

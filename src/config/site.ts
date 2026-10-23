@@ -224,7 +224,9 @@ export const siteConfig: SiteConfig = {
 
   // SEO & Open Graph
   seo: {
-    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://oulibij-beauty.sn',
+    siteUrl:
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://oulibij-beauty.sn'),
     defaultTitle: "OULIBIJ BEAUTY | Salon de Coiffure & Soins Féminins d'Exception aux Almadies, Dakar",
     titleTemplate: '%s | OULIBIJ BEAUTY Dakar',
     metaDescription:
