@@ -1,14 +1,14 @@
 import React from 'react'
 import { getServices, getServicesGroupedByCategory } from '@/lib/actions/services'
 import { PrestationsList } from '@/components/prestations/PrestationsList'
-import { SALON_INFO } from '@/lib/constants'
+import { siteConfig } from '@/config/site'
 import { Sparkles } from '@/components/ui/Icons'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: `Prestations & Tarifs | ${SALON_INFO.name}`,
-  description: `Découvrez la carte complète des soins et tarifs du salon ${SALON_INFO.name} : coupes, tresses, balayages, lissages et soins profonds.`,
+  title: `Prestations & Tarifs | ${siteConfig.name}`,
+  description: `Découvrez la carte complète des soins et tarifs du salon ${siteConfig.name} à ${siteConfig.district}, ${siteConfig.city} : coupes, tresses, balayages, lissages et soins profonds.`,
 }
 
 export default async function PrestationsPage() {

@@ -859,6 +859,7 @@ export function AdminDashboard({
                           src={st.avatar_url}
                           alt={`${st.prenom} ${st.nom}`}
                           fill
+                          sizes="56px"
                           className="object-cover"
                         />
                       ) : (

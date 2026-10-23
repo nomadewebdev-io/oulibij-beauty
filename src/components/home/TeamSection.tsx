@@ -2,14 +2,14 @@ import React from 'react'
 import Image from 'next/image'
 import { Staff } from '@/types'
 import { Sparkles, WhatsApp } from '@/components/ui/Icons'
-import { DEFAULT_STAFF, getWhatsAppBookingUrl } from '@/lib/constants'
+import { siteConfig, getWhatsAppBookingUrl } from '@/config/site'
 
 interface TeamSectionProps {
   initialStaff?: Staff[]
 }
 
 export function TeamSection({ initialStaff = [] }: TeamSectionProps) {
-  const staffMembers = initialStaff.length > 0 ? initialStaff : DEFAULT_STAFF
+  const staffMembers = initialStaff.length > 0 ? initialStaff : (siteConfig.staff as unknown as Staff[])
 
   return (
     <section className="py-20 px-4 sm:px-8 lg:px-12 bg-rose-50/30 border-t border-rose-100/70">
@@ -17,13 +17,13 @@ export function TeamSection({ initialStaff = [] }: TeamSectionProps) {
         <div className="text-center max-w-2xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-100/80 border border-rose-200 text-rose-700 text-xs font-bold tracking-wider uppercase mb-3">
             <Sparkles className="w-3.5 h-3.5 text-rose-600" />
-            <span>Notre Équipe d&apos;Expertes • Dakar</span>
+            <span>Notre Équipe d&apos;Expertes • {siteConfig.city}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight">
             Des Passionnées à Votre Écoute
           </h2>
           <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-            Chaque styliste et coiffeuse de l&apos;équipe OULIBIJ apporte son expertise pour magnifier votre beauté naturelle.
+            Chaque styliste et coiffeuse de l&apos;équipe {siteConfig.brandName} apporte son expertise pour magnifier votre beauté naturelle.
           </p>
         </div>
 
@@ -38,10 +38,11 @@ export function TeamSection({ initialStaff = [] }: TeamSectionProps) {
                   <div className="relative w-full h-full rounded-full overflow-hidden">
                     <Image
                       src={member.avatar_url}
-                      alt={`${member.prenom} ${member.nom}`}
+                      alt={`Photo de ${member.prenom} ${member.nom}, ${member.specialite} chez ${siteConfig.brandName}`}
                       fill
                       sizes="80px"
                       className="object-cover"
+                      loading="lazy"
                     />
                   </div>
                 ) : (
@@ -69,7 +70,8 @@ export function TeamSection({ initialStaff = [] }: TeamSectionProps) {
                   href={getWhatsAppBookingUrl(`Rendez-vous avec ${member.prenom} ${member.nom} (${member.specialite})`)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition-all active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition-all active:scale-95 min-h-[44px]"
+                  aria-label={`Réserver un rendez-vous avec ${member.prenom} sur WhatsApp`}
                 >
                   <WhatsApp className="w-3.5 h-3.5 text-white" />
                   <span>Réserver avec {member.prenom}</span>

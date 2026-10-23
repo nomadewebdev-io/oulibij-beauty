@@ -8,13 +8,13 @@ import {
   getAllAdminDisponibilites,
 } from '@/lib/actions/admin'
 import { AdminDashboard } from '@/components/admin/AdminDashboard'
-import { SALON_INFO } from '@/lib/constants'
+import { siteConfig } from '@/config/site'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: `Administration & Gestion | ${SALON_INFO.name}`,
-  description: `Espace d'administration sécurisé du salon ${SALON_INFO.name}. Gestion des rendez-vous, services, coiffeuses et disponibilités.`,
+  title: `Administration & Gestion | ${siteConfig.name}`,
+  description: `Espace d'administration sécurisé du salon ${siteConfig.name}. Gestion des rendez-vous, services, coiffeuses et disponibilités.`,
 }
 
 export default async function AdminPage() {

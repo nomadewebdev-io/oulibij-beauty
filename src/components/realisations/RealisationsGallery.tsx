@@ -109,10 +109,11 @@ export function RealisationsGallery({ realisations }: RealisationsGalleryProps) 
             {item.image_url ? (
               <Image
                 src={item.image_url}
-                alt={item.titre}
+                alt={`${item.titre} - Réalisation coiffure ${item.categorie || ''}`}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
+                loading="lazy"
               />
             ) : (
               <div className="absolute inset-0 bg-gradient-to-br from-pink-400 to-rose-600 flex items-center justify-center">
@@ -193,9 +194,11 @@ export function RealisationsGallery({ realisations }: RealisationsGalleryProps) 
               {selectedItem.image_url ? (
                 <Image
                   src={selectedItem.image_url}
-                  alt={selectedItem.titre}
+                  alt={`${selectedItem.titre} - Coiffure réalisée chez ${selectedItem.categorie || 'salon'}`}
                   fill
+                  sizes="(max-width: 768px) 100vw, 672px"
                   className="object-contain"
+                  loading="lazy"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-zinc-400">

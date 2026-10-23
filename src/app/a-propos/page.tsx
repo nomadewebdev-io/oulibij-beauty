@@ -3,15 +3,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getStaffMembers } from '@/lib/actions/staff'
 import { getSalon } from '@/lib/actions/salon'
-import { SALON_INFO, getWhatsAppBookingUrl } from '@/lib/constants'
+import { siteConfig, getWhatsAppBookingUrl } from '@/config/site'
 import { Sparkles, Scissors, Heart, ShieldCheck, ArrowRight, User, WhatsApp } from '@/components/ui/Icons'
 import { EmptyState } from '@/components/ui/EmptyState'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: `À Propos & Notre Équipe | ${SALON_INFO.name}`,
-  description: `Découvrez l'histoire, la philosophie et l'équipe d'expertes du salon ${SALON_INFO.name}. Haute coiffure, soins botox, balayages et tresses d'art.`,
+  title: `À Propos & Notre Équipe | ${siteConfig.name}`,
+  description: `Découvrez l'histoire, la philosophie et l'équipe d'expertes du salon ${siteConfig.name} à ${siteConfig.district}, ${siteConfig.city}. Haute coiffure, soins botox, balayages et tresses d'art.`,
 }
 
 export default async function AProposPage() {
@@ -20,9 +20,8 @@ export default async function AProposPage() {
     getSalon(),
   ])
 
-  const salonName = salon?.nom || SALON_INFO.brandName
-  const salonDescription =
-    salon?.description || SALON_INFO.description
+  const salonName = salon?.nom || siteConfig.brandName
+  const salonDescription = salon?.description || siteConfig.description
 
   return (
     <div className="pt-10 pb-20 px-4 sm:px-8 lg:px-12 bg-transparent space-y-20">
@@ -52,7 +51,7 @@ export default async function AProposPage() {
             </h2>
             <p className="text-sm text-zinc-600 leading-relaxed">
               Fondé avec la volonté de célébrer la singularité de chaque femme,{' '}
-              <strong className="text-zinc-900">{salonName}</strong> allie expertise technique, sens artistique et soins réparateurs de pointe.
+              <strong className="text-zinc-900">{salonName}</strong> allie expertise technique, sens artistique et soins réparateurs de pointe à {siteConfig.district}.
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed">
               Que vous souhaitiez sublimer des boucles naturelles, réaliser un lissage soyeux sans formol, oser une métamorphose par balayage ou arborer des tresses d&apos;art impeccables, notre équipe met un point d&apos;honneur à préserver la santé et la brillance de votre fibre capillaire.
@@ -115,12 +114,12 @@ export default async function AProposPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white/90 border border-rose-100 rounded-2xl p-4 text-center shadow-sm">
-                <div className="text-2xl font-black text-pink-600">100%</div>
+                <div className="text-2xl font-black text-rose-600">100%</div>
                 <div className="text-xs text-zinc-600 font-medium">Diagnostic personnalisé</div>
               </div>
               <div className="bg-white/90 border border-rose-100 rounded-2xl p-4 text-center shadow-sm">
                 <div className="text-2xl font-black text-zinc-900">24/7</div>
-                <div className="text-xs text-zinc-600 font-medium">Prise de RDV en ligne</div>
+                <div className="text-xs text-zinc-600 font-medium">Réservation WhatsApp</div>
               </div>
             </div>
           </div>
@@ -130,9 +129,9 @@ export default async function AProposPage() {
       {/* 2. TEAM SECTION */}
       <section className="max-w-7xl mx-auto space-y-10">
         <div className="text-center max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100 border border-pink-200 text-pink-600 text-xs font-bold tracking-wider uppercase mb-3">
-            <User className="w-3.5 h-3.5 text-pink-500" />
-            <span>L&apos;Équipe d&apos;Expertes</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-100 border border-rose-200 text-rose-700 text-xs font-bold tracking-wider uppercase mb-3">
+            <User className="w-3.5 h-3.5 text-rose-600" />
+            <span>L&apos;Équipe d&apos;Expertes • {siteConfig.city}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight font-serif italic">
             Rencontrez Nos Coiffeuses & Stylistes
@@ -148,28 +147,30 @@ export default async function AProposPage() {
             description="Nos coiffeuses et stylistes d'exception vous accueillent avec passion au salon. N'hésitez pas à nous contacter ou à réserver votre créneau directement."
             actionLabel="Prendre rendez-vous"
             actionHref="/reserver"
-            icon={<User className="w-8 h-8 text-pink-500" />}
+            icon={<User className="w-8 h-8 text-rose-600" />}
           />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {staff.map((member) => (
               <div
                 key={member.id}
-                className="bg-white border border-rose-100/90 rounded-3xl p-7 flex flex-col items-center text-center hover:shadow-xl hover:border-pink-300 transition-all duration-300 group"
+                className="bg-white border border-rose-100/90 rounded-3xl p-7 flex flex-col items-center text-center hover:shadow-xl hover:border-rose-300 transition-all duration-300 group"
               >
                 {/* Avatar / Photo */}
-                <div className="relative w-24 h-24 rounded-full bg-gradient-to-tr from-pink-500 to-rose-300 p-[3px] mb-5 group-hover:scale-105 transition-transform shadow-md">
+                <div className="relative w-24 h-24 rounded-full bg-gradient-to-tr from-rose-500 to-pink-300 p-[3px] mb-5 group-hover:scale-105 transition-transform shadow-md">
                   {member.avatar_url ? (
                     <div className="relative w-full h-full rounded-full overflow-hidden">
                       <Image
                         src={member.avatar_url}
-                        alt={`${member.prenom} ${member.nom}`}
+                        alt={`Photo de ${member.prenom} ${member.nom}, ${member.specialite} chez ${siteConfig.brandName}`}
                         fill
+                        sizes="96px"
                         className="object-cover"
+                        loading="lazy"
                       />
                     </div>
                   ) : (
-                    <div className="w-full h-full rounded-full bg-white flex items-center justify-center text-xl font-bold text-pink-600">
+                    <div className="w-full h-full rounded-full bg-white flex items-center justify-center text-xl font-bold text-rose-600">
                       {member.prenom ? member.prenom[0] : ''}
                       {member.nom ? member.nom[0] : ''}
                     </div>
@@ -177,13 +178,13 @@ export default async function AProposPage() {
                 </div>
 
                 {/* Name */}
-                <h3 className="text-xl font-bold text-zinc-950 mb-1 group-hover:text-pink-600 transition-colors">
+                <h3 className="text-xl font-bold text-zinc-950 mb-1 group-hover:text-rose-600 transition-colors">
                   {member.prenom} {member.nom}
                 </h3>
 
                 {/* Speciality */}
                 {member.specialite && (
-                  <span className="text-xs font-bold uppercase tracking-wider text-pink-600 bg-pink-50 px-3 py-1 rounded-full border border-pink-100 mb-4">
+                  <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-200 mb-4">
                     {member.specialite}
                   </span>
                 )}
@@ -205,7 +206,8 @@ export default async function AProposPage() {
                     href={getWhatsAppBookingUrl(`Rendez-vous avec ${member.prenom} ${member.nom}`)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition-all active:scale-95 shadow-sm"
+                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition-all active:scale-95 shadow-sm min-h-[44px]"
+                    aria-label={`Réserver un rendez-vous avec ${member.prenom} sur WhatsApp`}
                   >
                     <WhatsApp className="w-3.5 h-3.5 text-white" />
                     <span>Réserver avec {member.prenom} sur WhatsApp</span>
@@ -218,7 +220,7 @@ export default async function AProposPage() {
       </section>
 
       {/* 3. BOTTOM CALL TO ACTION */}
-      <section className="max-w-7xl mx-auto rounded-3xl bg-gradient-to-r from-rose-600 via-pink-600 to-rose-500 p-8 sm:p-12 text-center text-white shadow-xl shadow-rose-500/20">
+      <section className="max-w-7xl mx-auto rounded-3xl bg-gradient-to-r from-rose-800 via-rose-700 to-rose-900 p-8 sm:p-12 text-center text-white shadow-xl shadow-rose-900/10">
         <div className="max-w-2xl mx-auto space-y-4">
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight font-serif italic">
             Prête à sublimer votre chevelure ?
@@ -231,14 +233,16 @@ export default async function AProposPage() {
               href={getWhatsAppBookingUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-emerald-800 bg-white shadow-lg hover:bg-rose-50 hover:scale-105 active:scale-95 transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-emerald-800 bg-white shadow-lg hover:bg-rose-50 hover:scale-105 active:scale-95 transition-all min-h-[48px]"
+              aria-label={`Réserver sur WhatsApp avec ${siteConfig.brandName}`}
             >
               <WhatsApp className="w-4 h-4 text-emerald-600" />
               <span>Réserver sur WhatsApp</span>
             </a>
             <Link
               href="/prestations"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white border-2 border-white/60 hover:bg-white/10 hover:border-white transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white border-2 border-white/60 hover:bg-white/10 hover:border-white transition-all min-h-[48px]"
+              aria-label="Voir la liste complète de nos prestations"
             >
               <span>Voir les prestations</span>
               <ArrowRight className="w-4 h-4" />

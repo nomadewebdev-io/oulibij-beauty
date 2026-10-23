@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { Service } from '@/types'
 import { formatCurrency, formatDuration } from '@/lib/utils'
-import { getWhatsAppBookingUrl } from '@/lib/constants'
+import { siteConfig, getWhatsAppBookingUrl } from '@/config/site'
 import { Clock, ArrowRight, Scissors, Sparkles, WhatsApp } from '@/components/ui/Icons'
 
 interface ServicesSectionProps {
@@ -44,7 +44,7 @@ export function ServicesSection({ initialServices = [], showAllLink = true }: Se
             Menu des Soins & Tarifs
           </h2>
           <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-            Des soins haut de gamme adaptés à la texture de vos cheveux, prodigués par nos stylistes passionnées aux Almadies.
+            Des soins haut de gamme adaptés à la texture de vos cheveux, prodigués par nos stylistes passionnées à {siteConfig.district}, {siteConfig.city}.
           </p>
         </div>
 

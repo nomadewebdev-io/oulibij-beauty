@@ -1,25 +1,25 @@
 import React from 'react'
 import { getSalon } from '@/lib/actions/salon'
 import { ContactForm } from '@/components/contact/ContactForm'
-import { SALON_INFO, getWhatsAppBookingUrl } from '@/lib/constants'
+import { siteConfig, getWhatsAppBookingUrl } from '@/config/site'
 import { MapPin, Phone, Mail, Clock, ExternalLink, Sparkles, WhatsApp } from '@/components/ui/Icons'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: `Contact & Accès | ${SALON_INFO.name}`,
-  description: `Coordonnées, horaires d'ouverture et adresse du salon ${SALON_INFO.name}. Contactez notre équipe ou prenez rendez-vous en ligne.`,
+  title: `Contact & Accès | ${siteConfig.name}`,
+  description: `Coordonnées, horaires d'ouverture et adresse du salon ${siteConfig.name} à ${siteConfig.district}, ${siteConfig.city}. Contactez notre équipe ou réservez sur WhatsApp.`,
 }
 
 export default async function ContactPage() {
   const salon = await getSalon()
 
-  const salonNom = salon?.nom || SALON_INFO.brandName
-  const adresse = salon?.adresse || SALON_INFO.address
-  const ville = salon?.ville || SALON_INFO.city
-  const telephone = salon?.telephone || SALON_INFO.phone
-  const email = salon?.email || SALON_INFO.email
-  const fullAddress = `${adresse}, ${SALON_INFO.district}, ${ville}`
+  const salonNom = salon?.nom || siteConfig.brandName
+  const adresse = salon?.adresse || siteConfig.address
+  const ville = salon?.ville || siteConfig.city
+  const telephone = salon?.telephone || siteConfig.phone
+  const email = salon?.email || siteConfig.email
+  const fullAddress = `${adresse}, ${siteConfig.district}, ${ville}`
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${salonNom} ${fullAddress}`)}`
 
   // Opening hours processing
@@ -41,10 +41,10 @@ export default async function ContactPage() {
         hours: val.ouvert && val.debut && val.fin ? `${val.debut} - ${val.fin}` : 'Fermé',
         isOpen: val.ouvert,
       }))
-    : SALON_INFO.openingHours.map((h) => ({
+    : siteConfig.openingHours.map((h) => ({
         day: h.day,
         hours: h.hours,
-        isOpen: !h.hours.toLowerCase().includes('fermé'),
+        isOpen: h.isOpen,
       }))
 
   return (
@@ -60,7 +60,7 @@ export default async function ContactPage() {
             Nous Contacter & Nous Trouver
           </h1>
           <p className="mt-4 text-zinc-600 text-sm sm:text-base leading-relaxed">
-            Une question sur un soin, une envie de changement capillaire ou une demande de devis sur-mesure ? Écrivez-nous ou rendez-nous visite au salon.
+            Une question sur un soin, une envie de changement capillaire ou une demande de devis sur-mesure ? Écrivez-nous ou rendez-nous visite au salon à {siteConfig.district}.
           </p>
         </div>
 
@@ -74,7 +74,7 @@ export default async function ContactPage() {
                 <h2 className="text-xl sm:text-2xl font-bold text-zinc-950 font-serif italic">
                   Coordonnées du Salon
                 </h2>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-pink-600 bg-pink-50 px-3 py-1 rounded-full border border-pink-100">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-200">
                   {salonNom}
                 </span>
               </div>
@@ -82,7 +82,7 @@ export default async function ContactPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {/* Address */}
                 <div className="p-4 rounded-2xl bg-rose-50/50 border border-rose-100/80 flex items-start gap-3.5">
-                  <div className="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center shrink-0 border border-pink-200">
+                  <div className="w-10 h-10 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 border border-rose-200">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
@@ -91,21 +91,21 @@ export default async function ContactPage() {
                       {adresse}
                     </p>
                     <p className="text-xs text-zinc-600">
-                      {SALON_INFO.district}, {ville}
+                      {siteConfig.district}, {ville}
                     </p>
                   </div>
                 </div>
 
                 {/* Telephone */}
                 <div className="p-4 rounded-2xl bg-rose-50/50 border border-rose-100/80 flex items-start gap-3.5">
-                  <div className="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center shrink-0 border border-pink-200">
+                  <div className="w-10 h-10 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 border border-rose-200">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
                     <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">Téléphone</h3>
                     <a
                       href={`tel:${telephone.replace(/\s+/g, '')}`}
-                      className="text-sm font-bold text-pink-600 hover:text-pink-700 transition-colors block mt-0.5"
+                      className="text-sm font-bold text-rose-700 hover:text-rose-800 transition-colors block mt-0.5"
                     >
                       {telephone}
                     </a>
@@ -115,14 +115,14 @@ export default async function ContactPage() {
 
                 {/* Email */}
                 <div className="p-4 rounded-2xl bg-rose-50/50 border border-rose-100/80 flex items-start gap-3.5">
-                  <div className="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center shrink-0 border border-pink-200">
+                  <div className="w-10 h-10 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 border border-rose-200">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
                     <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">E-mail</h3>
                     <a
                       href={`mailto:${email}`}
-                      className="text-sm font-semibold text-zinc-900 hover:text-pink-600 transition-colors block mt-0.5 truncate max-w-[200px]"
+                      className="text-sm font-semibold text-zinc-900 hover:text-rose-700 transition-colors block mt-0.5 truncate max-w-[200px]"
                     >
                       {email}
                     </a>
@@ -143,9 +143,9 @@ export default async function ContactPage() {
                       rel="noopener noreferrer"
                       className="text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors block mt-0.5"
                     >
-                      {SALON_INFO.whatsapp}
+                      {siteConfig.whatsappDisplay}
                     </a>
-                    <p className="text-[11px] text-zinc-500">Discussion & Réservation instantanée</p>
+                    <p className="text-[11px] text-zinc-500">Discussion &amp; Réservation instantanée</p>
                   </div>
                 </div>
               </div>
@@ -154,7 +154,7 @@ export default async function ContactPage() {
             {/* Opening Hours Card */}
             <div className="bg-white border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center">
                   <Clock className="w-4 h-4" />
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold text-zinc-950 font-serif italic">
@@ -185,7 +185,7 @@ export default async function ContactPage() {
             <div className="bg-white border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center">
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
@@ -200,7 +200,7 @@ export default async function ContactPage() {
                   href={googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-white bg-zinc-950 hover:bg-zinc-800 transition-all shadow-sm self-start sm:self-auto"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-white bg-zinc-950 hover:bg-zinc-800 transition-all shadow-sm self-start sm:self-auto min-h-[40px]"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
                   <span>Ouvrir Google Maps</span>
@@ -208,19 +208,19 @@ export default async function ContactPage() {
               </div>
 
               {/* Map visual card */}
-              <div className="relative rounded-2xl overflow-hidden border border-rose-100 aspect-[16/9] bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 flex flex-col items-center justify-center p-6 text-center shadow-inner">
-                <div className="w-12 h-12 rounded-full bg-pink-500 text-white flex items-center justify-center shadow-lg shadow-pink-500/30 mb-3 animate-float">
+              <div className="relative rounded-2xl overflow-hidden border border-rose-100 aspect-[16/9] bg-gradient-to-br from-rose-100 via-rose-50 to-pink-100 flex flex-col items-center justify-center p-6 text-center shadow-inner">
+                <div className="w-12 h-12 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg shadow-rose-600/30 mb-3 animate-float">
                   <MapPin className="w-6 h-6" />
                 </div>
                 <h3 className="text-base font-bold text-zinc-900">{salonNom}</h3>
                 <p className="text-xs text-zinc-600 max-w-sm mt-1 mb-4">
-                  {fullAddress} • En face du Club Olympique, Almadies • Parking facile
+                  {fullAddress} • {siteConfig.landmarks}
                 </p>
                 <a
                   href={googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold text-pink-600 bg-white border border-pink-200 shadow-sm hover:bg-pink-50 hover:scale-105 transition-all"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold text-rose-700 bg-white border border-rose-200 shadow-sm hover:bg-rose-50 hover:scale-105 transition-all min-h-[36px]"
                 >
                   <span>Calculer mon itinéraire</span>
                   <ExternalLink className="w-3 h-3" />

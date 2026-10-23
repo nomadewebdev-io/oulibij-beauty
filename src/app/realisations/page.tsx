@@ -1,14 +1,14 @@
 import React from 'react'
 import { getRealisations } from '@/lib/actions/gallery'
 import { RealisationsGallery } from '@/components/realisations/RealisationsGallery'
-import { SALON_INFO } from '@/lib/constants'
+import { siteConfig } from '@/config/site'
 import { Sparkles } from '@/components/ui/Icons'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: `Réalisations & Galerie Photos | ${SALON_INFO.name}`,
-  description: `Découvrez la galerie des réalisations, tresses artistiques, balayages et soins capillaires réalisés par ${SALON_INFO.name}.`,
+  title: `Réalisations & Galerie Photos | ${siteConfig.name}`,
+  description: `Découvrez la galerie des réalisations, tresses artistiques, balayages et soins capillaires réalisés par ${siteConfig.name} à ${siteConfig.district}, ${siteConfig.city}.`,
 }
 
 export default async function RealisationsPage() {

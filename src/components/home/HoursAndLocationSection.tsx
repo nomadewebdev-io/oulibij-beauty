@@ -1,5 +1,5 @@
 import React from 'react'
-import { SALON_INFO, getWhatsAppBookingUrl } from '@/lib/constants'
+import { siteConfig, getWhatsAppBookingUrl } from '@/config/site'
 import { MapPin, Clock, WhatsApp } from '@/components/ui/Icons'
 
 export function HoursAndLocationSection() {
@@ -13,7 +13,7 @@ export function HoursAndLocationSection() {
           <div className="lg:col-span-7 space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold tracking-wider uppercase">
               <MapPin className="w-3.5 h-3.5 text-rose-600" />
-              <span>Nous Trouver aux Almadies</span>
+              <span>Nous Trouver à {siteConfig.district}</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight">
@@ -21,7 +21,7 @@ export function HoursAndLocationSection() {
             </h2>
 
             <p className="text-zinc-600 text-sm sm:text-base leading-relaxed">
-              Situé au cœur des Almadies à Dakar, le salon <strong className="text-zinc-900">{SALON_INFO.name}</strong> vous accueille dans un cadre intime, climatisé et élégant.
+              Situé au cœur de {siteConfig.district} à {siteConfig.city}, le salon <strong className="text-zinc-900">{siteConfig.name}</strong> vous accueille dans un cadre intime, climatisé et élégant.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
@@ -30,8 +30,11 @@ export function HoursAndLocationSection() {
                   <MapPin className="w-4 h-4" />
                   <span>Adresse</span>
                 </div>
-                <p className="text-sm font-semibold text-zinc-900">{SALON_INFO.address}</p>
-                <p className="text-xs text-zinc-500">{SALON_INFO.district}, {SALON_INFO.city} — {SALON_INFO.country}</p>
+                <p className="text-sm font-semibold text-zinc-900">{siteConfig.address}</p>
+                <p className="text-xs text-zinc-500">{siteConfig.district}, {siteConfig.city} — {siteConfig.country}</p>
+                {siteConfig.landmarks && (
+                  <p className="text-[11px] text-zinc-400 italic pt-1">{siteConfig.landmarks}</p>
+                )}
               </div>
 
               <div className="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-100 space-y-2">
@@ -39,21 +42,22 @@ export function HoursAndLocationSection() {
                   <WhatsApp className="w-4 h-4" />
                   <span>Réservations WhatsApp</span>
                 </div>
-                <p className="text-sm font-semibold text-zinc-900">{SALON_INFO.whatsapp}</p>
+                <p className="text-sm font-semibold text-zinc-900">{siteConfig.whatsappDisplay}</p>
                 <a
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block text-xs font-bold text-emerald-700 hover:text-emerald-800 underline"
+                  className="inline-block text-xs font-bold text-emerald-700 hover:text-emerald-800 underline min-h-[32px] pt-1"
+                  aria-label={`Envoyer un message WhatsApp au ${siteConfig.whatsappDisplay}`}
                 >
                   Envoyer un message →
                 </a>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-4 pt-2 text-xs text-zinc-500">
+            <div className="flex flex-wrap items-center gap-3 pt-2 text-xs text-zinc-500">
               <span className="font-bold text-zinc-900">Paiements mobiles acceptés :</span>
-              {SALON_INFO.payments.map((p, idx) => (
+              {siteConfig.payments.map((p, idx) => (
                 <span
                   key={idx}
                   className="px-3 py-1 rounded-full bg-zinc-100 text-zinc-700 font-semibold border border-zinc-200"
@@ -78,7 +82,7 @@ export function HoursAndLocationSection() {
               </div>
 
               <ul className="space-y-3">
-                {SALON_INFO.openingHours.map((slot, index) => (
+                {siteConfig.openingHours.map((slot, index) => (
                   <li
                     key={index}
                     className="flex items-center justify-between py-2 border-b border-rose-100/80 text-xs sm:text-sm"
@@ -96,7 +100,8 @@ export function HoursAndLocationSection() {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all"
+                  className="w-full py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all min-h-[44px]"
+                  aria-label="Bloquer un créneau sur WhatsApp"
                 >
                   <WhatsApp className="w-4 h-4 text-white" />
                   <span>Bloquer un créneau sur WhatsApp</span>

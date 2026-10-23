@@ -1,6 +1,6 @@
 import React from 'react'
 import { Star, Quote, Sparkles } from '@/components/ui/Icons'
-import { CLIENT_REVIEWS } from '@/lib/constants'
+import { siteConfig } from '@/config/site'
 
 export function TestimonialsSection() {
   return (
@@ -15,12 +15,12 @@ export function TestimonialsSection() {
             La Confiance de Nos Clientes
           </h2>
           <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-            Découvrez les retours de nos clientes dakaroises après leur passage dans notre salon des Almadies.
+            Découvrez les retours de nos clientes après leur passage dans notre salon à {siteConfig.district}, {siteConfig.city}.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-          {CLIENT_REVIEWS.map((review, index) => {
+          {siteConfig.reviews.map((review, index) => {
             const isFeatured = index === 0
             return (
               <div
@@ -33,7 +33,7 @@ export function TestimonialsSection() {
               >
                 <div>
                   <div className="flex items-center justify-between gap-4 mb-4">
-                    <div className="flex items-center gap-1 text-rose-500">
+                    <div className="flex items-center gap-1 text-rose-500" aria-label={`Note : ${review.rating} sur 5 étoiles`}>
                       {[...Array(review.rating)].map((_, i) => (
                         <Star key={i} className="w-4 h-4 text-rose-500 fill-rose-500" />
                       ))}

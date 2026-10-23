@@ -2,14 +2,14 @@ import React from 'react'
 import { getServices } from '@/lib/actions/services'
 import { getStaffMembers } from '@/lib/actions/staff'
 import { BookingWizard } from '@/components/booking/BookingWizard'
-import { SALON_INFO } from '@/lib/constants'
+import { siteConfig } from '@/config/site'
 import { Sparkles } from '@/components/ui/Icons'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: `Réserver un Soin en Ligne | ${SALON_INFO.name}`,
-  description: `Prenez rendez-vous en ligne en 4 étapes simples au salon ${SALON_INFO.name}. Choisissez votre service, votre coiffeuse et votre créneau en temps réel.`,
+  title: `Réserver un Soin en Ligne | ${siteConfig.name}`,
+  description: `Prenez rendez-vous en ligne en quelques étapes au salon ${siteConfig.name} à ${siteConfig.district}, ${siteConfig.city}. Choisissez votre service, votre coiffeuse et bloquez votre créneau sur WhatsApp.`,
 }
 
 interface ReserverPageProps {
@@ -36,11 +36,11 @@ export default async function ReserverPage({ searchParams }: ReserverPageProps) 
             Réserver Votre Séance
           </h1>
           <p className="mt-4 text-zinc-600 text-sm sm:text-base leading-relaxed">
-            Sélectionnez votre prestation ci-dessous et échangez directement sur WhatsApp avec notre équipe aux Almadies pour bloquer votre créneau.
+            Sélectionnez votre prestation ci-dessous et échangez directement sur WhatsApp avec notre équipe à {siteConfig.district} pour bloquer votre créneau.
           </p>
         </div>
 
-        {/* 4-Step Booking Funnel */}
+        {/* Booking Wizard */}
         <BookingWizard
           initialServices={services}
           initialStaff={staff}

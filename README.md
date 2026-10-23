@@ -1,105 +1,114 @@
-# 💈 OULIBIJ - Salon de Coiffure & Beauté Haute Couture
+# OULIBIJ BEAUTY — Template Multi-Salon Haut de Gamme
 
-Application web moderne et performante pour le salon de coiffure **OULIBIJ**, développée avec **Next.js (App Router)**, **TypeScript**, **Tailwind CSS**, **Supabase** (Auth, PostgreSQL, Storage, RLS) et optimisée pour un déploiement continu sur **Netlify**.
-
----
-
-## 🚀 Fonctionnalités Principales
-
-- **Architecture Next.js App Router (v16)** & React Server Components.
-- **Base de données Supabase PostgreSQL** avec **Row Level Security (RLS)** activée dès la création.
-- **Réservation en ligne multi-étapes** (`/rendez-vous`) : choix de prestation, coiffeur, sélection dynamique du créneau horaire, coordonnées et confirmation.
-- **Catalogue & Tarification dynamique** (`/services`) avec filtres par catégorie.
-- **Présentation de l'équipe & Spécialités** (`/equipe`).
-- **Galerie & Book de créations** (`/galerie`).
-- **Espace Client / Dashboard** (`/dashboard`) pour le suivi et l'annulation des rendez-vous.
-- **Authentification Supabase** (Email/Password, profils automatiques via Trigger PostgreSQL).
-- **Prêt pour le déploiement Netlify** (`netlify.toml` inclus).
+Site vitrine et système de réservation instantanée sur WhatsApp pour salons de coiffure et instituts de beauté féminine, développé avec **Next.js (App Router)**, **TypeScript** et **Tailwind CSS**, optimisé pour un déploiement continu sur **Vercel**.
 
 ---
 
-## 📂 Structure du Projet
+## ⚡ Comment cloner ce site pour un nouveau salon en 10 minutes
+
+Toute la personnalisation du site est centralisée dans un fichier unique : `src/config/site.ts`. Aucune information de salon n'est codée en dur dans les composants.
+
+### Étape 1 : Cloner le dépôt et installer les dépendances
+
+```bash
+git clone <url-du-repo> nouveau-salon
+cd nouveau-salon
+npm install
+```
+
+### Étape 2 : Modifier `src/config/site.ts`
+
+Ouvrez `src/config/site.ts` et adaptez les valeurs selon le nouveau salon :
+- **Identité** : `name`, `brandName`, `tagline`, `description`.
+- **Contact & Localisation** : numéro `whatsappRaw` (ex: `221770000000`), `whatsappDisplay`, `phone`, `address`, `district` (quartier), `city` (ville).
+- **Thème visuel** : modifiez `theme.primary` (ex: `#be123c` pour rose haute couture, `#b45309` pour ambre terracotta, `#0f766e` pour émeraude).
+- **Horaires & Paiements** : `openingHours`, `payments` (Wave, Orange Money, Free Money, Espèces).
+- **Prestations & Tarifs (FCFA)** : mettez à jour la liste `services` avec les durées et prix.
+- **Équipe & Avis** : personnalisez `staff` et `reviews`.
+
+### Étape 3 : Remplacer les images du salon
+
+Placez les photos du nouveau salon dans `public/images/` :
+- `hero-1.jpg`, `hero-2.jpg`, `hero-3.jpg`, `hero-4.jpg` : portraits et gestes de coiffure.
+- Lancez `node scripts/optimize-assets.js` pour générer automatiquement l'image Open Graph 1200x630 (`og-image.jpg`), les favicons et compresser les visuels en haute performance.
+
+### Étape 4 : Tester et Déployer sur Vercel
+
+```bash
+# Vérification locale
+npm run build
+
+# Déploiement Vercel
+# 1. Connectez votre dépôt sur https://vercel.com/new
+# 2. Ajoutez la variable d'environnement :
+#    NEXT_PUBLIC_SITE_URL = https://votre-domaine.com
+# 3. Cliquez sur "Deploy"
+```
+
+Le site est en ligne en quelques minutes avec un score Lighthouse > 90, un aperçu Open Graph 1200x630 parfait sur WhatsApp, un sitemap dynamique et un tunnel WhatsApp sans friction.
+
+---
+
+## 🛠️ Stack Technique
+
+- **Framework** : Next.js 16 (App Router) + React 19 + TypeScript.
+- **Styling** : Tailwind CSS v4 + Variables CSS thématiques.
+- **SEO & Réseaux Sociaux** : Métadonnées Open Graph (1200x630), Twitter Cards, Sitemap dynamique (`/sitemap.xml`), Robots (`/robots.txt`), Favicons vectoriels et PNG.
+- **Paiements & Réservations** : Intégration mobile money Sénégal (Wave, Orange Money, Free Money) et réservation directe via liens wa.me pré-remplis.
+- **Performance** : Images optimisées avec `next/image` (WebP/MozJPEG, tailles responsives et lazy loading).
+
+---
+
+## 📁 Architecture des Fichiers
 
 ```text
 salon/
-├── netlify.toml                # Configuration de build et déploiement Netlify
-├── supabase/
-│   ├── migrations/
-│   │   └── 20260914000000_init_oulibij_schema.sql  # Schéma complet + RLS + Triggers + Buckets
-│   └── seed.sql                # Données initiales pour le salon OULIBIJ
 ├── src/
-│   ├── app/                    # Routes Next.js App Router
-│   │   ├── auth/callback/      # Route d'échange OAuth/Magic link Supabase
-│   │   ├── contact/            # Page contact, horaires & accès
-│   │   ├── dashboard/          # Espace client & historique RDV
-│   │   ├── equipe/             # Présentation des stylistes
-│   │   ├── galerie/            # Lookbook & réalisations
-│   │   ├── login/ & register/  # Connexion & Inscription
-│   │   ├── rendez-vous/        # Tunnel de réservation
-│   │   ├── services/           # Menu des soins & tarifs
-│   │   ├── layout.tsx          # Layout racine avec Navbar & Footer
-│   │   └── page.tsx            # Page d'accueil du salon OULIBIJ
+│   ├── config/
+│   │   └── site.ts           # MASTER CONFIGURATION : Unique source de vérité du salon
+│   ├── app/
+│   │   ├── layout.tsx        # Métadonnées SEO globales, OpenGraph WhatsApp, Favicon
+│   │   ├── page.tsx          # Page d'accueil vitrine
+│   │   ├── sitemap.ts        # Sitemap XML dynamique
+│   │   ├── robots.ts         # Directives robots.txt
+│   │   ├── opengraph-image.tsx # Générateur dynamique d'image OpenGraph 1200x630
+│   │   ├── twitter-image.tsx # Twitter Card image
+│   │   ├── prestations/      # Carte complète des soins et tarifs FCFA
+│   │   ├── realisations/     # Galerie lookbook & réalisations
+│   │   ├── a-propos/         # Histoire & présentation de l'équipe
+│   │   ├── contact/          # Coordonnées, horaires & Google Maps
+│   │   └── reserver/         # Tunnel de réservation WhatsApp
 │   ├── components/
-│   │   ├── auth/               # Composants d'authentification
-│   │   ├── booking/            # Wizard de réservation interactif
-│   │   ├── dashboard/          # Liste et actions sur les RDV
-│   │   ├── home/               # Sections de la page d'accueil (Hero, Services, Team, Gallery, Reviews, CTA)
-│   │   ├── layout/             # Navbar & Footer
-│   │   └── ui/                 # Composants UI (Button, Badge, etc.)
-│   ├── lib/
-│   │   ├── actions/            # Server Actions (booking, services, staff, auth)
-│   │   ├── supabase/           # Clients Supabase (client, server, middleware, storage)
-│   │   ├── constants.ts        # Métadonnées du salon OULIBIJ, horaires, catégories
-│   │   └── utils.ts            # Utilitaires de formatage (devises, dates, durées)
-│   ├── types/
-│   │   ├── database.types.ts   # Typages TypeScript générés du schéma Supabase
-│   │   └── index.ts            # Interfaces métier & modèles d'application
-│   └── middleware.ts           # Middleware Next.js pour le rafraîchissement de session Supabase
-└── .env.example                # Modèle des variables d'environnement
+│   │   ├── home/             # Sections modulaires de la page d'accueil
+│   │   ├── layout/           # Navbar & Footer dynamiques
+│   │   ├── booking/          # Wizard de réservation avec récapitulatif
+│   │   └── ui/               # Icônes SVG vectorielles sans emojis
+│   └── lib/
+│       ├── constants.ts      # Re-exports compatibles depuis site.ts
+│       └── utils.ts          # Utilitaires FCFA, durées et dates
+├── public/
+│   ├── images/
+│   │   ├── hero-1.jpg à 4    # Photos optimisées
+│   │   └── og-image.jpg      # Bannière de partage WhatsApp 1200x630
+│   └── favicon.ico           # Favicon officiel
+└── scripts/
+    └── optimize-assets.js    # Script d'optimisation d'images et génération d'assets
 ```
 
 ---
 
-## 🛠️ Configuration & Installation
-
-### 1. Variables d'environnement
-
-Créez un fichier `.env.local` à la racine :
+## 🧪 Commandes Utiles
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=https://votre-projet.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=votre-cle-anon
-SUPABASE_SERVICE_ROLE_KEY=votre-cle-service-role
-
-NEXT_PUBLIC_SALON_ID=00000000-0000-0000-0000-000000000001
-NEXT_PUBLIC_SALON_NAME="OULIBIJ"
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-```
-
-### 2. Initialisation de la Base de Données Supabase
-
-Exécutez le script SQL présent dans `supabase/migrations/20260914000000_init_oulibij_schema.sql` dans l'éditeur SQL de votre projet Supabase.
-
-Ce script crée :
-1. Les tables : `salons`, `profiles`, `services`, `staff`, `disponibilites`, `rendez_vous`, `realisations`.
-2. La clé étrangère `salon_id` sur toutes les tables métier.
-3. L'activation immédiate de **Row Level Security (RLS)** sur toutes les tables.
-4. L'insertion de la ligne par défaut pour le salon **OULIBIJ**.
-5. Les buckets de stockage Storage : `salons`, `services`, `staff`, `realisations`, `avatars`.
-
-### 3. Lancer en local
-
-```bash
-npm install
+# Lancer le serveur de développement
 npm run dev
+
+# Générer les assets optimisés et la bannière Open Graph
+node scripts/optimize-assets.js
+
+# Valider la compilation de production
+npm run build
+
+# Linter le code
+npm run lint
 ```
-
-Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
-
----
-
-## 🌐 Déploiement sur Netlify
-
-1. Connectez le dépôt GitHub à votre compte Netlify.
-2. Ajoutez les variables d'environnement (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, etc.) dans les paramètres de site Netlify (*Site configuration > Environment variables*).
-3. Le fichier `netlify.toml` configure automatiquement le build (`npm run build`) et le plugin `@netlify/plugin-nextjs`.

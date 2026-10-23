@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { SALON_INFO, HERO_HIGHLIGHTS, getWhatsAppBookingUrl } from '@/lib/constants'
+import { siteConfig, getWhatsAppBookingUrl } from '@/config/site'
 import { Scissors, Sparkles, ShieldCheck, WhatsApp } from '@/components/ui/Icons'
 
 const iconMap: { [key: string]: React.FC<{ className?: string }> } = {
@@ -30,20 +30,20 @@ export function HeroSection() {
           {/* Subtle Tag */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold tracking-wider uppercase">
             <Sparkles className="w-3.5 h-3.5 text-rose-600" />
-            <span>Salon de Coiffure & Esthétique Féminine • Dakar</span>
+            <span>{siteConfig.hero.badge} • {siteConfig.city}</span>
           </div>
 
           {/* Main Title on 2 Lines: Bold Sans-Serif */}
           <h1 className="text-4xl sm:text-6xl xl:text-7xl font-black text-zinc-950 tracking-tight leading-[1.08]">
-            Révélez Votre Éclat,<br />
+            {siteConfig.hero.titleLine1}<br />
             <span className="text-rose-700">
-              Sublimez Votre Chevelure.
+              {siteConfig.hero.titleLine2}
             </span>
           </h1>
 
           {/* Short Subtitle */}
           <p className="text-zinc-600 text-base sm:text-lg max-w-xl font-normal leading-relaxed">
-            Bienvenue chez <span className="font-semibold text-zinc-900">{SALON_INFO.name}</span> aux Almadies. Une expérience haute coiffure sur-mesure alliant créativité, soins profonds réparateurs et maîtrise experte de toutes les textures capillaires.
+            Bienvenue chez <span className="font-semibold text-zinc-900">{siteConfig.name}</span> à {siteConfig.district}. Une expérience haute coiffure sur-mesure alliant créativité, soins profonds réparateurs et maîtrise experte de toutes les textures capillaires.
           </p>
 
           {/* Two Pill-Shaped CTAs */}
@@ -52,24 +52,26 @@ export function HeroSection() {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-sm sm:text-base font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-xl shadow-emerald-600/25 hover:shadow-emerald-600/40 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+              className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-sm sm:text-base font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-xl shadow-emerald-600/25 hover:shadow-emerald-600/40 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer min-h-[48px]"
+              aria-label={`Réserver un rendez-vous sur WhatsApp avec ${siteConfig.brandName}`}
             >
               <WhatsApp className="w-5 h-5 text-white" />
-              <span>Réserver sur WhatsApp</span>
+              <span>{siteConfig.hero.ctaWhatsApp}</span>
             </a>
 
             <a
               href="#prestations"
               onClick={scrollToPrestations}
-              className="inline-flex items-center justify-center px-8 py-4 rounded-full text-sm sm:text-base font-bold text-zinc-950 bg-white border-2 border-zinc-950 hover:bg-zinc-950 hover:text-white active:scale-[0.98] transition-all cursor-pointer shadow-sm"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-full text-sm sm:text-base font-bold text-zinc-950 bg-white border-2 border-zinc-950 hover:bg-zinc-950 hover:text-white active:scale-[0.98] transition-all cursor-pointer shadow-sm min-h-[48px]"
+              aria-label="Faire défiler vers la liste des soins et tarifs"
             >
-              Découvrir nos soins
+              {siteConfig.hero.ctaDiscover}
             </a>
           </div>
 
-          {/* Row of 3 Highlights with Vector Icons */}
+          {/* Row of Highlights with Vector Icons */}
           <div className="pt-8 border-t border-rose-100/90 grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {HERO_HIGHLIGHTS.map((item, idx) => {
+            {siteConfig.hero.highlights.map((item, idx) => {
               const IconComp = iconMap[item.icon] || Sparkles
               return (
                 <div key={idx} className="flex items-start gap-3 group">
@@ -77,9 +79,9 @@ export function HeroSection() {
                     <IconComp className="w-5 h-5 text-rose-600" />
                   </div>
                   <div>
-                    <h3 className="text-xs font-bold text-zinc-900 tracking-wide uppercase">
+                    <h2 className="text-xs font-bold text-zinc-900 tracking-wide uppercase">
                       {item.title}
-                    </h3>
+                    </h2>
                     <p className="text-[12px] text-zinc-500 leading-snug mt-0.5">
                       {item.description}
                     </p>
@@ -101,9 +103,9 @@ export function HeroSection() {
               <div className="relative h-64 sm:h-80 rounded-3xl overflow-hidden shadow-lg border border-white/60 group">
                 <Image
                   src="/images/hero-1.jpg"
-                  alt="Coiffure Wavy & Brushing Oulibij Dakar"
+                  alt={`Coiffure Wavy et Brushing Signature chez ${siteConfig.name} ${siteConfig.district}`}
                   fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 25vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                   priority
                 />
@@ -115,10 +117,11 @@ export function HeroSection() {
               <div className="relative h-44 sm:h-52 rounded-3xl overflow-hidden shadow-lg border border-white/60 group">
                 <Image
                   src="/images/hero-2.jpg"
-                  alt="Gestes de coiffure délicats et soins"
+                  alt={`Soin profond et rituel bien-être chez ${siteConfig.name}`}
                   fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 25vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                   <span className="text-xs font-bold text-white tracking-wide">Soins Délicats</span>
@@ -131,10 +134,11 @@ export function HeroSection() {
               <div className="relative h-48 sm:h-56 rounded-3xl overflow-hidden shadow-lg border border-white/60 group">
                 <Image
                   src="/images/hero-4.jpg"
-                  alt="Balayage lumineux et éclat"
+                  alt={`Balayage blond miel lumineux réalisé chez ${siteConfig.brandName}`}
                   fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 25vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                   <span className="text-xs font-bold text-white tracking-wide">Balayage Soleil</span>
@@ -144,10 +148,11 @@ export function HeroSection() {
               <div className="relative h-60 sm:h-72 rounded-3xl overflow-hidden shadow-lg border border-white/60 group">
                 <Image
                   src="/images/hero-3.jpg"
-                  alt="Tresses artistiques & coiffure texturée"
+                  alt={`Tresses knotless et coiffure protectrice d'art chez ${siteConfig.name}`}
                   fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 25vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                   <span className="text-xs font-bold text-white tracking-wide">Art des Tresses</span>
@@ -164,7 +169,7 @@ export function HeroSection() {
           href="#prestations"
           onClick={scrollToPrestations}
           className="group relative flex items-center justify-center w-16 h-16 rounded-full bg-white border border-rose-200 shadow-md hover:shadow-lg hover:border-rose-400 hover:scale-110 transition-all cursor-pointer"
-          aria-label="Faire défiler vers les prestations"
+          aria-label="Faire défiler vers les prestations et tarifs"
         >
           {/* Subtle spinning ring */}
           <div className="absolute inset-0 rounded-full border border-dashed border-rose-300 animate-spin-slow" />
@@ -174,6 +179,7 @@ export function HeroSection() {
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>

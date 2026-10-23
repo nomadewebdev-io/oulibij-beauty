@@ -1,10 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
-import { SALON_INFO, getWhatsAppBookingUrl } from '@/lib/constants'
+import { siteConfig, getWhatsAppBookingUrl } from '@/config/site'
 import { WhatsApp, ArrowLeft, CheckCircle2 } from '@/components/ui/Icons'
 
 export const metadata = {
-  title: `Espace Membre | ${SALON_INFO.name}`,
+  title: `Réservation Sans Compte | ${siteConfig.name}`,
+  description: `Toutes les réservations du salon ${siteConfig.name} se font simplement et directement via WhatsApp.`,
 }
 
 export default function LoginPage() {
@@ -20,7 +21,7 @@ export default function LoginPage() {
         <div className="space-y-2">
           <h1 className="text-2xl font-black text-zinc-950">Réservation Sans Compte</h1>
           <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
-            Chez <strong className="text-zinc-900">{SALON_INFO.name}</strong>, vous n&apos;avez pas besoin de créer de compte ni de mot de passe. Toutes les réservations et suivis se font directement et instantanément via notre WhatsApp officiel.
+            Chez <strong className="text-zinc-900">{siteConfig.name}</strong>, vous n&apos;avez pas besoin de créer de compte ni de mot de passe. Toutes les réservations et suivis se font directement et instantanément via notre WhatsApp officiel.
           </p>
         </div>
 
@@ -30,7 +31,7 @@ export default function LoginPage() {
             <span>Avantages de la réservation WhatsApp :</span>
           </div>
           <ul className="space-y-1.5 pl-6 list-disc text-zinc-600 text-[11px]">
-            <li>Réponse immédiate de nos stylistes</li>
+            <li>Réponse immédiate de nos stylistes à {siteConfig.district}</li>
             <li>Envoi de photos d&apos;inspiration en direct</li>
             <li>Confirmation de votre horaire sans démarche superflue</li>
           </ul>

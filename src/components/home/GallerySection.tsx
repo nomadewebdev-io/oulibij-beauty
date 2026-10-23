@@ -3,14 +3,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Realisation } from '@/types'
 import { Sparkles, ArrowRight, WhatsApp } from '@/components/ui/Icons'
-import { DEFAULT_REALISATIONS, getWhatsAppBookingUrl } from '@/lib/constants'
+import { siteConfig, getWhatsAppBookingUrl } from '@/config/site'
 
 interface GallerySectionProps {
   initialRealisations?: Realisation[]
 }
 
 export function GallerySection({ initialRealisations = [] }: GallerySectionProps) {
-  const items = initialRealisations.length > 0 ? initialRealisations : DEFAULT_REALISATIONS
+  const items = initialRealisations.length > 0 ? initialRealisations : (siteConfig.realisations as unknown as Realisation[])
 
   return (
     <section className="py-20 px-4 sm:px-8 lg:px-12 border-t border-rose-100/70">
@@ -25,13 +25,14 @@ export function GallerySection({ initialRealisations = [] }: GallerySectionProps
               Inspirations & Métamorphoses
             </h2>
             <p className="mt-2 text-zinc-600 text-sm sm:text-base max-w-xl">
-              Découvrez en images les créations réalisées pour nos clientes au salon des Almadies.
+              Découvrez en images les créations réalisées pour nos clientes au salon {siteConfig.brandName} ({siteConfig.district}, {siteConfig.city}).
             </p>
           </div>
 
           <Link
             href="/realisations"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-zinc-950 border-2 border-zinc-950 hover:bg-zinc-950 hover:text-white transition-all self-start md:self-end"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-zinc-950 border-2 border-zinc-950 hover:bg-zinc-950 hover:text-white transition-all self-start md:self-end min-h-[44px]"
+            aria-label="Voir l'ensemble de notre galerie de réalisations"
           >
             <span>Voir toute la galerie</span>
             <ArrowRight className="w-4 h-4" />
@@ -50,10 +51,11 @@ export function GallerySection({ initialRealisations = [] }: GallerySectionProps
               >
                 <Image
                   src={item.image_url || '/images/hero-1.jpg'}
-                  alt={item.titre}
+                  alt={`${item.titre} - Réalisation coiffure ${siteConfig.brandName} ${siteConfig.district}`}
                   fill
                   sizes={isFeatured ? '(max-width: 1024px) 100vw, 50vw' : '(max-width: 768px) 100vw, 25vw'}
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
 
@@ -77,7 +79,8 @@ export function GallerySection({ initialRealisations = [] }: GallerySectionProps
                     href={getWhatsAppBookingUrl(item.titre)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-300 hover:text-emerald-200 transition-colors pt-1"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-300 hover:text-emerald-200 transition-colors pt-1 min-h-[36px]"
+                    aria-label={`Demander la coiffure ${item.titre} sur WhatsApp`}
                   >
                     <WhatsApp className="w-4 h-4 text-emerald-400" />
                     <span>Demander cette réalisation sur WhatsApp</span>

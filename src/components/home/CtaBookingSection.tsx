@@ -1,5 +1,5 @@
 import React from 'react'
-import { SALON_INFO, getWhatsAppBookingUrl } from '@/lib/constants'
+import { siteConfig, getWhatsAppBookingUrl } from '@/config/site'
 import { Sparkles, Phone, WhatsApp } from '@/components/ui/Icons'
 
 export function CtaBookingSection() {
@@ -18,7 +18,7 @@ export function CtaBookingSection() {
         </h2>
 
         <p className="text-rose-100 text-sm sm:text-base max-w-xl mx-auto font-normal leading-relaxed">
-          Échangez directement avec notre équipe sur WhatsApp. Choix du soin, conseil personnalisé et confirmation immédiate de votre créneau aux Almadies.
+          Échangez directement avec notre équipe sur WhatsApp. Choix du soin, conseil personnalisé et confirmation immédiate de votre créneau à {siteConfig.district}.
         </p>
 
         <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -27,22 +27,24 @@ export function CtaBookingSection() {
             target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-sm font-bold bg-white text-zinc-950 shadow-lg hover:bg-rose-50 hover:scale-[1.02] active:scale-95 transition-all min-h-[48px]"
+            aria-label={`Réserver une prestation sur WhatsApp (${siteConfig.whatsappDisplay})`}
           >
             <WhatsApp className="w-4 h-4 text-emerald-600" />
             <span>Réserver sur WhatsApp</span>
           </a>
 
           <a
-            href={`tel:${SALON_INFO.phone}`}
+            href={`tel:${siteConfig.phone.replace(/\s+/g, '')}`}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-bold bg-rose-900/60 text-white border border-rose-400/40 hover:bg-rose-900 active:scale-95 transition-all min-h-[48px]"
+            aria-label={`Appeler le salon au ${siteConfig.phone}`}
           >
             <Phone className="w-4 h-4" />
-            <span>Appeler le salon : {SALON_INFO.phone}</span>
+            <span>Appeler le salon : {siteConfig.phone}</span>
           </a>
         </div>
 
         <p className="text-[12px] text-pink-100/90 pt-3">
-          Paiements acceptés : Wave • Orange Money • Free Money • Espèces
+          Paiements acceptés : {siteConfig.payments.join(' • ')}
         </p>
       </div>
     </section>

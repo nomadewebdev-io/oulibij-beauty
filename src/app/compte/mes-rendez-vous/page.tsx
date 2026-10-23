@@ -5,13 +5,13 @@ import { AppointmentsList } from '@/components/dashboard/AppointmentsList'
 import { Calendar } from '@/components/ui/Icons'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { SALON_INFO } from '@/lib/constants'
+import { siteConfig } from '@/config/site'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: `Mes Rendez-Vous | ${SALON_INFO.name}`,
-  description: `Consultez et gérez vos réservations et rendez-vous au salon de coiffure ${SALON_INFO.name}.`,
+  title: `Mes Rendez-Vous | ${siteConfig.name}`,
+  description: `Consultez et gérez vos réservations et rendez-vous au salon de coiffure ${siteConfig.name}.`,
 }
 
 export default async function MesRendezVousPage() {
@@ -73,7 +73,7 @@ export default async function MesRendezVousPage() {
               Mes Réservations
             </h2>
             <p className="text-xs sm:text-sm text-zinc-500 mt-1">
-              Suivez le statut de vos rendez-vous et gérez vos séances au salon {SALON_INFO.name}.
+              Suivez le statut de vos rendez-vous et gérez vos séances au salon {siteConfig.name}.
             </p>
           </div>
 

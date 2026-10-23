@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import { Service, Staff } from '@/types'
-import { SALON_INFO, WHATSAPP_PHONE, WHATSAPP_DISPLAY } from '@/lib/constants'
+import { siteConfig } from '@/config/site'
 import { formatCurrency, formatDuration } from '@/lib/utils'
 import {
   Scissors,
@@ -53,7 +53,7 @@ export function BookingWizard({
     if (notes.trim()) {
       msg += ` (Détails : ${notes.trim()})`
     }
-    return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(msg)}`
+    return `https://wa.me/${siteConfig.whatsappRaw}?text=${encodeURIComponent(msg)}`
   }, [selectedService, selectedStaff, notes])
 
   return (
@@ -69,7 +69,7 @@ export function BookingWizard({
               Réservation Directe & Sans Attente sur WhatsApp
             </h3>
             <p className="text-xs sm:text-sm text-zinc-600 mt-0.5">
-              Échangez directement avec notre salon aux Almadies ({WHATSAPP_DISPLAY}). Confirmation rapide 7j/7.
+              Échangez directement avec notre salon à {siteConfig.district} ({siteConfig.whatsappDisplay}). Confirmation rapide 7j/7.
             </p>
           </div>
         </div>
@@ -78,7 +78,8 @@ export function BookingWizard({
           href={generatedWhatsAppUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/20 hover:scale-105 active:scale-95 transition-all shrink-0"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/20 hover:scale-105 active:scale-95 transition-all shrink-0 min-h-[44px]"
+          aria-label={`Ouvrir WhatsApp pour réserver (${siteConfig.whatsappDisplay})`}
         >
           <WhatsApp className="w-4 h-4 text-white" />
           <span>Ouvrir WhatsApp</span>
@@ -103,10 +104,11 @@ export function BookingWizard({
               {initialServices.map((service) => {
                 const isSelected = service.id === selectedServiceId
                 return (
-                  <div
+                  <button
                     key={service.id}
+                    type="button"
                     onClick={() => setSelectedServiceId(service.id)}
-                    className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-4 ${
+                    className={`w-full text-left p-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-4 ${
                       isSelected
                         ? 'border-rose-500 bg-rose-50/60 shadow-sm'
                         : 'border-zinc-200/80 hover:border-rose-200 hover:bg-zinc-50'
@@ -132,7 +134,7 @@ export function BookingWizard({
                         {formatCurrency(Number(service.prix))}
                       </span>
                     </div>
-                  </div>
+                  </button>
                 )
               })}
             </div>
@@ -149,7 +151,7 @@ export function BookingWizard({
               <button
                 type="button"
                 onClick={() => setSelectedStaffId('')}
-                className={`p-3 rounded-2xl border text-center transition-all text-xs font-medium cursor-pointer ${
+                className={`p-3 rounded-2xl border text-center transition-all text-xs font-medium cursor-pointer min-h-[44px] ${
                   selectedStaffId === ''
                     ? 'border-rose-500 bg-rose-50 text-rose-800 font-bold'
                     : 'border-zinc-200 text-zinc-600 hover:bg-zinc-50'
@@ -164,7 +166,7 @@ export function BookingWizard({
                     key={st.id}
                     type="button"
                     onClick={() => setSelectedStaffId(st.id)}
-                    className={`p-3 rounded-2xl border text-center transition-all text-xs cursor-pointer ${
+                    className={`p-3 rounded-2xl border text-center transition-all text-xs cursor-pointer min-h-[44px] ${
                       isSelected
                         ? 'border-rose-500 bg-rose-50 text-rose-800 font-bold'
                         : 'border-zinc-200 text-zinc-600 hover:bg-zinc-50'
@@ -179,10 +181,12 @@ export function BookingWizard({
 
             {/* Notes / Souhaits */}
             <div className="pt-2">
-              <label className="text-xs font-bold text-zinc-700 block mb-1.5">
+              <label htmlFor="booking-notes" className="text-xs font-bold text-zinc-700 block mb-1.5">
                 Précisions ou questions (optionnel) :
               </label>
               <input
+                id="booking-notes"
+                name="bookingNotes"
                 type="text"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
@@ -235,11 +239,11 @@ export function BookingWizard({
                 <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-100 text-xs text-zinc-600 space-y-1.5">
                   <div className="flex items-center gap-1.5 font-bold text-zinc-900">
                     <MapPin className="w-3.5 h-3.5 text-rose-500" />
-                    <span>{SALON_INFO.name} aux Almadies</span>
+                    <span>{siteConfig.name} à {siteConfig.district}</span>
                   </div>
-                  <p className="text-[11px] text-zinc-500">{SALON_INFO.address}, Dakar</p>
+                  <p className="text-[11px] text-zinc-500">{siteConfig.address}, {siteConfig.city}</p>
                   <p className="text-[11px] text-emerald-700 font-semibold pt-1">
-                    Paiements : {SALON_INFO.payments.join(' • ')}
+                    Paiements : {siteConfig.payments.join(' • ')}
                   </p>
                 </div>
 
@@ -248,7 +252,8 @@ export function BookingWizard({
                   href={generatedWhatsAppUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-4 rounded-full text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-xl shadow-emerald-600/25 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
+                  className="w-full py-4 rounded-full text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-xl shadow-emerald-600/25 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer min-h-[48px]"
+                  aria-label={`Réserver cette séance sur WhatsApp avec ${siteConfig.brandName}`}
                 >
                   <WhatsApp className="w-5 h-5 text-white" />
                   <span>Réserver sur WhatsApp</span>
@@ -256,11 +261,12 @@ export function BookingWizard({
 
                 {/* Direct Phone Backup */}
                 <a
-                  href={`tel:${SALON_INFO.phone}`}
-                  className="w-full py-2.5 rounded-full text-xs font-bold text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 flex items-center justify-center gap-2 transition-all"
+                  href={`tel:${siteConfig.phone.replace(/\s+/g, '')}`}
+                  className="w-full py-2.5 rounded-full text-xs font-bold text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 flex items-center justify-center gap-2 transition-all min-h-[44px]"
+                  aria-label={`Appeler le salon au ${siteConfig.phone}`}
                 >
                   <Phone className="w-3.5 h-3.5 text-zinc-500" />
-                  <span>Préférer un appel ({SALON_INFO.phone})</span>
+                  <span>Préférer un appel ({siteConfig.phone})</span>
                 </a>
 
                 <div className="space-y-1.5 pt-2 text-[11px] text-zinc-500">

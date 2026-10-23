@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Sparkles, Home } from '@/components/ui/Icons'
-import { SALON_INFO } from '@/lib/constants'
+import { siteConfig } from '@/config/site'
 
 export default function NotFound() {
   return (
@@ -11,7 +11,7 @@ export default function NotFound() {
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 font-serif italic">Page Introuvable</h1>
         <p className="text-sm text-zinc-600 leading-relaxed">
-          La page que vous recherchez n&apos;existe pas ou a été déplacée dans le salon {SALON_INFO.name}.
+          La page que vous recherchez n&apos;existe pas ou a été déplacée dans le salon {siteConfig.name}.
         </p>
         <div>
           <Link
