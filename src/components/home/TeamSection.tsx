@@ -17,13 +17,13 @@ export function TeamSection({ initialStaff = [] }: TeamSectionProps) {
         <div className="text-center max-w-2xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-100/80 border border-rose-200 text-rose-700 text-xs font-bold tracking-wider uppercase mb-3">
             <Sparkles className="w-3.5 h-3.5 text-rose-600" />
-            <span>Notre Équipe d'Expertes • Dakar</span>
+            <span>Notre Équipe d&apos;Expertes • Dakar</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight">
             Des Passionnées à Votre Écoute
           </h2>
           <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-            Chaque styliste et coiffeuse de l'équipe OULIBIJ apporte son expertise pour magnifier votre beauté naturelle.
+            Chaque styliste et coiffeuse de l&apos;équipe OULIBIJ apporte son expertise pour magnifier votre beauté naturelle.
           </p>
         </div>
 

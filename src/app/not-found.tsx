@@ -12,13 +12,13 @@ export default function NotFound() {
         </div>
         <h1 className="text-4xl font-black text-zinc-100">Page Introuvable</h1>
         <p className="text-sm text-zinc-400">
-          La page que vous recherchez n'existe pas ou a été déplacée dans le salon {SALON_INFO.name}.
+          La page que vous recherchez n&apos;existe pas ou a été déplacée dans le salon {SALON_INFO.name}.
         </p>
         <div>
           <Link href="/">
             <Button variant="gold" size="md" className="gap-2">
               <Home className="w-4 h-4" />
-              <span>Retour à l'accueil</span>
+              <span>Retour à l&apos;accueil</span>
             </Button>
           </Link>
         </div>

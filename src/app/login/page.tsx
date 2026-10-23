@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { SALON_INFO, getWhatsAppBookingUrl } from '@/lib/constants'
-import { Sparkles, WhatsApp, ArrowLeft, CheckCircle2 } from '@/components/ui/Icons'
+import { WhatsApp, ArrowLeft, CheckCircle2 } from '@/components/ui/Icons'
 
 export const metadata = {
   title: `Espace Membre | ${SALON_INFO.name}`,
@@ -20,7 +20,7 @@ export default function LoginPage() {
         <div className="space-y-2">
           <h1 className="text-2xl font-black text-zinc-950">Réservation Sans Compte</h1>
           <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
-            Chez <strong className="text-zinc-900">{SALON_INFO.name}</strong>, vous n'avez pas besoin de créer de compte ni de mot de passe. Toutes les réservations et suivis se font directement et instantanément via notre WhatsApp officiel.
+            Chez <strong className="text-zinc-900">{SALON_INFO.name}</strong>, vous n&apos;avez pas besoin de créer de compte ni de mot de passe. Toutes les réservations et suivis se font directement et instantanément via notre WhatsApp officiel.
           </p>
         </div>
 
@@ -31,7 +31,7 @@ export default function LoginPage() {
           </div>
           <ul className="space-y-1.5 pl-6 list-disc text-zinc-600 text-[11px]">
             <li>Réponse immédiate de nos stylistes</li>
-            <li>Envoi de photos d'inspiration en direct</li>
+            <li>Envoi de photos d&apos;inspiration en direct</li>
             <li>Confirmation de votre horaire sans démarche superflue</li>
           </ul>
         </div>
@@ -52,7 +52,7 @@ export default function LoginPage() {
             className="w-full py-3 rounded-full text-xs font-bold text-zinc-700 bg-zinc-50 hover:bg-zinc-100 border border-zinc-200 flex items-center justify-center gap-2 transition-all"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Retourner à l'accueil</span>
+            <span>Retourner à l&apos;accueil</span>
           </Link>
         </div>
       </div>

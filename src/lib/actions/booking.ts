@@ -44,7 +44,7 @@ export async function createAppointmentAction(_formData: BookingFormData): Promi
   }
 }
 
-export async function getUserAppointments(_limit: number = 100): Promise<RendezVous[]> {
+export async function getUserAppointments(_limit?: number): Promise<RendezVous[]> {
   return []
 }
 

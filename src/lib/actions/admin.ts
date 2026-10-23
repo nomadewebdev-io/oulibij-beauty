@@ -9,7 +9,7 @@ export interface AdminActionResult {
   message: string
 }
 
-export async function verifyAdminUser(): Promise<{ user: any; profile: Profile }> {
+export async function verifyAdminUser(): Promise<{ user: { id: string; email?: string }; profile: Profile }> {
   redirect('/login?redirect=/admin')
 }
 
@@ -47,7 +47,7 @@ export async function deleteAppointmentAction(_appointmentId: string): Promise<A
   return { success: true, message: 'Rendez-vous supprimé.' }
 }
 
-export async function saveServiceAction(_formData: any): Promise<AdminActionResult> {
+export async function saveServiceAction(_formData: FormData | Record<string, unknown>): Promise<AdminActionResult> {
   return { success: true, message: 'Prestation enregistrée.' }
 }
 
@@ -59,7 +59,7 @@ export async function deleteServiceAction(_serviceId: string): Promise<AdminActi
   return { success: true, message: 'Prestation supprimée.' }
 }
 
-export async function saveStaffAction(_formData: any): Promise<AdminActionResult> {
+export async function saveStaffAction(_formData: FormData | Record<string, unknown>): Promise<AdminActionResult> {
   return { success: true, message: 'Membre de l’équipe enregistré.' }
 }
 
@@ -71,7 +71,7 @@ export async function deleteStaffAction(_staffId: string): Promise<AdminActionRe
   return { success: true, message: 'Membre supprimé.' }
 }
 
-export async function saveDisponibiliteAction(_data: any): Promise<AdminActionResult> {
+export async function saveDisponibiliteAction(_data: Record<string, unknown>): Promise<AdminActionResult> {
   return { success: true, message: 'Disponibilité enregistrée.' }
 }
 

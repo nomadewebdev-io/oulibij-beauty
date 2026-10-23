@@ -1,8 +1,16 @@
 import type { Metadata } from 'next'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { SALON_INFO } from '@/lib/constants'
+
+const jakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-jakarta',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: `${SALON_INFO.name} | Salon de Coiffure & Soins Féminins d'Exception à Dakar`,
@@ -35,8 +43,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className="scroll-smooth">
-      <body className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 p-2 sm:p-5 lg:p-7 flex flex-col items-center justify-center antialiased">
+    <html lang="fr" className={`scroll-smooth ${jakartaSans.variable}`}>
+      <body className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 p-2 sm:p-5 lg:p-7 flex flex-col items-center justify-center antialiased font-[var(--font-jakarta)]">
         <div className="w-full max-w-7xl bg-white rounded-[2rem] sm:rounded-[2.75rem] shadow-2xl shadow-pink-900/10 border border-pink-100/90 overflow-hidden flex flex-col relative">
           <Navbar />
           <main className="flex-1 w-full">{children}</main>

@@ -30,7 +30,7 @@ export default function RegisterPage() {
             <span>Votre salon de coiffure aux Almadies :</span>
           </div>
           <p className="text-[11px] text-zinc-600">
-            Coupes & brushings, tresses d'art (knotless braids), soins botox & kératine, balayages et mise en beauté mariée.
+            Coupes &amp; brushings, tresses d&apos;art (knotless braids), soins botox &amp; kératine, balayages et mise en beauté mariée.
           </p>
         </div>
 
@@ -50,7 +50,7 @@ export default function RegisterPage() {
             className="w-full py-3 rounded-full text-xs font-bold text-zinc-700 bg-zinc-50 hover:bg-zinc-100 border border-zinc-200 flex items-center justify-center gap-2 transition-all"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Découvrir l'accueil</span>
+            <span>Découvrir l&apos;accueil</span>
           </Link>
         </div>
       </div>

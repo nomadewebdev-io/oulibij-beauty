@@ -2,11 +2,10 @@
 
 import React, { useState, useMemo } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { Realisation } from '@/types'
 import { formatDateFrench } from '@/lib/utils'
 import { getWhatsAppBookingUrl } from '@/lib/constants'
-import { Sparkles, Calendar, X, ArrowRight, Eye, WhatsApp } from '@/components/ui/Icons'
+import { Sparkles, X, Eye, WhatsApp } from '@/components/ui/Icons'
 import { EmptyState } from '@/components/ui/EmptyState'
 
 interface RealisationsGalleryProps {
@@ -220,7 +219,7 @@ export function RealisationsGallery({ realisations }: RealisationsGalleryProps) 
 
               <div className="pt-4 border-t border-rose-100 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <span className="text-xs text-zinc-500">
-                  Envie du même style ou d'une personnalisation ?
+                  Envie du même style ou d&apos;une personnalisation ?
                 </span>
                 <a
                   href={getWhatsAppBookingUrl(selectedItem.titre)}

@@ -4,7 +4,7 @@ import { SALON_INFO } from '@/lib/constants'
 /**
  * Récupère les données du salon Oulibij Beauty (mode autonome sans Supabase)
  */
-export async function getSalon(_salonId: string = SALON_INFO.id): Promise<Salon | null> {
+export async function getSalon(_salonId?: string): Promise<Salon | null> {
   return {
     id: SALON_INFO.id,
     nom: SALON_INFO.name,

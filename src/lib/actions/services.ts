@@ -1,17 +1,17 @@
 import { Service, ServiceWithCategory } from '@/types'
-import { DEFAULT_SERVICES, SALON_INFO } from '@/lib/constants'
+import { DEFAULT_SERVICES } from '@/lib/constants'
 
 /**
  * Récupère les prestations actives du salon (mode autonome sans Supabase)
  */
-export async function getServices(_salonId: string = SALON_INFO.id): Promise<Service[]> {
+export async function getServices(_salonId?: string): Promise<Service[]> {
   return DEFAULT_SERVICES
 }
 
 /**
  * Récupère les prestations regroupées par catégorie
  */
-export async function getServicesGroupedByCategory(_salonId: string = SALON_INFO.id): Promise<ServiceWithCategory[]> {
+export async function getServicesGroupedByCategory(_salonId?: string): Promise<ServiceWithCategory[]> {
   const services = DEFAULT_SERVICES
   const map = new Map<string, Service[]>()
 

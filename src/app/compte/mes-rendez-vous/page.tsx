@@ -2,7 +2,7 @@ import React from 'react'
 import { getCurrentUser } from '@/lib/actions/auth'
 import { getUserAppointments } from '@/lib/actions/booking'
 import { AppointmentsList } from '@/components/dashboard/AppointmentsList'
-import { Calendar, User, Sparkles } from '@/components/ui/Icons'
+import { Calendar } from '@/components/ui/Icons'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { SALON_INFO } from '@/lib/constants'
@@ -53,7 +53,7 @@ export default async function MesRendezVousPage() {
                 href="/admin"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-zinc-950 bg-zinc-100 hover:bg-zinc-200 transition-all"
               >
-                <span>Accéder à l'Admin</span>
+                <span>Accéder à l&apos;Admin</span>
               </Link>
             )}
             <Link

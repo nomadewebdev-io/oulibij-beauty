@@ -27,7 +27,7 @@ export default async function RealisationsPage() {
             Galerie de Nos Réalisations
           </h1>
           <p className="mt-4 text-zinc-600 text-sm sm:text-base leading-relaxed">
-            Parcourez notre galerie photo pour découvrir le savoir-faire de nos expertes et trouver l'inspiration parfaite pour votre future coupe, coloration ou tressage.
+            Parcourez notre galerie photo pour découvrir le savoir-faire de nos expertes et trouver l&apos;inspiration parfaite pour votre future coupe, coloration ou tressage.
           </p>
         </div>
 

@@ -140,7 +140,7 @@ export function PrestationsList({ initialGroupedServices, allServices }: Prestat
                           <div className="p-3 rounded-2xl bg-amber-50/80 border border-amber-200 text-amber-900 text-xs mb-5 flex items-start gap-2">
                             <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
                             <p className="leading-snug text-[11px]">
-                              <strong>Pack Mariée :</strong> Séance d'essai personnalisée incluse pour définir le style parfait avant le jour J.
+                              <strong>Pack Mariée :</strong> Séance d&apos;essai personnalisée incluse pour définir le style parfait avant le jour J.
                             </p>
                           </div>
                         )}

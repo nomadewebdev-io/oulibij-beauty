@@ -80,7 +80,7 @@ export function ContactForm({ salonId }: ContactFormProps) {
               id="telephone"
               name="telephone"
               type="tel"
-              placeholder="Ex: 06 12 34 56 78"
+              placeholder="+221 77 000 00 00"
               className="w-full px-4 py-3 bg-white border border-rose-100 rounded-2xl text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/20 text-sm transition-all shadow-sm"
             />
           </div>
@@ -95,7 +95,7 @@ export function ContactForm({ salonId }: ContactFormProps) {
             name="email"
             type="email"
             required
-            placeholder="Ex: aminata@exemple.fr"
+            placeholder="Ex: aminata.diallo@exemple.sn"
             className="w-full px-4 py-3 bg-white border border-rose-100 rounded-2xl text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/20 text-sm transition-all shadow-sm"
           />
         </div>

@@ -24,6 +24,6 @@ export async function signOutAction() {
   redirect('/')
 }
 
-export async function getCurrentUser(): Promise<{ user: any; profile: Profile | null } | null> {
+export async function getCurrentUser(): Promise<{ user: { id: string; email?: string }; profile: Profile | null } | null> {
   return null
 }

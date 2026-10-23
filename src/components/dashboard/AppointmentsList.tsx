@@ -81,7 +81,7 @@ export function AppointmentsList({ initialAppointments }: AppointmentsListProps)
             Aucun rendez-vous enregistré
           </h3>
           <p className="text-xs sm:text-sm text-zinc-500 mt-1 max-w-sm mx-auto leading-relaxed">
-            Vous n'avez pas encore réservé de soin au salon OULIBIJ BEAUTY.
+            Vous n&apos;avez pas encore réservé de soin au salon OULIBIJ BEAUTY.
           </p>
         </div>
         <div className="pt-2">

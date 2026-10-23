@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import { Service, Staff } from '@/types'
-import { SALON_INFO, WHATSAPP_PHONE, WHATSAPP_DISPLAY, getWhatsAppBookingUrl } from '@/lib/constants'
+import { SALON_INFO, WHATSAPP_PHONE, WHATSAPP_DISPLAY } from '@/lib/constants'
 import { formatCurrency, formatDuration } from '@/lib/utils'
 import {
   Scissors,

@@ -1,20 +1,18 @@
 'use client'
 
-import React, { useState, useTransition } from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { RendezVous, Service, Staff, Disponibilite, AppointmentStatus, AppointmentWithDetails } from '@/types'
+import { Service, Staff, Disponibilite, AppointmentStatus, AppointmentWithDetails } from '@/types'
 import { formatCurrency, formatDuration, formatDateFrench, getStatusBadge } from '@/lib/utils'
 import {
   Calendar,
   Clock,
   Scissors,
   User,
-  Sparkles,
   CheckCircle2,
   XCircle,
   AlertCircle,
-  Loader2,
   Phone,
   Mail,
   Home,
@@ -22,7 +20,6 @@ import {
   Edit2,
   Trash2,
   Search,
-  Filter,
 } from '@/components/ui/Icons'
 import {
   updateAppointmentStatusAction,
@@ -90,6 +87,17 @@ export function AdminDashboard({
 
   // Notification message
   const [feedbackMessage, setFeedbackMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null)
+
+  const statusLabels: Record<string, string> = {
+    Tous: 'Tous',
+    en_attente: 'En attente',
+    confirme: 'Confirmés',
+    termine: 'Terminés',
+    annule: 'Annulés',
+  }
+
+  const formatAppointmentStatusLabel = (status: string): string =>
+    statusLabels[status] ?? status
 
   const showNotification = (text: string, type: 'success' | 'error' = 'success') => {
     setFeedbackMessage({ text, type })
@@ -250,6 +258,25 @@ export function AdminDashboard({
 
     if (res.success) {
       showNotification('Disponibilité enregistrée.')
+      setDisponibilites((prev) => {
+        const filtered = prev.filter(
+          (d) => !(d.staff_id === selectedStaffForDispo && d.jour_semaine === jourSemaine)
+        )
+        return [
+          ...filtered,
+          {
+            id: `dispo-${selectedStaffForDispo}-${jourSemaine}`,
+            salon_id: 'default-salon',
+            staff_id: selectedStaffForDispo,
+            jour_semaine: jourSemaine,
+            heure_debut: heureDebut,
+            heure_fin: heureFin,
+            is_active: isActive,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          },
+        ]
+      })
     } else {
       showNotification(res.message, 'error')
     }
@@ -419,7 +446,7 @@ export function AdminDashboard({
                       : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
                   }`}
                 >
-                  {stat === 'Tous' ? 'Tous' : stat === 'en_attente' ? 'En attente' : stat === 'confirme' ? 'Confirmés' : stat === 'termine' ? 'Terminés' : 'Annulés'}
+                  {formatAppointmentStatusLabel(stat)}
                 </button>
               ))}
             </div>
@@ -735,7 +762,7 @@ export function AdminDashboard({
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-zinc-700">Tarif (€ TTC) *</label>
+                    <label className="text-xs font-bold text-zinc-700">Tarif (FCFA) *</label>
                     <input
                       type="number"
                       name="prix"
@@ -854,8 +881,18 @@ export function AdminDashboard({
                   </p>
 
                   <div className="space-y-1 text-xs text-zinc-500 pt-1">
-                    {st.email && <p className="truncate">✉ {st.email}</p>}
-                    {st.telephone && <p>📞 {st.telephone}</p>}
+                    {st.email && (
+                      <p className="flex items-center gap-1.5 truncate">
+                        <Mail className="w-3 h-3 text-rose-400 shrink-0" />
+                        {st.email}
+                      </p>
+                    )}
+                    {st.telephone && (
+                      <p className="flex items-center gap-1.5">
+                        <Phone className="w-3 h-3 text-rose-400 shrink-0" />
+                        {st.telephone}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -963,7 +1000,7 @@ export function AdminDashboard({
                         type="tel"
                         name="telephone"
                         defaultValue={editingStaff?.telephone || ''}
-                        placeholder="06 00 00 00 00"
+                        placeholder="+221 77 000 00 00"
                         className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500"
                       />
                     </div>
@@ -973,7 +1010,7 @@ export function AdminDashboard({
                         type="email"
                         name="email"
                         defaultValue={editingStaff?.email || ''}
-                        placeholder="aminata@salon.fr"
+                        placeholder="aminata@oulibij-beauty.sn"
                         className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500"
                       />
                     </div>
@@ -1024,7 +1061,7 @@ export function AdminDashboard({
                 Horaires de Travail par Coiffeuse
               </h2>
               <p className="text-xs text-zinc-500">
-                Configurez les jours et heures de travail de chaque membre de l'équipe.
+                Configurez les jours et heures de travail de chaque membre de l&apos;équipe.
               </p>
             </div>
 

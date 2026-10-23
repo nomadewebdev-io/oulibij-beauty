@@ -2,7 +2,7 @@ import React from 'react'
 import { getSalon } from '@/lib/actions/salon'
 import { ContactForm } from '@/components/contact/ContactForm'
 import { SALON_INFO, getWhatsAppBookingUrl } from '@/lib/constants'
-import { MapPin, Phone, Mail, Clock, MessageSquare, ExternalLink, Sparkles, WhatsApp } from '@/components/ui/Icons'
+import { MapPin, Phone, Mail, Clock, ExternalLink, Sparkles, WhatsApp } from '@/components/ui/Icons'
 
 export const dynamic = 'force-dynamic'
 
@@ -158,7 +158,7 @@ export default async function ContactPage() {
                   <Clock className="w-4 h-4" />
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold text-zinc-950 font-serif italic">
-                  Horaires d'Ouverture
+                  Horaires d&apos;Ouverture
                 </h2>
               </div>
 

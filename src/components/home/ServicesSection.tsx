@@ -14,23 +14,22 @@ interface ServicesSectionProps {
 
 export function ServicesSection({ initialServices = [], showAllLink = true }: ServicesSectionProps) {
   const [activeCategory, setActiveCategory] = useState('Tous')
-  const services = initialServices || []
 
   // Dynamic categories
   const categories = useMemo(() => {
     const cats = new Set<string>()
-    services.forEach((s) => {
+    initialServices.forEach((s) => {
       if (s.categorie?.trim()) {
         cats.add(s.categorie.trim())
       }
     })
     return ['Tous', ...Array.from(cats)]
-  }, [services])
+  }, [initialServices])
 
   const filteredServices =
     activeCategory === 'Tous'
-      ? services
-      : services.filter((s) => s.categorie === activeCategory)
+      ? initialServices
+      : initialServices.filter((s) => s.categorie === activeCategory)
 
   return (
     <section id="prestations" className="py-20 px-4 sm:px-8 lg:px-12 border-t border-rose-100/80 scroll-mt-24">
@@ -138,7 +137,7 @@ export function ServicesSection({ initialServices = [], showAllLink = true }: Se
               href="/prestations"
               className="inline-flex items-center gap-2 text-sm font-bold text-zinc-900 hover:text-rose-600 transition-colors"
             >
-              <span>Consulter l'ensemble de notre carte de prestations</span>
+              <span>Consulter l&apos;ensemble de notre carte de prestations</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

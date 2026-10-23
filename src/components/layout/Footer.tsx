@@ -89,7 +89,7 @@ export function Footer() {
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-950 mb-4 flex items-center gap-2">
               <Clock className="w-4 h-4 text-rose-500" />
-              Horaires d'Ouverture
+              Horaires d&apos;Ouverture
             </h3>
             <ul className="space-y-2 text-xs">
               {SALON_INFO.openingHours.map((slot, index) => (
@@ -147,7 +147,7 @@ export function Footer() {
 
         <div className="mt-10 pt-6 border-t border-rose-100 flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-400 gap-3">
           <p>© {new Date().getFullYear()} {SALON_INFO.name}. Tous droits réservés. Dakar, Sénégal.</p>
-          <p>L'excellence & le bien-être capillaire pour chaque femme.</p>
+          <p>L&apos;excellence &amp; le bien-être capillaire pour chaque femme.</p>
         </div>
       </div>
     </footer>

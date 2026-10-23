@@ -1,10 +1,10 @@
 import { Staff } from '@/types'
-import { DEFAULT_STAFF, SALON_INFO } from '@/lib/constants'
+import { DEFAULT_STAFF } from '@/lib/constants'
 
 /**
  * Récupère les membres de l'équipe du salon (mode autonome sans Supabase)
  */
-export async function getStaffMembers(_salonId: string = SALON_INFO.id): Promise<Staff[]> {
+export async function getStaffMembers(_salonId?: string): Promise<Staff[]> {
   return DEFAULT_STAFF
 }
 

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { getStaffMembers } from '@/lib/actions/staff'
 import { getSalon } from '@/lib/actions/salon'
 import { SALON_INFO, getWhatsAppBookingUrl } from '@/lib/constants'
-import { Sparkles, Scissors, Heart, ShieldCheck, Calendar, ArrowRight, User, WhatsApp } from '@/components/ui/Icons'
+import { Sparkles, Scissors, Heart, ShieldCheck, ArrowRight, User, WhatsApp } from '@/components/ui/Icons'
 import { EmptyState } from '@/components/ui/EmptyState'
 
 export const dynamic = 'force-dynamic'
@@ -34,7 +34,7 @@ export default async function AProposPage() {
             <span>Maison de Beauté Féminine</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-zinc-950 tracking-tight font-serif italic">
-            L'Excellence au Service de Vos Cheveux
+            L&apos;Excellence au Service de Vos Cheveux
           </h1>
           <p className="mt-4 text-zinc-600 text-sm sm:text-base leading-relaxed">
             {salonDescription}
@@ -55,7 +55,7 @@ export default async function AProposPage() {
               <strong className="text-zinc-900">{salonName}</strong> allie expertise technique, sens artistique et soins réparateurs de pointe.
             </p>
             <p className="text-sm text-zinc-600 leading-relaxed">
-              Que vous souhaitiez sublimer des boucles naturelles, réaliser un lissage soyeux sans formol, oser une métamorphose par balayage ou arborer des tresses d'art impeccables, notre équipe met un point d'honneur à préserver la santé et la brillance de votre fibre capillaire.
+              Que vous souhaitiez sublimer des boucles naturelles, réaliser un lissage soyeux sans formol, oser une métamorphose par balayage ou arborer des tresses d&apos;art impeccables, notre équipe met un point d&apos;honneur à préserver la santé et la brillance de votre fibre capillaire.
             </p>
 
             {/* Commitments */}
@@ -86,7 +86,7 @@ export default async function AProposPage() {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-zinc-900">Écoute & Convivialité</h3>
-                  <p className="text-xs text-zinc-500">Un espace cocon où chaque cliente bénéficie d'une attention exclusive.</p>
+                  <p className="text-xs text-zinc-500">Un espace cocon où chaque cliente bénéficie d&apos;une attention exclusive.</p>
                 </div>
               </div>
             </div>
@@ -97,7 +97,7 @@ export default async function AProposPage() {
             <div className="relative rounded-3xl overflow-hidden aspect-[4/3] bg-gradient-to-tr from-pink-400 via-rose-300 to-amber-200 p-8 flex flex-col justify-between shadow-xl">
               <div className="space-y-2 text-white">
                 <span className="text-xs uppercase tracking-widest font-bold bg-white/20 backdrop-blur-md px-3 py-1 rounded-full inline-block border border-white/30">
-                  L'Atmosphère {salonName}
+                  L&apos;Atmosphère {salonName}
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-serif italic font-bold">
                   Détente, Élégance & Confiance
@@ -132,13 +132,13 @@ export default async function AProposPage() {
         <div className="text-center max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100 border border-pink-200 text-pink-600 text-xs font-bold tracking-wider uppercase mb-3">
             <User className="w-3.5 h-3.5 text-pink-500" />
-            <span>L'Équipe d'Expertes</span>
+            <span>L&apos;Équipe d&apos;Expertes</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight font-serif italic">
             Rencontrez Nos Coiffeuses & Stylistes
           </h2>
           <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-            Des professionnelles passionnées, spécialisées dans les techniques de coloration, l'art des tresses et les soins sur-mesure.
+            Des professionnelles passionnées, spécialisées dans les techniques de coloration, l&apos;art des tresses et les soins sur-mesure.
           </p>
         </div>
 
@@ -195,7 +195,7 @@ export default async function AProposPage() {
                   </p>
                 ) : (
                   <p className="text-xs text-zinc-400 italic mb-6 flex-1">
-                    Styliste professionnelle passionnée par l'art du cheveu et les rituels bien-être.
+                    Styliste professionnelle passionnée par l&apos;art du cheveu et les rituels bien-être.
                   </p>
                 )}
 
