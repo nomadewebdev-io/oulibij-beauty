@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
 /**
- * Middleware Oulibij Beauty (Mode Vitrine Autonome)
+ * Middleware OuliBij Beauté (Mode Vitrine Autonome)
  * Fonctionne à 100% sans aucune dépendance réseau Supabase.
  */
 export async function middleware(_request: NextRequest) {

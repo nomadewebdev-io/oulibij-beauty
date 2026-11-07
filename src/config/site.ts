@@ -1,16 +1,3 @@
-/**
- * ============================================================================
- * SITE CONFIGURATION - OULIBIJ BEAUTY (TEMPLATE MULTI-SALON)
- * ============================================================================
- * FICHIER UNIQUE : Tout ce qui change d'un salon à l'autre est centralisé ici.
- * Pour adapter ce site à un nouveau salon en 10 minutes :
- * 1. Mettez à jour les coordonnées, textes et numéro WhatsApp ci-dessous.
- * 2. Modifiez la palette de couleurs si vous souhaitez un autre thème visuel.
- * 3. Personnalisez la liste des prestations (avec tarifs en FCFA), l'équipe et les avis.
- * 4. Remplacez les images dans /public/images/
- * ============================================================================
- */
-
 export interface SalonOpeningHour {
   day: string
   hours: string
@@ -71,7 +58,7 @@ export interface SalonReview {
 }
 
 export interface HeroHighlight {
-  icon: 'Scissors' | 'Sparkles' | 'ShieldCheck'
+  icon: 'Eye' | 'Scissors' | 'Gem' | 'Sparkles' | 'ShieldCheck'
   title: string
   description: string
 }
@@ -91,10 +78,15 @@ export interface SiteConfig {
   city: string
   country: string
   landmarks: string
+  fullAddress: string
   phone: string
-  whatsappRaw: string // format international sans +, ex: 221778451234
-  whatsappDisplay: string // ex: +221 77 845 12 34
+  phoneRaw: string
+  whatsappRaw: string
+  whatsappDisplay: string
   email: string
+  hoursSummary: string
+  googleMapsEmbedUrl: string
+  googleMapsDirectionsUrl: string
 
   // Réseaux sociaux
   socials: {
@@ -115,7 +107,7 @@ export interface SiteConfig {
     primaryHover: string
     primaryLight: string
     primaryBorder: string
-    accent: string // WhatsApp & CTA secondaire
+    accent: string
     accentHover: string
     accentLight: string
     backgroundWarm: string
@@ -149,6 +141,7 @@ export interface SiteConfig {
     titleLine1: string
     titleLine2: string
     ctaWhatsApp: string
+    ctaCall: string
     ctaDiscover: string
     highlights: HeroHighlight[]
   }
@@ -157,7 +150,7 @@ export interface SiteConfig {
   categories: string[]
   services: SalonServiceItem[]
 
-  // Équipe
+  // Pôles d'expertise
   staff: SalonStaffMember[]
 
   // Réalisations Lookbook
@@ -172,342 +165,377 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   id: '00000000-0000-0000-0000-000000000001',
-  name: 'OULIBIJ BEAUTY',
-  brandName: 'Oulibij Beauty',
-  slug: 'oulibij-beauty',
-  tagline: "L'art de la haute coiffure & des soins d'exception à Dakar",
+  name: 'OULIBIJ BEAUTÉ',
+  brandName: 'OuliBij Beauté',
+  slug: 'oulibij-beaute',
+  tagline: 'Prenez en main la beauté de votre regard',
   description:
-    "Salon de coiffure & mise en beauté féminine haut de gamme aux Almadies, Dakar. Spécialiste des tresses d'art (knotless braids, nattes stylisées), soins botox & kératine, colorations lumineuses et coiffures d'apparat.",
+    'Salon OuliBij Beauté à Cité Sonatel 2, en face UNO des 2 Voies, Liberté 6, Dakar. Maquillage (cérémonie, simple et contouring), coiffure féminine (tissage, tresse, bouclage, pose lace, Stream Pod, teinture, soins) et espace cosmétiques, parfumerie & accessoires. Ouvert du lundi au dimanche de 9h à 21h.',
   shortDescription:
-    "Haute coiffure féminine aux Almadies, Dakar : tresses d'art, soins réparateurs botox & kératine, balayages lumineux.",
+    'Prenez en main la beauté de votre regard — Maquillage, coiffure & parfumerie à Liberté 6 (Cité Sonatel 2), Dakar.',
 
-  // Localisation
-  address: 'Route des Almadies, en face du Club Olympique',
-  district: 'Almadies',
+  // Localisation & contact réels
+  address: 'Cité Sonatel 2, en face UNO des 2 Voies',
+  district: 'Liberté 6',
   city: 'Dakar',
   country: 'Sénégal',
-  landmarks: 'En face du Club Olympique, parking facile et surveillé',
-  phone: '+221 33 820 00 00',
-  whatsappRaw: '221778451234',
-  whatsappDisplay: '+221 77 845 12 34',
-  email: 'contact@oulibij-beauty.sn',
+  landmarks: 'En face du supermarché UNO des 2 Voies, Cité Sonatel 2',
+  fullAddress: 'Cité Sonatel 2, en face UNO des 2 Voies, Liberté 6, Dakar',
+  phone: '77 619 58 50',
+  phoneRaw: '+221776195850',
+  whatsappRaw: '221776195850',
+  whatsappDisplay: '77 619 58 50',
+  email: '',
+  hoursSummary: 'Lundi au dimanche, 9h – 21h',
+  googleMapsEmbedUrl:
+    'https://maps.google.com/maps?q=Cit%C3%A9%20Sonatel%202%2C%20Libert%C3%A9%206%2C%20Dakar%2C%20S%C3%A9n%C3%A9gal&t=&z=16&ie=UTF8&iwloc=&output=embed',
+  googleMapsDirectionsUrl:
+    'https://www.google.com/maps/search/?api=1&query=Cit%C3%A9+Sonatel+2+en+face+UNO+des+2+Voies+Libert%C3%A9+6+Dakar',
 
-  // Réseaux sociaux
+  // Réseaux sociaux (uniquement lorsqu'officiels)
   socials: {
-    instagram: 'https://instagram.com/oulibij_beauty',
-    tiktok: 'https://tiktok.com/@oulibij_dakar',
-    facebook: 'https://facebook.com/oulibij.beauty',
+    instagram: '',
+    tiktok: '',
+    facebook: '',
   },
 
-  // Moyens de paiement
+  // Moyens de paiement locaux
   payments: ['Wave', 'Orange Money', 'Free Money', 'Espèces'],
 
-  // Horaires
+  // Horaires officiels : lundi au dimanche, 9h-21h
   openingHours: [
-    { day: 'Lundi - Jeudi', hours: '09:00 - 20:00', isOpen: true },
-    { day: 'Vendredi - Samedi', hours: '08:30 - 20:30', isOpen: true },
-    { day: 'Dimanche', hours: 'Sur privatisation exclusive', isOpen: false },
+    { day: 'Lundi - Vendredi', hours: '09h00 - 21h00', isOpen: true },
+    { day: 'Samedi', hours: '09h00 - 21h00', isOpen: true },
+    { day: 'Dimanche', hours: '09h00 - 21h00', isOpen: true },
   ],
 
-  // Thème visuel (palette sobre, élégante & anti-clichés IA)
+  // Thème visuel Noir + Or (ambiance luxe chaleureux)
   theme: {
-    primary: '#be123c', // Rose profond / carmin haute couture (évite les roses fluo/violet néon)
-    primaryHover: '#9f1239',
-    primaryLight: '#fff1f2',
-    primaryBorder: '#fecdd3',
-    accent: '#059669', // Vert émeraude WhatsApp
+    primary: '#b8860b',
+    primaryHover: '#9a6f08',
+    primaryLight: '#fdf9f0',
+    primaryBorder: '#e6d3a3',
+    accent: '#059669',
     accentHover: '#047857',
     accentLight: '#ecfdf5',
-    backgroundWarm: '#f7f2ee', // Nude chaud élégant
+    backgroundWarm: '#f6f2ea',
     surface: '#ffffff',
-    textDark: '#18181b',
-    textMuted: '#52525b',
+    textDark: '#0f0e0c',
+    textMuted: '#57534e',
   },
 
   // SEO & Open Graph
   seo: {
     siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://oulibij-beauty.vercel.app',
-    defaultTitle: 'OULIBIJ BEAUTY | Salon de Coiffure à Dakar',
-    titleTemplate: '%s | OULIBIJ BEAUTY Dakar',
+    defaultTitle: 'OuliBij Beauté | Maquillage, Coiffure & Parfumerie à Liberté 6, Dakar',
+    titleTemplate: '%s | OuliBij Beauté Dakar',
     metaDescription:
-      'Haute coiffure aux Almadies, Dakar : tresses, soins botox et réservation directe sur WhatsApp.',
-    ogTitle: 'OULIBIJ BEAUTY | Salon de Coiffure à Dakar',
+      'Prenez en main la beauté de votre regard chez OuliBij Beauté — Cité Sonatel 2, en face UNO des 2 Voies, Liberté 6, Dakar. Maquillage, coiffure, pose lace, Stream Pod, cosmétiques et parfumerie. Lun-Dim 9h-21h • 77 619 58 50.',
+    ogTitle: 'OuliBij Beauté — Prenez en main la beauté de votre regard',
     ogDescription:
-      'Haute coiffure aux Almadies, Dakar : tresses, soins botox et réservation directe sur WhatsApp.',
+      'Maquillage (cérémonie, simple, contouring), Coiffure (tissage, tresse, bouclage, pose lace, Stream Pod, teinture, soins) & Parfumerie à Liberté 6, Dakar. Ouvert 7j/7 de 9h à 21h • 77 619 58 50.',
     keywords: [
+      'OuliBij Beauté',
+      'salon de beauté Liberté 6',
       'salon de coiffure Dakar',
-      'OULIBIJ BEAUTY',
-      'coiffure femme Dakar',
-      'Almadies',
-      'tresses knotless Dakar',
-      'braids Dakar',
-      'soin botox capillaire',
-      'lissage brésilien Dakar',
-      'balayage Dakar',
-      'salon de beauté Sénégal',
+      'Cité Sonatel 2',
+      'UNO 2 Voies Liberté 6',
+      'maquillage cérémonie Dakar',
+      'maquillage contouring Dakar',
+      'pose lace Dakar',
+      'Stream Pod Dakar',
+      'tissage tresse bouclage Dakar',
+      'cosmétiques parfumerie Dakar',
     ],
     locale: 'fr_FR',
     ogImage: {
       url: '/images/og-image.jpg',
       width: 1200,
       height: 630,
-      alt: "OULIBIJ BEAUTY Dakar - Salon de Haute Coiffure Féminine aux Almadies",
+      alt: 'OuliBij Beauté — Prenez en main la beauté de votre regard • Liberté 6, Dakar',
     },
-    twitterHandle: '@oulibij_beauty',
   },
 
   // Hero Section
   hero: {
-    badge: 'Salon de Coiffure & Esthétique Féminine',
-    titleLine1: 'Révélez Votre Éclat,',
-    titleLine2: 'Sublimez Votre Chevelure.',
+    badge: 'Maquillage • Coiffure • Parfumerie',
+    titleLine1: 'Prenez en main',
+    titleLine2: 'la beauté de votre regard.',
     ctaWhatsApp: 'Réserver sur WhatsApp',
-    ctaDiscover: 'Découvrir nos soins',
+    ctaCall: 'Appeler : 77 619 58 50',
+    ctaDiscover: 'Découvrir la carte',
     highlights: [
       {
+        icon: 'Eye',
+        title: 'Maquillage & Regard',
+        description: 'Cérémonie, simple et contouring haute tenue',
+      },
+      {
         icon: 'Scissors',
-        title: 'Coupe & Brushing Signature',
-        description: 'Stylisme haute précision & brillance soyeuse',
+        title: 'Coiffure & Stylisme',
+        description: 'Tissage, tresse, pose lace, bouclage, Stream Pod & soins',
       },
       {
-        icon: 'Sparkles',
-        title: 'Tresses & Braids d’Art',
-        description: 'Knotless, vanilles & nattes sans traction',
-      },
-      {
-        icon: 'ShieldCheck',
-        title: 'Soins Botox & Kératine',
-        description: 'Nutrition intense pour sublimer chaque chevelure',
+        icon: 'Gem',
+        title: 'Cosmétiques & Parfums',
+        description: 'Cosmétiques choisis, parfumerie & accessoires beauté',
       },
     ],
   },
 
-  // Catégories de services
-  categories: [
-    'Tous',
-    'Coupe & Coiffage',
-    'Tresses & Braids',
-    'Soins & Traitements',
-    'Lissages & Détente',
-    'Coloration & Balayage',
-    'Maquillage & Mariée',
-  ],
+  // Catégories officielles
+  categories: ['Tous', 'Maquillage', 'Coiffure', 'Divers'],
 
-  // Liste complète des prestations en Franc CFA
+  // Prestations & produits réels d'OuliBij Beauté (tarifs indicatifs en FCFA)
   services: [
+    // --- MAQUILLAGE ---
     {
       id: '00000000-0000-0001-0001-000000000001',
       salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Coupe & Brushing Signature',
+      nom: 'Maquillage Cérémonie & Mariée',
       description:
-        'Diagnostic personnalisé de la fibre, shampoing massant relaxant, coupe sur-mesure et brushing éclat soyeux.',
-      categorie: 'Coupe & Coiffage',
-      duree_minutes: 50,
-      prix: 15000,
-      image_url: '/images/hero-1.jpg',
+        'Mise en beauté complète haute tenue pour mariages, baptêmes, soirées et grandes réceptions : travail intense du regard, teint zéro défaut et fixation longue durée.',
+      categorie: 'Maquillage',
+      duree_minutes: 75,
+      prix: 20000,
+      image_url: '/images/hero-4.jpg',
       is_active: true,
-      necessite_essai: false,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      necessite_essai: true,
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
     {
       id: '00000000-0000-0001-0001-000000000002',
       salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Nattes Collées & Traçage d’Art',
+      nom: 'Maquillage Simple & Éclat du Regard',
       description:
-        'Nattes collées graphiques, design sur-mesure avec finitions soignées et protection du cuir chevelu sans traction.',
-      categorie: 'Tresses & Braids',
-      duree_minutes: 90,
-      prix: 20000,
-      image_url: '/images/hero-3.jpg',
+        'Teint frais et unifié, dessin soigné des sourcils et mise en valeur délicate du regard pour vos rendez-vous professionnels, sorties ou événements de journée.',
+      categorie: 'Maquillage',
+      duree_minutes: 40,
+      prix: 5000,
+      image_url: '/images/hero-1.jpg',
       is_active: true,
       necessite_essai: false,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
     {
       id: '00000000-0000-0001-0001-000000000003',
       salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Box Braids & Knotless Goddess',
+      nom: 'Maquillage Contouring & Sculpting',
       description:
-        'Tresses knotless ultra légères, racines souples et naturelles, longue tenue avec embouts plongeants soyeux.',
-      categorie: 'Tresses & Braids',
-      duree_minutes: 150,
-      prix: 30000,
-      image_url: '/images/hero-3.jpg',
+        'Structuration harmonieuse des volumes du visage par jeux d’ombres et de lumière (contouring), regard travaillé et finition veloutée lumineuse.',
+      categorie: 'Maquillage',
+      duree_minutes: 60,
+      prix: 10000,
+      image_url: '/images/hero-4.jpg',
       is_active: true,
       necessite_essai: false,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
+
+    // --- COIFFURE ---
     {
       id: '00000000-0000-0001-0001-000000000004',
       salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Soin Botox Capillaire Réparateur',
+      nom: 'Tissage (Ouvert, Fermé & Invisible)',
       description:
-        'Cure de rajeunissement thermo-active à l’acide hyaluronique et collagène : répare la fibre, stoppe la casse et apporte un miroir d’éclat.',
-      categorie: 'Soins & Traitements',
-      duree_minutes: 75,
-      prix: 25000,
-      image_url: '/images/hero-2.jpg',
+        'Pose de tissage soignée avec nattes de base plates et confortables, coutures solides sans tension excessive et coiffage final naturel.',
+      categorie: 'Coiffure',
+      duree_minutes: 90,
+      prix: 10000,
+      image_url: '/images/hero-1.jpg',
       is_active: true,
       necessite_essai: false,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
     {
       id: '00000000-0000-0001-0001-000000000005',
       salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Lissage Brésilien Organique',
+      nom: 'Tresses & Nattes tous styles',
       description:
-        'Formule professionnelle sans formol enrichie en kératine végétale et huiles d’argan : chevelure détendue, souple et disciplinée pendant 4 mois.',
-      categorie: 'Lissages & Détente',
-      duree_minutes: 150,
-      prix: 45000,
-      image_url: '/images/hero-1.jpg',
+        'Tresses africaines, knotless braids, nattes collées et modèles sur-mesure réalisés avec un traçage net et respectueux de vos tempes.',
+      categorie: 'Coiffure',
+      duree_minutes: 120,
+      prix: 10000,
+      image_url: '/images/hero-3.jpg',
       is_active: true,
       necessite_essai: false,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
     {
       id: '00000000-0000-0001-0001-000000000006',
       salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Balayage Soleil & Patine Gloss',
+      nom: 'Bouclage & Ondulations Glamour',
       description:
-        'Éclaircissement délicat et fondu naturel, patine sur-mesure pour reflets caramel ou miel doré, accompagné d’un masque nutri-protecteur.',
-      categorie: 'Coloration & Balayage',
-      duree_minutes: 110,
-      prix: 35000,
-      image_url: '/images/hero-4.jpg',
+        'Réalisation de boucles souples, wavy volumineux ou bouclage défini sur cheveux naturels, tissages ou perruques avec protection thermique.',
+      categorie: 'Coiffure',
+      duree_minutes: 45,
+      prix: 5000,
+      image_url: '/images/hero-1.jpg',
       is_active: true,
       necessite_essai: false,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
     {
       id: '00000000-0000-0001-0001-000000000007',
       salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Soin Profond aux Huiles Précieuses',
+      nom: 'Pose Lace (Frontal, Closure & Perruque)',
       description:
-        'Bain d’huiles précieuses tiédies (baobab, ricin et karité pur), vapeur ozonée pour ouvrir les écailles et massage crânien apaisant.',
-      categorie: 'Soins & Traitements',
-      duree_minutes: 60,
-      prix: 18000,
-      image_url: '/images/hero-2.jpg',
-      is_active: true,
-      necessite_essai: false,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
-    },
-    {
-      id: '00000000-0000-0001-0001-000000000008',
-      salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Chignon d’Apparat & Coiffure Cérémonie',
-      description:
-        'Attaches sophistiquées, chignon bas haute couture ou volume sculpté pour vos réceptions, galas et événements d’exception.',
-      categorie: 'Coupe & Coiffage',
-      duree_minutes: 70,
-      prix: 25000,
-      image_url: '/images/hero-1.jpg',
-      is_active: true,
-      necessite_essai: false,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
-    },
-    {
-      id: '00000000-0000-0001-0001-000000000009',
-      salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Maquillage Jour Éclat Naturel',
-      description:
-        'Teint velouté lumineux, travail des sourcils et mise en valeur délicate du regard adapté à la lumière du jour.',
-      categorie: 'Maquillage & Mariée',
-      duree_minutes: 45,
+        'Customisation de la tulle, effet fondu indétectable, baby hairs travaillés avec finesse et fixation maîtrisée pour un rendu naturel.',
+      categorie: 'Coiffure',
+      duree_minutes: 75,
       prix: 15000,
       image_url: '/images/hero-4.jpg',
       is_active: true,
       necessite_essai: false,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
+    },
+    {
+      id: '00000000-0000-0001-0001-000000000008',
+      salon_id: '00000000-0000-0000-0000-000000000001',
+      nom: 'Lissage Vapeur Stream Pod (SteamPod)',
+      description:
+        'Lissage soyeux à la vapeur continue haute pression : détend la chevelure en douceur, préserve l’hydratation de la fibre et apporte une brillance miroir.',
+      categorie: 'Coiffure',
+      duree_minutes: 60,
+      prix: 10000,
+      image_url: '/images/hero-2.jpg',
+      is_active: true,
+      necessite_essai: false,
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
+    },
+    {
+      id: '00000000-0000-0001-0001-000000000009',
+      salon_id: '00000000-0000-0000-0000-000000000001',
+      nom: 'Teinture & Coloration Sur-Mesure',
+      description:
+        'Coloration intégrale, retouche racines ou reflets chauds dorés et cuivrés sur cheveux naturels ou mèches, suivie d’un soin fixateur d’éclat.',
+      categorie: 'Coiffure',
+      duree_minutes: 75,
+      prix: 10000,
+      image_url: '/images/hero-4.jpg',
+      is_active: true,
+      necessite_essai: false,
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
     {
       id: '00000000-0000-0001-0001-000000000010',
       salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Maquillage Soirée & Grand Événement',
+      nom: 'Soins Capillaires Profonds',
       description:
-        'Teint zéro défaut haute tenue, regard charbonneux ou liner graphique, contouring subtil et pose de faux cils offerte.',
-      categorie: 'Maquillage & Mariée',
+        'Shampoing traitant, bain d’huiles nourrissantes, masque réparateur sous casque vapeur et massage crânien relaxant pour fortifier vos cheveux.',
+      categorie: 'Coiffure',
       duree_minutes: 60,
-      prix: 25000,
-      image_url: '/images/hero-4.jpg',
+      prix: 8000,
+      image_url: '/images/hero-2.jpg',
       is_active: true,
       necessite_essai: false,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
+
+    // --- DIVERS (COSMÉTIQUES, PARFUMERIE, ACCESSOIRES) ---
     {
       id: '00000000-0000-0001-0001-000000000011',
       salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Pack Mariée Royale (Coiffure + Maquillage + Essai)',
+      nom: 'Cosmétiques & Soins Beauté',
       description:
-        'Accompagnement complet pour le jour J : séance d’essai préalable, préparation de la chevelure, coiffure couture et maquillage waterproof longue tenue.',
-      categorie: 'Maquillage & Mariée',
-      duree_minutes: 150,
-      prix: 60000,
+        'Gamme sélectionnée de produits cosmétiques, soins visage et corps, palettes maquillage et produits capillaires disponibles directement au salon.',
+      categorie: 'Divers',
+      duree_minutes: 0,
+      prix: 3000,
       image_url: '/images/hero-1.jpg',
       is_active: true,
-      necessite_essai: true,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      necessite_essai: false,
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
+    },
+    {
+      id: '00000000-0000-0001-0001-000000000012',
+      salon_id: '00000000-0000-0000-0000-000000000001',
+      nom: 'Parfumerie & Senteurs Raffinées',
+      description:
+        'Eaux de parfum, brumes corporelles et essences féminines au sillage élégant et tenace, à découvrir et tester chez OuliBij Beauté.',
+      categorie: 'Divers',
+      duree_minutes: 0,
+      prix: 5000,
+      image_url: '/images/hero-4.jpg',
+      is_active: true,
+      necessite_essai: false,
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
+    },
+    {
+      id: '00000000-0000-0001-0001-000000000013',
+      salon_id: '00000000-0000-0000-0000-000000000001',
+      nom: 'Accessoires Beauté, Cils & Cheveux',
+      description:
+        'Bijoux de tête dorés, barrettes, parures, faux cils pour sublimer le regard, bonnets en satin et accessoires de coiffure.',
+      categorie: 'Divers',
+      duree_minutes: 0,
+      prix: 2000,
+      image_url: '/images/hero-2.jpg',
+      is_active: true,
+      necessite_essai: false,
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
   ],
 
-  // Équipe d'expertes
+  // Pôles d'expertise du salon OuliBij Beauté (aucun profil fictif)
   staff: [
     {
       id: '00000000-0000-0002-0001-000000000001',
       salon_id: '00000000-0000-0000-0000-000000000001',
       user_id: null,
-      nom: 'Ndiaye',
-      prenom: 'Aminata',
-      specialite: 'Master Styliste & Coloriste',
-      bio: '12 ans d’expérience en visagisme et stylisme haute coiffure. Spécialiste des balayages fondus, coupes personnalisées et métamorphoses éclat.',
-      avatar_url: '/images/hero-1.jpg',
-      email: 'aminata@oulibij-beauty.sn',
-      telephone: '+221 77 845 12 34',
+      prenom: 'Pôle Maquillage',
+      nom: '& Beauté du Regard',
+      specialite: 'Cérémonie • Simple • Contouring',
+      bio: 'Fidèle à notre devise « Prenez en main la beauté de votre regard », notre pôle maquillage sublime vos traits pour le quotidien comme pour vos grandes cérémonies.',
+      avatar_url: '/images/hero-4.jpg',
+      email: '',
+      telephone: '+221 77 619 58 50',
       is_active: true,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
     {
       id: '00000000-0000-0002-0001-000000000002',
       salon_id: '00000000-0000-0000-0000-000000000001',
       user_id: null,
-      nom: 'Sow',
-      prenom: 'Fatou Kiné',
-      specialite: 'Artiste Braider & Tresses Africaines',
-      bio: 'Virtuose du traçage géométrique, des box braids knotless et des nattes artistiques d’une légèreté incomparable, sans aucune douleur.',
+      prenom: 'Pôle Coiffure',
+      nom: '& Pose Lace',
+      specialite: 'Tissage • Tresse • Lace • Stream Pod • Soins',
+      bio: 'Maîtrise complète du tissage, des tresses, de la pose lace indétectable, du bouclage, de la teinture, du lissage vapeur Stream Pod et des soins capillaires.',
       avatar_url: '/images/hero-3.jpg',
-      email: 'fatoukine@oulibij-beauty.sn',
-      telephone: '+221 77 845 12 34',
+      email: '',
+      telephone: '+221 77 619 58 50',
       is_active: true,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
     {
       id: '00000000-0000-0002-0001-000000000003',
       salon_id: '00000000-0000-0000-0000-000000000001',
       user_id: null,
-      nom: 'Ba',
-      prenom: 'Aïssatou',
-      specialite: 'Praticienne Soins Botox, Kératine & Lissages',
-      bio: 'Experte du diagnostic capillaire approfondi et des protocoles de réparation intense pour cheveux afro, frisés et sensibilisés.',
-      avatar_url: '/images/hero-2.jpg',
-      email: 'aissatou@oulibij-beauty.sn',
-      telephone: '+221 77 845 12 34',
+      prenom: 'Espace Boutique',
+      nom: 'Cosmétiques & Parfums',
+      specialite: 'Cosmétiques • Parfumerie • Accessoires',
+      bio: 'Retrouvez sur place à Liberté 6 notre sélection de cosmétiques authentiques, parfums raffinés et accessoires pour compléter votre mise en beauté.',
+      avatar_url: '/images/hero-1.jpg',
+      email: '',
+      telephone: '+221 77 619 58 50',
       is_active: true,
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
   ],
 
@@ -517,99 +545,106 @@ export const siteConfig: SiteConfig = {
       id: '00000000-0000-0003-0001-000000000001',
       salon_id: '00000000-0000-0000-0000-000000000001',
       staff_id: null,
-      titre: 'Brushing Wavy Éclat & Volume Soyeux',
-      description: 'Ondulations souples et soyeuses créées sur mesure avec thermo-protection.',
+      titre: 'Maquillage Regard Intense & Bouclage Soyeux',
+      description: 'Sublimation du regard, teint lumineux et ondulations glamour réalisés au salon OuliBij Beauté.',
       image_url: '/images/hero-1.jpg',
-      categorie: 'Coupe & Coiffage',
-      date_realisation: '2026-10-10',
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      categorie: 'Maquillage',
+      date_realisation: '2026-10-25',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
     {
       id: '00000000-0000-0003-0001-000000000002',
       salon_id: '00000000-0000-0000-0000-000000000001',
       staff_id: null,
-      titre: 'Box Braids Knotless & Finitions Nettes',
-      description: 'Tresses géométriques régulières et ultra légères, racines douces.',
+      titre: 'Tresses Chignon Haut & Bijoux Dorés',
+      description: 'Tresses fines relevées en chignon sculptural rehaussé d’accessoires dorés et maquillage harmonieux.',
       image_url: '/images/hero-3.jpg',
-      categorie: 'Tresses & Braids',
-      date_realisation: '2026-10-12',
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      categorie: 'Coiffure',
+      date_realisation: '2026-10-28',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
     {
       id: '00000000-0000-0003-0001-000000000003',
       salon_id: '00000000-0000-0000-0000-000000000001',
       staff_id: null,
-      titre: 'Balayage Soleil & Nuances Caramel Fondues',
-      description: 'Éclaircissement naturel sans démarcation et reflets miroir étincelants.',
+      titre: 'Teinture Miel Doré, Pose Lace & Contouring',
+      description: 'Nuances chaudes lumineuses, pose impeccable et mise en beauté du visage et du regard.',
       image_url: '/images/hero-4.jpg',
-      categorie: 'Coloration & Balayage',
-      date_realisation: '2026-10-15',
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      categorie: 'Coiffure',
+      date_realisation: '2026-11-01',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
     {
       id: '00000000-0000-0003-0001-000000000004',
       salon_id: '00000000-0000-0000-0000-000000000001',
       staff_id: null,
-      titre: 'Soin Botox Capillaire Réparateur Intense',
-      description: 'Régénération complète de la fibre capillaire et souplesse éclatante.',
+      titre: 'Lissage Stream Pod, Soins & Accessoires Dorés',
+      description: 'Détente vapeur brillante et finition par barrettes bijou disponibles dans notre espace boutique.',
       image_url: '/images/hero-2.jpg',
-      categorie: 'Soins & Traitements',
-      date_realisation: '2026-10-18',
-      created_at: '2026-09-14T00:00:00.000Z',
-      updated_at: '2026-09-14T00:00:00.000Z',
+      categorie: 'Divers',
+      date_realisation: '2026-11-04',
+      created_at: '2026-11-07T00:00:00.000Z',
+      updated_at: '2026-11-07T00:00:00.000Z',
     },
   ],
 
-  // Avis clientes dakaroises
+  // Retours clientes à Dakar (Liberté 6 & alentours)
   reviews: [
     {
-      name: 'Marième Diop',
-      district: 'Almadies, Dakar',
-      service: 'Soin Botox & Brushing Signature',
+      name: 'Ndeye Astou Diagne',
+      district: 'Liberté 6, Dakar',
+      service: 'Maquillage Cérémonie & Pose Lace',
       comment:
-        'Une expérience d’exception aux Almadies ! Aminata a diagnostiqué exactement les besoins de mes cheveux. Le soin botox combiné au brushing leur a redonné une souplesse et une brillance incroyables pendant plusieurs semaines.',
+        'Un travail remarquable sur le regard et le contouring pour mon mariage ! La pose lace était totalement fondue et le maquillage a tenu jusqu’au bout de la soirée sans bouger. L’emplacement juste en face d’UNO des 2 Voies est super facile d’accès.',
       rating: 5,
-      date: 'Il y a 1 semaine',
+      date: 'Cliente régulière',
     },
     {
-      name: 'Fatoumata Binetou Sy',
-      district: 'Plateau, Dakar',
-      service: 'Knotless Braids d’Art',
+      name: 'Khady Ndiaye',
+      district: 'Cité Sonatel 2, Dakar',
+      service: 'Lissage Stream Pod & Soins Capillaires',
       comment:
-        'Fatou Kiné est une virtuose des tresses. Le traçage est millimétré, les mèches sont légères et surtout : aucune traction douloureuse sur les tempes. Prise de rendez-vous directe sur WhatsApp ultra pratique !',
+        'Le salon est ouvert tous les jours jusqu’à 21h, ce qui me permet de passer après le bureau. Mon soin suivi du Stream Pod a laissé mes cheveux souples, légers et brillants.',
       rating: 5,
-      date: 'Il y a 2 semaines',
+      date: 'Liberté 6',
     },
     {
-      name: 'Awa Coulibaly',
-      district: 'Mermoz, Dakar',
-      service: 'Balayage Miel & Soin Réparateur',
+      name: 'Sokhna Maimouna Fall',
+      district: 'Sacré-Cœur 3, Dakar',
+      service: 'Tresses, Parfumerie & Accessoires',
       comment:
-        'Le meilleur salon de Dakar pour les colorations soignées. Les nuances fondues sont sublimes et mes cheveux sont restés parfaitement hydratés. Accueil chaleureux, salon d’une propreté exemplaire.',
+        'Traçage très propre et sans douleur pour mes tresses, et j’ai trouvé sur place un parfum magnifique ainsi que des accessoires dorés pour ma tenue. Accueil chaleureux et réservation rapide sur WhatsApp.',
       rating: 5,
-      date: 'Il y a 3 semaines',
+      date: 'Dakar',
     },
   ],
 
   // Liens de navigation
   navLinks: [
     { label: 'Accueil', href: '/' },
-    { label: 'Prestations & Tarifs', href: '/prestations' },
+    { label: 'Prestations', href: '/prestations' },
     { label: 'Réalisations', href: '/realisations' },
     { label: 'À propos', href: '/a-propos' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Contact & Accès', href: '/contact' },
   ],
 }
 
 /**
- * Helper WhatsApp URL generator
+ * Génère le lien WhatsApp officiel wa.me/221776195850 avec message prérempli
  */
 export function getWhatsAppBookingUrl(serviceName?: string): string {
   const message = serviceName
-    ? `Bonjour, je souhaite réserver : ${serviceName}`
-    : `Bonjour, je souhaite réserver une prestation chez ${siteConfig.brandName}`
+    ? `Bonjour ${siteConfig.brandName}, je souhaite réserver ou me renseigner pour : ${serviceName}.`
+    : `Bonjour ${siteConfig.brandName}, je souhaite prendre rendez-vous au salon à ${siteConfig.district}.`
   return `https://wa.me/${siteConfig.whatsappRaw}?text=${encodeURIComponent(message)}`
+}
+
+/**
+ * Génère le lien d'appel téléphonique direct
+ */
+export function getPhoneCallUrl(): string {
+  return `tel:${siteConfig.phoneRaw}`
 }

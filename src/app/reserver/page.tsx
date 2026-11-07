@@ -8,8 +8,8 @@ import { Sparkles } from '@/components/ui/Icons'
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: `Réserver un Soin en Ligne | ${siteConfig.name}`,
-  description: `Prenez rendez-vous en ligne en quelques étapes au salon ${siteConfig.name} à ${siteConfig.district}, ${siteConfig.city}. Choisissez votre service, votre coiffeuse et bloquez votre créneau sur WhatsApp.`,
+  title: 'Réserver un Rendez-Vous',
+  description: `Réservez votre séance maquillage ou coiffure chez ${siteConfig.brandName} à ${siteConfig.fullAddress}. Confirmation directe sur WhatsApp au ${siteConfig.whatsappDisplay}, 7j/7 de 9h à 21h.`,
 }
 
 interface ReserverPageProps {
@@ -24,23 +24,21 @@ export default async function ReserverPage({ searchParams }: ReserverPageProps) 
   ])
 
   return (
-    <div className="pt-10 pb-20 px-4 sm:px-8 lg:px-12 bg-transparent min-h-screen">
+    <div className="pt-10 pb-20 px-4 sm:px-8 lg:px-12 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto">
-        {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100/90 border border-pink-200 text-pink-600 text-xs font-bold tracking-wider uppercase mb-3 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-pink-500" />
-            <span>Réservation Instantanée</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0f0e0c] border border-amber-500/40 text-amber-300 text-xs font-bold tracking-wider uppercase mb-3 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>Réservation Directe • 7j/7 (9h – 21h)</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-zinc-950 tracking-tight font-serif italic">
-            Réserver Votre Séance
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0f0e0c] tracking-tight font-serif italic">
+            Réserver chez {siteConfig.brandName}
           </h1>
-          <p className="mt-4 text-zinc-600 text-sm sm:text-base leading-relaxed">
-            Sélectionnez votre prestation ci-dessous et échangez directement sur WhatsApp avec notre équipe à {siteConfig.district} pour bloquer votre créneau.
+          <p className="mt-4 text-stone-600 text-sm sm:text-base leading-relaxed">
+            Choisissez votre prestation et confirmez votre créneau en un clic sur WhatsApp ({siteConfig.whatsappDisplay}) ou par appel direct à {siteConfig.district}.
           </p>
         </div>
 
-        {/* Booking Wizard */}
         <BookingWizard
           initialServices={services}
           initialStaff={staff}

@@ -4,18 +4,18 @@ import { siteConfig } from '@/config/site'
 
 export function TestimonialsSection() {
   return (
-    <section className="py-20 px-4 sm:px-8 lg:px-12 bg-rose-50/40 border-t border-rose-100/70">
+    <section className="py-20 px-4 sm:px-8 lg:px-12 bg-[#faf8f4] border-t border-amber-900/10">
       <div className="max-w-7xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-100/80 border border-rose-200 text-rose-700 text-xs font-bold tracking-wider uppercase mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-rose-600" />
-            <span>Avis & Témoignages Clientes</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#fdf9f0] border border-amber-600/30 text-amber-800 text-xs font-bold tracking-wider uppercase mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+            <span>Avis &amp; Retours Clientes</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight">
-            La Confiance de Nos Clientes
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0f0e0c] tracking-tight">
+            Elles Nous Font Confiance à {siteConfig.district}
           </h2>
-          <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-            Découvrez les retours de nos clientes après leur passage dans notre salon à {siteConfig.district}, {siteConfig.city}.
+          <p className="mt-3 text-stone-600 text-sm sm:text-base">
+            Retours de nos clientes pour leurs prestations maquillage, coiffure et achats beauté chez {siteConfig.brandName}.
           </p>
         </div>
 
@@ -27,38 +27,79 @@ export function TestimonialsSection() {
                 key={index}
                 className={`rounded-3xl p-7 sm:p-8 flex flex-col justify-between transition-all duration-300 ${
                   isFeatured
-                    ? 'lg:col-span-2 bg-white border-2 border-rose-200/90 shadow-md shadow-rose-900/5'
-                    : 'bg-white border border-rose-100 shadow-sm hover:border-rose-300'
+                    ? 'lg:col-span-2 bg-[#0f0e0c] text-white border border-amber-500/40 shadow-xl'
+                    : 'bg-white text-[#0f0e0c] border border-amber-900/15 shadow-sm hover:border-amber-600/50'
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between gap-4 mb-4">
-                    <div className="flex items-center gap-1 text-rose-500" aria-label={`Note : ${review.rating} sur 5 étoiles`}>
+                    <div
+                      className="flex items-center gap-1 text-amber-400"
+                      aria-label={`Note : ${review.rating} sur 5 étoiles`}
+                    >
                       {[...Array(review.rating)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 text-rose-500 fill-rose-500" />
+                        <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
                       ))}
                     </div>
                     {isFeatured && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-rose-50 text-rose-700 border border-rose-200">
-                        Expérience Recommandée
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/40">
+                        Avis Coup de Cœur
                       </span>
                     )}
                   </div>
 
-                  <Quote className="w-8 h-8 text-rose-200 mb-3" />
+                  <Quote
+                    className={`w-8 h-8 mb-3 ${
+                      isFeatured ? 'text-amber-500/35' : 'text-amber-600/25'
+                    }`}
+                  />
 
-                  <p className={`text-zinc-800 italic leading-relaxed mb-6 ${isFeatured ? 'text-base sm:text-lg font-serif' : 'text-sm'}`}>
+                  <p
+                    className={`italic leading-relaxed mb-6 ${
+                      isFeatured
+                        ? 'text-stone-100 text-base sm:text-lg font-serif'
+                        : 'text-stone-700 text-sm'
+                    }`}
+                  >
                     &laquo; {review.comment} &raquo;
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-rose-50 flex items-center justify-between">
+                <div
+                  className={`pt-4 border-t flex items-center justify-between ${
+                    isFeatured ? 'border-stone-800' : 'border-amber-900/10'
+                  }`}
+                >
                   <div>
-                    <div className="text-sm font-bold text-zinc-950">{review.name}</div>
-                    <div className="text-xs text-rose-700 font-semibold">{review.service}</div>
-                    <div className="text-[11px] text-zinc-500 mt-0.5">{review.district}</div>
+                    <div
+                      className={`text-sm font-bold ${
+                        isFeatured ? 'text-white' : 'text-[#0f0e0c]'
+                      }`}
+                    >
+                      {review.name}
+                    </div>
+                    <div
+                      className={`text-xs font-semibold ${
+                        isFeatured ? 'text-amber-400' : 'text-amber-800'
+                      }`}
+                    >
+                      {review.service}
+                    </div>
+                    <div
+                      className={`text-[11px] mt-0.5 ${
+                        isFeatured ? 'text-stone-400' : 'text-stone-500'
+                      }`}
+                    >
+                      {review.district}
+                    </div>
                   </div>
-                  <span className="text-[11px] text-zinc-400 self-end">{review.date}</span>
+                  <span
+                    className={`text-[11px] self-end ${
+                      isFeatured ? 'text-stone-400' : 'text-stone-400'
+                    }`}
+                  >
+                    {review.date}
+                  </span>
                 </div>
               </div>
             )

@@ -765,6 +765,80 @@ export function WhatsAppBrand({ size = 20, className = '', ...props }: IconProps
   )
 }
 
+export function OuliBijLogo({ size = 40, className = '', ...props }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      {...props}
+    >
+      <circle cx="24" cy="24" r="23" fill="#0f0e0c" stroke="#d4af37" strokeWidth="1.75" />
+      <circle cx="24" cy="24" r="19.5" stroke="#d4af37" strokeOpacity="0.32" strokeWidth="0.75" />
+      <path
+        d="M10.5 24C14 17.8 18.7 14.8 24 14.8C29.3 14.8 34 17.8 37.5 24C34 30.2 29.3 33.2 24 33.2C18.7 33.2 14 30.2 10.5 24Z"
+        stroke="#e5c158"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="24" cy="24" r="4.8" stroke="#e5c158" strokeWidth="1.6" />
+      <path
+        d="M24 20.8L24.9 23.1L27.2 24L24.9 24.9L24 27.2L23.1 24.9L20.8 24L23.1 23.1L24 20.8Z"
+        fill="#f3d578"
+      />
+      <path d="M24 11.2V13.2" stroke="#d4af37" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M18.2 12.4L19.1 14.2" stroke="#d4af37" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M29.8 12.4L28.9 14.2" stroke="#d4af37" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+export function Gem({ size = 20, className = '', ...props }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...props}
+    >
+      <path d="M6 3h12l4 6-10 13L2 9Z" />
+      <path d="M11 3 8 9l4 13 4-13-3-6" />
+      <path d="M2 9h20" />
+    </svg>
+  )
+}
+
+export function ShoppingBag({ size = 20, className = '', ...props }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...props}
+    >
+      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+      <path d="M3 6h18" />
+      <path d="M16 10a4 4 0 0 1-8 0" />
+    </svg>
+  )
+}
+
 export function ArrowLeft({ size = 20, className = '', ...props }: IconProps) {
   return (
     <svg

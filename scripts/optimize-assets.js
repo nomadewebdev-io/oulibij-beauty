@@ -1,167 +1,151 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-const fs = require('fs');
-const path = require('path');
-const sharp = require('sharp');
+const fs = require('fs')
+const path = require('path')
+const sharp = require('sharp')
 
 async function run() {
-  const publicDir = path.join(__dirname, '..', 'public');
-  const imagesDir = path.join(publicDir, 'images');
+  const publicDir = path.join(__dirname, '..', 'public')
+  const imagesDir = path.join(publicDir, 'images')
 
-  // 1. Optimize existing hero images (original: ~700KB each)
-  const heroFiles = ['hero-1.jpg', 'hero-2.jpg', 'hero-3.jpg', 'hero-4.jpg'];
-  for (const file of heroFiles) {
-    const filePath = path.join(imagesDir, file);
-    if (fs.existsSync(filePath)) {
-      const buffer = fs.readFileSync(filePath);
-      // Optimize to max width 1200, quality 82% mozjpeg
-      const optimized = await sharp(buffer)
-        .resize({ width: 1000, height: 1200, fit: 'cover', position: 'center' })
-        .jpeg({ quality: 82, progressive: true, mozjpeg: true })
-        .toBuffer();
-      
-      const backupPath = path.join(imagesDir, `orig-${file}`);
-      if (!fs.existsSync(backupPath)) {
-        fs.writeFileSync(backupPath, buffer);
-      }
-      fs.writeFileSync(filePath, optimized);
-      console.log(`Optimized ${file}: ${Math.round(buffer.length/1024)}KB -> ${Math.round(optimized.length/1024)}KB`);
-    }
-  }
-
-  // 2. Generate 1200x630 OpenGraph Image from hero-1.jpg + dark luxe overlay + text SVG
-  const hero1Buffer = fs.readFileSync(path.join(imagesDir, 'hero-1.jpg'));
+  // 1. Générer l'image Open Graph 1200x630 Noir + Or (OuliBij Beauté)
+  const hero1Buffer = fs.readFileSync(path.join(imagesDir, 'hero-1.jpg'))
   const heroResized = await sharp(hero1Buffer)
-    .resize(600, 630, { fit: 'cover', position: 'center' })
-    .toBuffer();
+    .resize(540, 630, { fit: 'cover', position: 'center' })
+    .toBuffer()
 
   const svgOverlay = `
   <svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#18181b" />
-        <stop offset="60%" stop-color="#27272a" />
-        <stop offset="100%" stop-color="#4c0519" />
+      <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#0c0a09" />
+        <stop offset="82%" stop-color="#14120f" />
+        <stop offset="100%" stop-color="#14120f" stop-opacity="0" />
       </linearGradient>
-      <linearGradient id="roseGrad" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#fb7185" />
-        <stop offset="100%" stop-color="#f43f5e" />
+      <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#f3d578" />
+        <stop offset="50%" stop-color="#d4af37" />
+        <stop offset="100%" stop-color="#b8860b" />
       </linearGradient>
     </defs>
-    
-    <!-- Background left dark panel -->
-    <rect x="0" y="0" width="700" height="630" fill="url(#bgGrad)" />
-    
-    <!-- Decorative subtle border -->
-    <rect x="24" y="24" width="1152" height="582" rx="28" fill="none" stroke="#be123c" stroke-width="2" stroke-opacity="0.3" />
-    
-    <!-- Tag badge -->
-    <rect x="64" y="68" width="370" height="42" rx="21" fill="#be123c" fill-opacity="0.25" stroke="#fb7185" stroke-opacity="0.6" stroke-width="1.5" />
-    <text x="82" y="94" font-family="Plus Jakarta Sans, sans-serif" font-size="14" font-weight="bold" fill="#fecdd3" letter-spacing="1.5">
-      SALON DE COIFFURE FÉMININ • DAKAR
+
+    <!-- Panneau principal noir velours avec fondu doux sur le visuel à droite -->
+    <rect x="0" y="0" width="840" height="630" fill="url(#bgGrad)" />
+
+    <!-- Cadre fin doré -->
+    <rect x="24" y="24" width="1152" height="582" rx="26" fill="none" stroke="#d4af37" stroke-width="1.8" stroke-opacity="0.55" />
+
+    <!-- Badge supérieur -->
+    <rect x="64" y="64" width="415" height="40" rx="20" fill="#1c1917" stroke="#d4af37" stroke-opacity="0.65" stroke-width="1.4" />
+    <text x="86" y="89" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" fill="#f3d578" letter-spacing="1.8">
+      MAQUILLAGE • COIFFURE • PARFUMERIE
     </text>
 
-    <!-- Brand Name -->
-    <text x="64" y="195" font-family="Plus Jakarta Sans, sans-serif" font-size="52" font-weight="900" fill="#ffffff" letter-spacing="-1">
-      OULIBIJ BEAUTY
+    <!-- Nom du salon -->
+    <text x="64" y="182" font-family="Georgia, serif" font-style="italic" font-size="60" font-weight="bold" fill="#ffffff">
+      OuliBij Beauté
     </text>
 
-    <!-- Tagline / Headline -->
-    <text x="64" y="250" font-family="Plus Jakarta Sans, sans-serif" font-size="30" font-weight="700" fill="url(#roseGrad)">
-      Haute Coiffure &amp; Soins d'Exception
+    <!-- Slogan officiel en or chaud -->
+    <text x="64" y="236" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="bold" fill="url(#goldGrad)">
+      Prenez en main la beauté de votre regard
     </text>
 
-    <!-- Highlights pills -->
-    <text x="64" y="325" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="500" fill="#d4d4d8">
-      • Tresses d'art (Knotless Braids) &amp; Nattes collées
+    <!-- Ligne séparatrice dorée -->
+    <line x1="64" y1="266" x2="220" y2="266" stroke="#d4af37" stroke-width="2" stroke-opacity="0.7" />
+
+    <!-- Spécialités réelles -->
+    <text x="64" y="315" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="#f5f5f4">
+      Maquillage : Cérémonie, Simple &amp; Contouring
     </text>
-    <text x="64" y="365" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="500" fill="#d4d4d8">
-      • Soins profonds Botox Capillaire &amp; Kératine
+    <text x="64" y="355" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="#f5f5f4">
+      Coiffure : Tissage, Tresse, Pose Lace, Stream Pod, Soins
     </text>
-    <text x="64" y="405" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="500" fill="#d4d4d8">
-      • Balayages lumineux &amp; Coupes sur-mesure
+    <text x="64" y="395" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="#f5f5f4">
+      Boutique : Cosmétiques, Parfumerie &amp; Accessoires
     </text>
 
-    <!-- Location & WhatsApp footer badge -->
-    <g transform="translate(64, 475)">
-      <!-- WhatsApp Badge -->
-      <rect x="0" y="0" width="310" height="56" rx="28" fill="#059669" />
-      <text x="32" y="35" font-family="Plus Jakarta Sans, sans-serif" font-size="18" font-weight="800" fill="#ffffff">
-        WhatsApp : +221 77 845 12 34
-      </text>
-      
-      <!-- District -->
-      <text x="335" y="35" font-family="Plus Jakarta Sans, sans-serif" font-size="17" font-weight="600" fill="#a1a1aa">
-        Almadies, Dakar
+    <!-- Adresse & Horaires -->
+    <text x="64" y="452" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#d6d3d1">
+      Cité Sonatel 2, en face UNO des 2 Voies — Liberté 6, Dakar (Lun–Dim : 9h–21h)
+    </text>
+
+    <!-- Bouton WhatsApp & Appel -->
+    <g transform="translate(64, 484)">
+      <rect x="0" y="0" width="335" height="54" rx="27" fill="#059669" />
+      <text x="28" y="34" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="bold" fill="#ffffff">
+        Tél &amp; WhatsApp : 77 619 58 50
       </text>
     </g>
   </svg>
-  `;
+  `
 
-  // Composite: Base background, photo on the right with soft fade gradient, and SVG overlay
   const baseCanvas = await sharp({
     create: {
       width: 1200,
       height: 630,
       channels: 4,
-      background: { r: 24, g: 24, b: 27, alpha: 1 }
-    }
-  }).png().toBuffer();
+      background: { r: 12, g: 10, b: 9, alpha: 1 },
+    },
+  })
+    .png()
+    .toBuffer()
 
   const ogComposite = await sharp(baseCanvas)
     .composite([
-      { input: heroResized, top: 0, left: 600 },
-      { input: Buffer.from(svgOverlay), top: 0, left: 0 }
+      { input: heroResized, top: 0, left: 660 },
+      { input: Buffer.from(svgOverlay), top: 0, left: 0 },
     ])
     .jpeg({ quality: 90, mozjpeg: true })
-    .toBuffer();
+    .toBuffer()
 
-  const ogOutputPathJpg = path.join(imagesDir, 'og-image.jpg');
-  const ogOutputPathPng = path.join(imagesDir, 'og-image.png');
-  fs.writeFileSync(ogOutputPathJpg, ogComposite);
-  
-  const ogCompositePng = await sharp(ogComposite).png().toBuffer();
-  fs.writeFileSync(ogOutputPathPng, ogCompositePng);
-  console.log(`Generated OG Image (1200x630): ${Math.round(ogComposite.length/1024)}KB`);
+  const ogOutputPathJpg = path.join(imagesDir, 'og-image.jpg')
+  const ogOutputPathPng = path.join(imagesDir, 'og-image.png')
+  const ogPublicRootPath = path.join(publicDir, 'og-image.jpg')
 
-  // 3. Generate Favicon and Web App Icons
-  const iconSvg = `
-  <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="iconGrad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#be123c" />
-        <stop offset="100%" stop-color="#881337" />
-      </linearGradient>
-    </defs>
-    <rect width="512" height="512" rx="128" fill="url(#iconGrad)" />
-    <!-- Stylized Monogram OB & Sparkle -->
-    <path d="M256 96 C256 160 300 204 364 204 C300 204 256 248 256 312 C256 248 212 204 148 204 C212 204 256 160 256 96 Z" fill="#ffffff" />
-    <circle cx="360" cy="140" r="28" fill="#fecdd3" />
-    <text x="256" y="420" text-anchor="middle" font-family="Plus Jakarta Sans, serif" font-weight="900" font-size="110" fill="#ffffff" letter-spacing="4">
-      OB
-    </text>
-  </svg>
-  `;
+  fs.writeFileSync(ogOutputPathJpg, ogComposite)
+  fs.writeFileSync(ogPublicRootPath, ogComposite)
 
-  const icon512 = await sharp(Buffer.from(iconSvg)).resize(512, 512).png().toBuffer();
-  const icon192 = await sharp(Buffer.from(iconSvg)).resize(192, 192).png().toBuffer();
-  const icon32 = await sharp(Buffer.from(iconSvg)).resize(32, 32).png().toBuffer();
-  const icon16 = await sharp(Buffer.from(iconSvg)).resize(16, 16).png().toBuffer();
+  const ogCompositePng = await sharp(ogComposite).png().toBuffer()
+  fs.writeFileSync(ogOutputPathPng, ogCompositePng)
+  console.log(`Generated OG Image (1200x630): ${Math.round(ogComposite.length / 1024)}KB`)
 
-  fs.writeFileSync(path.join(publicDir, 'icon-512.png'), icon512);
-  fs.writeFileSync(path.join(publicDir, 'icon-192.png'), icon192);
-  fs.writeFileSync(path.join(publicDir, 'favicon-32x32.png'), icon32);
-  fs.writeFileSync(path.join(publicDir, 'favicon-16x16.png'), icon16);
-  fs.writeFileSync(path.join(publicDir, 'apple-touch-icon.png'), icon192);
-  fs.writeFileSync(path.join(publicDir, 'favicon.ico'), icon32); // Valid ICO/PNG fallback
-  
-  // Also put icon.png and icon.svg in src/app for Next.js App Router metadata icon detection
-  fs.writeFileSync(path.join(__dirname, '..', 'src', 'app', 'icon.png'), icon192);
-  fs.writeFileSync(path.join(__dirname, '..', 'src', 'app', 'icon.svg'), iconSvg);
+  // 2. Générer le Logo/Favicon Noir + Or (OuliBij Beauté)
+  const iconSvg = `<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="goldRing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f3d578" />
+      <stop offset="50%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#9a6f08" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="#0f0e0c" />
+  <rect x="22" y="22" width="468" height="468" rx="102" fill="none" stroke="url(#goldRing)" stroke-width="12" />
+  <path d="M112 204 C156 136 205 104 256 104 C307 104 356 136 400 204 C356 272 307 304 256 304 C205 304 156 272 112 204 Z" fill="none" stroke="url(#goldRing)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="256" cy="204" r="46" fill="none" stroke="url(#goldRing)" stroke-width="16" />
+  <circle cx="256" cy="204" r="16" fill="#f3d578" />
+  <text x="256" y="424" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-weight="bold" font-size="112" fill="url(#goldRing)" letter-spacing="4">OB</text>
+</svg>`
 
-  console.log('All icons, favicons, OG image and optimized images successfully created!');
+  const icon512 = await sharp(Buffer.from(iconSvg)).resize(512, 512).png().toBuffer()
+  const icon192 = await sharp(Buffer.from(iconSvg)).resize(192, 192).png().toBuffer()
+  const icon32 = await sharp(Buffer.from(iconSvg)).resize(32, 32).png().toBuffer()
+  const icon16 = await sharp(Buffer.from(iconSvg)).resize(16, 16).png().toBuffer()
+
+  fs.writeFileSync(path.join(publicDir, 'icon-512.png'), icon512)
+  fs.writeFileSync(path.join(publicDir, 'icon-192.png'), icon192)
+  fs.writeFileSync(path.join(publicDir, 'favicon-32x32.png'), icon32)
+  fs.writeFileSync(path.join(publicDir, 'favicon-16x16.png'), icon16)
+  fs.writeFileSync(path.join(publicDir, 'apple-touch-icon.png'), icon192)
+  fs.writeFileSync(path.join(publicDir, 'favicon.ico'), icon32)
+
+  fs.writeFileSync(path.join(__dirname, '..', 'src', 'app', 'icon.png'), icon192)
+  fs.writeFileSync(path.join(__dirname, '..', 'src', 'app', 'icon.svg'), iconSvg)
+  fs.writeFileSync(path.join(__dirname, '..', 'src', 'app', 'favicon.ico'), icon32)
+
+  console.log('OuliBij Beauté Noir + Or OG image and icons generated successfully.')
 }
 
-run().catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+run().catch((err) => {
+  console.error(err)
+  process.exit(1)
+})

@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import { MobileFloatingActions } from '@/components/layout/MobileFloatingActions'
 import { siteConfig } from '@/config/site'
 
 const jakartaSans = Plus_Jakarta_Sans({
@@ -17,7 +18,7 @@ const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || PROD_URL).replace(/\/$/, ''
 const absoluteOgImage = `${baseUrl}/images/og-image.jpg`
 
 export const viewport: Viewport = {
-  themeColor: '#be123c',
+  themeColor: '#0f0e0c',
   width: 'device-width',
   initialScale: 1,
 }
@@ -25,14 +26,14 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: siteConfig.seo.ogTitle,
+    default: siteConfig.seo.defaultTitle,
     template: siteConfig.seo.titleTemplate,
   },
-  description: siteConfig.seo.ogDescription,
+  description: siteConfig.seo.metaDescription,
   keywords: siteConfig.seo.keywords,
-  authors: [{ name: siteConfig.name, url: baseUrl }],
-  creator: siteConfig.name,
-  publisher: siteConfig.name,
+  authors: [{ name: siteConfig.brandName, url: baseUrl }],
+  creator: siteConfig.brandName,
+  publisher: siteConfig.brandName,
   formatDetection: {
     telephone: true,
     email: true,
@@ -48,15 +49,13 @@ export const metadata: Metadata = {
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
       { url: '/icon.svg', type: 'image/svg+xml' },
     ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
   openGraph: {
     title: siteConfig.seo.ogTitle,
     description: siteConfig.seo.ogDescription,
     url: baseUrl,
-    siteName: siteConfig.name,
+    siteName: siteConfig.brandName,
     locale: 'fr_FR',
     type: 'website',
     images: [
@@ -75,7 +74,6 @@ export const metadata: Metadata = {
     title: siteConfig.seo.ogTitle,
     description: siteConfig.seo.ogDescription,
     images: [absoluteOgImage],
-    creator: siteConfig.seo.twitterHandle,
   },
   robots: {
     index: true,
@@ -90,6 +88,43 @@ export const metadata: Metadata = {
   },
 }
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BeautySalon',
+  name: siteConfig.brandName,
+  alternateName: siteConfig.name,
+  slogan: siteConfig.tagline,
+  description: siteConfig.description,
+  url: baseUrl,
+  image: absoluteOgImage,
+  telephone: siteConfig.phoneRaw,
+  priceRange: 'FCFA',
+  paymentAccepted: siteConfig.payments.join(', '),
+  currenciesAccepted: 'XOF',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${siteConfig.address}, ${siteConfig.district}`,
+    addressLocality: siteConfig.city,
+    addressCountry: 'SN',
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+      ],
+      opens: '09:00',
+      closes: '21:00',
+    },
+  ],
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -97,14 +132,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className={`scroll-smooth ${jakartaSans.variable}`}>
-      <body className="min-h-screen bg-[#f7f2ee] p-2 sm:p-5 lg:p-7 flex flex-col items-center justify-center antialiased font-[var(--font-jakarta)] text-zinc-900">
-        <div className="w-full max-w-7xl bg-white rounded-[2rem] sm:rounded-[2.75rem] shadow-xl shadow-stone-900/5 border border-stone-200/80 overflow-hidden flex flex-col relative">
+      <body className="min-h-screen bg-[#f6f2ea] p-2 sm:p-5 lg:p-7 pb-24 lg:pb-7 flex flex-col items-center justify-center antialiased font-[var(--font-jakarta)] text-[#0f0e0c]">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <div className="w-full max-w-7xl bg-white rounded-[2rem] sm:rounded-[2.75rem] shadow-2xl shadow-stone-950/10 border border-amber-900/15 overflow-hidden flex flex-col relative">
           <Navbar />
           <main className="flex-1 w-full" id="main-content">
             {children}
           </main>
           <Footer />
         </div>
+        <MobileFloatingActions />
       </body>
     </html>
   )

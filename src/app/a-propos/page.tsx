@@ -3,248 +3,231 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getStaffMembers } from '@/lib/actions/staff'
 import { getSalon } from '@/lib/actions/salon'
-import { siteConfig, getWhatsAppBookingUrl } from '@/config/site'
-import { Sparkles, Scissors, Heart, ShieldCheck, ArrowRight, User, WhatsApp } from '@/components/ui/Icons'
-import { EmptyState } from '@/components/ui/EmptyState'
+import { siteConfig, getWhatsAppBookingUrl, getPhoneCallUrl } from '@/config/site'
+import {
+  Sparkles,
+  Scissors,
+  Eye,
+  Gem,
+  ArrowRight,
+  Phone,
+  WhatsAppBrand,
+} from '@/components/ui/Icons'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: `À Propos & Notre Équipe | ${siteConfig.name}`,
-  description: `Découvrez l'histoire, la philosophie et l'équipe d'expertes du salon ${siteConfig.name} à ${siteConfig.district}, ${siteConfig.city}. Haute coiffure, soins botox, balayages et tresses d'art.`,
+  title: `À Propos d'${siteConfig.brandName}`,
+  description: `${siteConfig.tagline} — Découvrez l'univers d'${siteConfig.brandName} à ${siteConfig.fullAddress}. Maquillage, coiffure, pose lace, Stream Pod, cosmétiques et parfumerie ouverts 7j/7 de 9h à 21h.`,
 }
 
 export default async function AProposPage() {
-  const [staff, salon] = await Promise.all([
-    getStaffMembers(),
-    getSalon(),
-  ])
+  const [staff, salon] = await Promise.all([getStaffMembers(), getSalon()])
 
   const salonName = salon?.nom || siteConfig.brandName
   const salonDescription = salon?.description || siteConfig.description
 
   return (
-    <div className="pt-10 pb-20 px-4 sm:px-8 lg:px-12 bg-transparent space-y-20">
-      {/* 1. HERO / STORY SECTION */}
+    <div className="pt-10 pb-20 px-4 sm:px-8 lg:px-12 bg-white space-y-20">
       <section className="max-w-7xl mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100/90 border border-pink-200 text-pink-600 text-xs font-bold tracking-wider uppercase mb-3 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-pink-500" />
-            <span>Maison de Beauté Féminine</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0f0e0c] border border-amber-500/40 text-amber-300 text-xs font-bold tracking-wider uppercase mb-3 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>Maison de Beauté • {siteConfig.district}, {siteConfig.city}</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-zinc-950 tracking-tight font-serif italic">
-            L&apos;Excellence au Service de Vos Cheveux
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0f0e0c] tracking-tight font-serif italic">
+            &laquo; {siteConfig.tagline} &raquo;
           </h1>
-          <p className="mt-4 text-zinc-600 text-sm sm:text-base leading-relaxed">
+          <p className="mt-4 text-stone-600 text-sm sm:text-base leading-relaxed">
             {salonDescription}
           </p>
         </div>
 
-        {/* Story & Philosophy Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center bg-white border border-rose-100 rounded-3xl p-6 sm:p-10 shadow-sm">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center bg-[#faf8f4] border border-amber-900/15 rounded-3xl p-6 sm:p-10 shadow-sm">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-rose-50 border border-rose-100 text-rose-700 text-xs font-bold uppercase tracking-wider">
-              Notre Philosophie
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#fdf9f0] border border-amber-600/30 text-amber-800 text-xs font-bold uppercase tracking-wider">
+              Notre Identité
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight">
-              Une vision sur-mesure de la beauté capillaire
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0f0e0c] tracking-tight">
+              Maquillage, Coiffure &amp; Parfumerie réunis en un seul écrin
             </h2>
-            <p className="text-sm text-zinc-600 leading-relaxed">
-              Fondé avec la volonté de célébrer la singularité de chaque femme,{' '}
-              <strong className="text-zinc-900">{salonName}</strong> allie expertise technique, sens artistique et soins réparateurs de pointe à {siteConfig.district}.
+            <p className="text-sm text-stone-600 leading-relaxed">
+              Installé à <strong className="text-[#0f0e0c]">{siteConfig.fullAddress}</strong>, le salon{' '}
+              <strong className="text-[#0f0e0c]">{salonName}</strong> vous accueille dans une atmosphère noir et or chaleureuse, pensée pour le confort et la mise en valeur de chaque cliente.
             </p>
-            <p className="text-sm text-zinc-600 leading-relaxed">
-              Que vous souhaitiez sublimer des boucles naturelles, réaliser un lissage soyeux sans formol, oser une métamorphose par balayage ou arborer des tresses d&apos;art impeccables, notre équipe met un point d&apos;honneur à préserver la santé et la brillance de votre fibre capillaire.
+            <p className="text-sm text-stone-600 leading-relaxed">
+              Que vous veniez pour un maquillage de cérémonie ou un contouring précis, une pose lace fondue, un tissage, des tresses, un bouclage ou un lissage vapeur Stream Pod, notre équipe veille à la tenue impeccable du résultat et au soin de vos cheveux.
             </p>
 
-            {/* Commitments */}
-            <div className="space-y-3 pt-2">
+            <div className="space-y-3.5 pt-2">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-rose-50 text-rose-700 flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-9 h-9 rounded-xl bg-[#0f0e0c] text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0 mt-0.5">
+                  <Eye className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-[#0f0e0c]">Sublimation du Regard &amp; du Teint</h3>
+                  <p className="text-xs text-stone-600">
+                    Maquillage cérémonie, maquillage simple de jour et contouring adapté à votre carnation.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#0f0e0c] text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0 mt-0.5">
                   <Scissors className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-zinc-900">Maîtrise de toutes les textures</h3>
-                  <p className="text-xs text-zinc-500">Du cheveu raide et fin au cheveu texturé, bouclé, frisé ou crépus.</p>
+                  <h3 className="text-sm font-bold text-[#0f0e0c]">Coiffure Féminine Complète</h3>
+                  <p className="text-xs text-stone-600">
+                    Tissage, tresse, bouclage, pose lace, lissage Stream Pod, teinture et soins capillaires.
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-rose-50 text-rose-700 flex items-center justify-center shrink-0 mt-0.5">
-                  <Heart className="w-4 h-4" />
+                <div className="w-9 h-9 rounded-xl bg-[#0f0e0c] text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0 mt-0.5">
+                  <Gem className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-zinc-900">Rituels & Soins Rénovateurs</h3>
-                  <p className="text-xs text-zinc-500">Traitements botox, kératine et huiles végétales pour régénérer en profondeur.</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-rose-50 text-rose-700 flex items-center justify-center shrink-0 mt-0.5">
-                  <ShieldCheck className="w-4 h-4" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-zinc-900">Écoute & Convivialité</h3>
-                  <p className="text-xs text-zinc-500">Un espace cocon où chaque cliente bénéficie d&apos;une attention exclusive.</p>
+                  <h3 className="text-sm font-bold text-[#0f0e0c]">Cosmétiques, Parfumerie &amp; Accessoires</h3>
+                  <p className="text-xs text-stone-600">
+                    Produits cosmétiques, parfums féminins et accessoires disponibles directement sur place.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Side Highlights Card */}
           <div className="space-y-6">
-            <div className="relative rounded-3xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-rose-900 via-rose-800 to-stone-900 p-8 flex flex-col justify-between shadow-md">
+            <div className="relative rounded-3xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-[#1b1710] via-[#0f0e0c] to-[#292111] border border-amber-500/40 p-8 flex flex-col justify-between shadow-xl">
               <div className="space-y-2 text-white">
-                <span className="text-xs uppercase tracking-widest font-bold bg-black/40 px-3 py-1 rounded-full inline-block border border-white/20">
-                  L&apos;Atmosphère {salonName}
+                <span className="text-xs uppercase tracking-widest font-bold bg-amber-500/15 text-amber-300 px-3 py-1 rounded-full inline-block border border-amber-500/40">
+                  L&apos;Esprit {salonName}
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-serif italic font-bold">
-                  Détente, Élégance & Confiance
+                <h3 className="text-2xl sm:text-3xl font-serif italic font-bold text-amber-200">
+                  {siteConfig.tagline}
                 </h3>
               </div>
-              <div className="bg-white rounded-2xl p-5 border border-rose-100 text-zinc-900 space-y-1 shadow-sm">
-                <div className="text-xs font-bold text-rose-700 uppercase tracking-wide">
-                  Notre Engagement
+              <div className="bg-white rounded-2xl p-5 border border-amber-500/30 text-[#0f0e0c] space-y-1 shadow-sm">
+                <div className="text-xs font-bold text-amber-800 uppercase tracking-wide">
+                  Amplitude Horaire Large
                 </div>
-                <p className="text-xs text-zinc-600 leading-snug">
-                  Chaque rendez-vous débute par un échange approfondi afin de comprendre votre historique capillaire, votre mode de vie et vos attentes esthétiques.
+                <p className="text-xs text-stone-600 leading-snug">
+                  Nous vous recevons <strong>du lundi au dimanche de 9h à 21h</strong> à Cité Sonatel 2 (en face UNO des 2 Voies, Liberté 6), avec règlement Wave, Orange Money, Free Money ou espèces.
                 </p>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white/90 border border-rose-100 rounded-2xl p-4 text-center shadow-sm">
-                <div className="text-2xl font-black text-rose-600">100%</div>
-                <div className="text-xs text-zinc-600 font-medium">Diagnostic personnalisé</div>
+              <div className="bg-white border border-amber-900/15 rounded-2xl p-4 text-center shadow-xs">
+                <div className="text-2xl font-black text-amber-700">7j / 7</div>
+                <div className="text-xs text-stone-600 font-medium">Ouvert de 9h à 21h</div>
               </div>
-              <div className="bg-white/90 border border-rose-100 rounded-2xl p-4 text-center shadow-sm">
-                <div className="text-2xl font-black text-zinc-900">24/7</div>
-                <div className="text-xs text-zinc-600 font-medium">Réservation WhatsApp</div>
+              <div className="bg-[#0f0e0c] border border-amber-500/40 rounded-2xl p-4 text-center shadow-xs">
+                <div className="text-xl sm:text-2xl font-black text-amber-400">{siteConfig.phone}</div>
+                <div className="text-xs text-stone-300 font-medium">Appel &amp; WhatsApp</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. TEAM SECTION */}
       <section className="max-w-7xl mx-auto space-y-10">
         <div className="text-center max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-100 border border-rose-200 text-rose-700 text-xs font-bold tracking-wider uppercase mb-3">
-            <User className="w-3.5 h-3.5 text-rose-600" />
-            <span>L&apos;Équipe d&apos;Expertes • {siteConfig.city}</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#fdf9f0] border border-amber-600/30 text-amber-800 text-xs font-bold tracking-wider uppercase mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+            <span>Nos Pôles d&apos;Expertise</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight font-serif italic">
-            Rencontrez Nos Coiffeuses & Stylistes
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0f0e0c] tracking-tight font-serif italic">
+            Une Équipe Dédiée à Chaque Besoin
           </h2>
-          <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-            Des professionnelles passionnées, spécialisées dans les techniques de coloration, l&apos;art des tresses et les soins sur-mesure.
-          </p>
         </div>
 
-        {staff.length === 0 ? (
-          <EmptyState
-            title="Notre équipe sera bientôt présentée en ligne"
-            description="Nos coiffeuses et stylistes d'exception vous accueillent avec passion au salon. N'hésitez pas à nous contacter ou à réserver votre créneau directement."
-            actionLabel="Prendre rendez-vous"
-            actionHref="/reserver"
-            icon={<User className="w-8 h-8 text-rose-600" />}
-          />
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {staff.map((member) => (
-              <div
-                key={member.id}
-                className="bg-white border border-rose-100/90 rounded-3xl p-7 flex flex-col items-center text-center hover:shadow-xl hover:border-rose-300 transition-all duration-300 group"
-              >
-                {/* Avatar / Photo */}
-                <div className="relative w-24 h-24 rounded-full bg-gradient-to-tr from-rose-500 to-pink-300 p-[3px] mb-5 group-hover:scale-105 transition-transform shadow-md">
-                  {member.avatar_url ? (
-                    <div className="relative w-full h-full rounded-full overflow-hidden">
-                      <Image
-                        src={member.avatar_url}
-                        alt={`Photo de ${member.prenom} ${member.nom}, ${member.specialite} chez ${siteConfig.brandName}`}
-                        fill
-                        sizes="96px"
-                        className="object-cover"
-                        loading="lazy"
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-full h-full rounded-full bg-white flex items-center justify-center text-xl font-bold text-rose-600">
-                      {member.prenom ? member.prenom[0] : ''}
-                      {member.nom ? member.nom[0] : ''}
-                    </div>
-                  )}
-                </div>
-
-                {/* Name */}
-                <h3 className="text-xl font-bold text-zinc-950 mb-1 group-hover:text-rose-600 transition-colors">
-                  {member.prenom} {member.nom}
-                </h3>
-
-                {/* Speciality */}
-                {member.specialite && (
-                  <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-200 mb-4">
-                    {member.specialite}
-                  </span>
-                )}
-
-                {/* Bio */}
-                {member.bio ? (
-                  <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed mb-6 flex-1">
-                    {member.bio}
-                  </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {staff.map((member) => (
+            <div
+              key={member.id}
+              className="bg-[#faf8f4] border border-amber-900/15 rounded-3xl p-7 flex flex-col items-center text-center hover:shadow-xl hover:border-amber-600/50 hover:bg-white transition-all duration-300 group"
+            >
+              <div className="relative w-24 h-24 rounded-full bg-gradient-to-tr from-amber-600 to-amber-300 p-[3px] mb-5 group-hover:scale-105 transition-transform shadow-md">
+                {member.avatar_url ? (
+                  <div className="relative w-full h-full rounded-full overflow-hidden">
+                    <Image
+                      src={member.avatar_url}
+                      alt={`${member.prenom} ${member.nom} — ${siteConfig.brandName}`}
+                      fill
+                      sizes="96px"
+                      className="object-cover"
+                      loading="lazy"
+                    />
+                  </div>
                 ) : (
-                  <p className="text-xs text-zinc-400 italic mb-6 flex-1">
-                    Styliste professionnelle passionnée par l&apos;art du cheveu et les rituels bien-être.
-                  </p>
+                  <div className="w-full h-full rounded-full bg-[#0f0e0c] flex items-center justify-center text-xl font-bold text-amber-300">
+                    OB
+                  </div>
                 )}
-
-                {/* Direct Booking CTA */}
-                <div className="mt-auto w-full pt-4 border-t border-rose-100/60">
-                  <a
-                    href={getWhatsAppBookingUrl(`Rendez-vous avec ${member.prenom} ${member.nom}`)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition-all active:scale-95 shadow-sm min-h-[44px]"
-                    aria-label={`Réserver un rendez-vous avec ${member.prenom} sur WhatsApp`}
-                  >
-                    <WhatsApp className="w-3.5 h-3.5 text-white" />
-                    <span>Réserver avec {member.prenom} sur WhatsApp</span>
-                  </a>
-                </div>
               </div>
-            ))}
-          </div>
-        )}
+
+              <h3 className="text-xl font-bold text-[#0f0e0c] mb-1">
+                {member.prenom} {member.nom}
+              </h3>
+
+              {member.specialite && (
+                <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300 bg-[#0f0e0c] px-3 py-1 rounded-full border border-amber-500/40 mb-4">
+                  {member.specialite}
+                </span>
+              )}
+
+              <p className="text-xs sm:text-sm text-stone-600 leading-relaxed mb-6 flex-1">
+                {member.bio}
+              </p>
+
+              <div className="mt-auto w-full pt-4 border-t border-amber-900/10">
+                <a
+                  href={getWhatsAppBookingUrl(`${member.prenom} ${member.nom}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition-all active:scale-95 shadow-sm min-h-[44px]"
+                >
+                  <WhatsAppBrand className="w-3.5 h-3.5 text-white" />
+                  <span>Prendre RDV sur WhatsApp</span>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
-      {/* 3. BOTTOM CALL TO ACTION */}
-      <section className="max-w-7xl mx-auto rounded-3xl bg-gradient-to-r from-rose-800 via-rose-700 to-rose-900 p-8 sm:p-12 text-center text-white shadow-xl shadow-rose-900/10">
+      <section className="max-w-7xl mx-auto rounded-3xl bg-[#0f0e0c] border border-amber-500/40 p-8 sm:p-12 text-center text-white shadow-2xl">
         <div className="max-w-2xl mx-auto space-y-4">
-          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight font-serif italic">
-            Prête à sublimer votre chevelure ?
+          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight font-serif italic text-amber-300">
+            Envie de prendre rendez-vous aujourd&apos;hui ?
           </h2>
-          <p className="text-pink-100 text-sm sm:text-base leading-relaxed">
-            Consultez notre carte de prestations ou réservez dès maintenant votre créneau sur WhatsApp en quelques secondes.
+          <p className="text-stone-300 text-sm sm:text-base leading-relaxed">
+            Écrivez-nous sur WhatsApp ou appelez directement le {siteConfig.phone} — nous sommes ouverts tous les jours de 9h à 21h à {siteConfig.district}.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <a
               href={getWhatsAppBookingUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-emerald-800 bg-white shadow-lg hover:bg-rose-50 hover:scale-105 active:scale-95 transition-all min-h-[48px]"
-              aria-label={`Réserver sur WhatsApp avec ${siteConfig.brandName}`}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 shadow-lg active:scale-95 transition-all min-h-[48px]"
             >
-              <WhatsApp className="w-4 h-4 text-emerald-600" />
+              <WhatsAppBrand className="w-4 h-4 text-white" />
               <span>Réserver sur WhatsApp</span>
+            </a>
+            <a
+              href={getPhoneCallUrl()}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-[#0f0e0c] bg-amber-400 hover:bg-amber-300 shadow-lg active:scale-95 transition-all min-h-[48px]"
+            >
+              <Phone className="w-4 h-4 text-[#0f0e0c]" />
+              <span>Appeler le {siteConfig.phone}</span>
             </a>
             <Link
               href="/prestations"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold text-white border-2 border-white/60 hover:bg-white/10 hover:border-white transition-all min-h-[48px]"
-              aria-label="Voir la liste complète de nos prestations"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold text-stone-200 border border-stone-700 hover:border-amber-400 hover:text-amber-300 transition-all min-h-[48px]"
             >
-              <span>Voir les prestations</span>
+              <span>Voir la carte</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

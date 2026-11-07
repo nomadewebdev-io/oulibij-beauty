@@ -7,8 +7,8 @@ import { Sparkles } from '@/components/ui/Icons'
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: `Prestations & Tarifs | ${siteConfig.name}`,
-  description: `Découvrez la carte complète des soins et tarifs du salon ${siteConfig.name} à ${siteConfig.district}, ${siteConfig.city} : coupes, tresses, balayages, lissages et soins profonds.`,
+  title: 'Prestations & Spécialités',
+  description: `Carte des prestations ${siteConfig.brandName} à ${siteConfig.district}, ${siteConfig.city} : maquillage (cérémonie, simple, contouring), coiffure (tissage, tresse, bouclage, pose lace, Stream Pod, teinture, soins) et boutique cosmétiques, parfumerie & accessoires.`,
 }
 
 export default async function PrestationsPage() {
@@ -18,23 +18,21 @@ export default async function PrestationsPage() {
   ])
 
   return (
-    <div className="pt-10 pb-20 px-4 sm:px-8 lg:px-12 bg-transparent">
+    <div className="pt-10 pb-20 px-4 sm:px-8 lg:px-12 bg-white">
       <div className="max-w-7xl mx-auto">
-        {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100/90 border border-pink-200 text-pink-600 text-xs font-bold tracking-wider uppercase mb-3 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-pink-500" />
-            <span>Menu & Tarifs Officiels</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0f0e0c] border border-amber-500/40 text-amber-300 text-xs font-bold tracking-wider uppercase mb-3 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>Carte Officielle • {siteConfig.brandName}</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-zinc-950 tracking-tight font-serif italic">
-            Nos Prestations & Soins
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0f0e0c] tracking-tight font-serif italic">
+            Maquillage, Coiffure &amp; Parfumerie
           </h1>
-          <p className="mt-4 text-zinc-600 text-sm sm:text-base leading-relaxed">
-            Chaque prestation comprend un diagnostic capillaire personnalisé, un shampoing massant relaxant et des conseils experts pour sublimer votre chevelure.
+          <p className="mt-4 text-stone-600 text-sm sm:text-base leading-relaxed">
+            {siteConfig.tagline}. Découvrez nos prestations réalisées tous les jours de 9h à 21h à {siteConfig.fullAddress}.
           </p>
         </div>
 
-        {/* Dynamic Services grouped by Category */}
         <PrestationsList
           initialGroupedServices={groupedServices}
           allServices={allServices}

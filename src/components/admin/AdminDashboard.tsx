@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useState } from 'react'
 import Image from 'next/image'
@@ -78,7 +78,7 @@ export function AdminDashboard({
   const [isStaffModalOpen, setIsStaffModalOpen] = useState(false)
   const [staffActionLoading, setStaffActionLoading] = useState(false)
 
-  // Disponibilités state
+  // DisponibilitÃ©s state
   const [disponibilites, setDisponibilites] = useState<Disponibilite[]>(initialDisponibilites)
   const [selectedStaffForDispo, setSelectedStaffForDispo] = useState<string>(
     initialStaff[0]?.id || ''
@@ -91,9 +91,9 @@ export function AdminDashboard({
   const statusLabels: Record<string, string> = {
     Tous: 'Tous',
     en_attente: 'En attente',
-    confirme: 'Confirmés',
-    termine: 'Terminés',
-    annule: 'Annulés',
+    confirme: 'ConfirmÃ©s',
+    termine: 'TerminÃ©s',
+    annule: 'AnnulÃ©s',
   }
 
   const formatAppointmentStatusLabel = (status: string): string =>
@@ -114,7 +114,7 @@ export function AdminDashboard({
       setAppointments((prev) =>
         prev.map((a) => (a.id === id ? { ...a, statut: newStatus } : a))
       )
-      showNotification(`Rendez-vous mis à jour (${newStatus}).`)
+      showNotification(`Rendez-vous mis Ã  jour (${newStatus}).`)
     } else {
       showNotification(res.message, 'error')
     }
@@ -257,7 +257,7 @@ export function AdminDashboard({
     })
 
     if (res.success) {
-      showNotification('Disponibilité enregistrée.')
+      showNotification('DisponibilitÃ© enregistrÃ©e.')
       setDisponibilites((prev) => {
         const filtered = prev.filter(
           (d) => !(d.staff_id === selectedStaffForDispo && d.jour_semaine === jourSemaine)
@@ -290,7 +290,7 @@ export function AdminDashboard({
         <div
           className={`fixed bottom-6 right-6 z-50 p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-fadeIn text-sm ${
             feedbackMessage.type === 'success'
-              ? 'bg-zinc-950 text-white border border-pink-500'
+              ? 'bg-zinc-950 text-white border border-amber-500'
               : 'bg-rose-600 text-white'
           }`}
         >
@@ -304,13 +304,13 @@ export function AdminDashboard({
       )}
 
       {/* Top Admin Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border border-rose-100 rounded-3xl p-6 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border border-amber-100 rounded-3xl p-6 shadow-sm">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-pink-100 text-pink-700">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700">
               Espace Administrateur
             </span>
-            <span className="text-xs text-zinc-400">Connecté en tant que {adminUser.email}</span>
+            <span className="text-xs text-zinc-400">ConnectÃ© en tant que {adminUser.email}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 font-serif italic mt-1">
             Tableau de Bord Salon
@@ -327,7 +327,7 @@ export function AdminDashboard({
           </Link>
           <Link
             href="/compte/mes-rendez-vous"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold text-pink-600 bg-pink-50 hover:bg-pink-100 transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold text-amber-600 bg-amber-50 hover:bg-amber-100 transition-colors"
           >
             <span>Mon compte client</span>
           </Link>
@@ -336,7 +336,7 @@ export function AdminDashboard({
 
       {/* Metric Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <div className="bg-white border border-rose-100 rounded-3xl p-5 shadow-sm space-y-1">
+        <div className="bg-white border border-amber-100 rounded-3xl p-5 shadow-sm space-y-1">
           <span className="text-xs font-semibold text-zinc-500">Total RDV</span>
           <div className="text-2xl sm:text-3xl font-black text-zinc-950">
             {stats.totalAppointments}
@@ -351,20 +351,20 @@ export function AdminDashboard({
         </div>
 
         <div className="bg-white border border-emerald-200 rounded-3xl p-5 shadow-sm space-y-1">
-          <span className="text-xs font-semibold text-emerald-600">Confirmés</span>
+          <span className="text-xs font-semibold text-emerald-600">ConfirmÃ©s</span>
           <div className="text-2xl sm:text-3xl font-black text-emerald-600">
             {stats.confirmedAppointments}
           </div>
         </div>
 
-        <div className="bg-white border border-rose-100 rounded-3xl p-5 shadow-sm space-y-1">
+        <div className="bg-white border border-amber-100 rounded-3xl p-5 shadow-sm space-y-1">
           <span className="text-xs font-semibold text-zinc-500">Services</span>
-          <div className="text-2xl sm:text-3xl font-black text-pink-600">
+          <div className="text-2xl sm:text-3xl font-black text-amber-600">
             {stats.totalServices}
           </div>
         </div>
 
-        <div className="bg-white border border-rose-100 rounded-3xl p-5 shadow-sm space-y-1 col-span-2 lg:col-span-1">
+        <div className="bg-white border border-amber-100 rounded-3xl p-5 shadow-sm space-y-1 col-span-2 lg:col-span-1">
           <span className="text-xs font-semibold text-zinc-500">Coiffeuses</span>
           <div className="text-2xl sm:text-3xl font-black text-zinc-900">
             {stats.totalStaff}
@@ -373,17 +373,17 @@ export function AdminDashboard({
       </div>
 
       {/* Main Admin Navigation Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto border-b border-rose-100 pb-3 no-scrollbar">
+      <div className="flex items-center gap-2 overflow-x-auto border-b border-amber-100 pb-3 no-scrollbar">
         <button
           onClick={() => setActiveTab('appointments')}
           className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 ${
             activeTab === 'appointments'
               ? 'bg-zinc-950 text-white shadow-md'
-              : 'bg-white text-zinc-600 border border-rose-100 hover:bg-rose-50'
+              : 'bg-white text-zinc-600 border border-amber-100 hover:bg-amber-50'
           }`}
         >
-          <Calendar className="w-4 h-4 text-pink-400" />
-          <span>Rendez-vous Reçus</span>
+          <Calendar className="w-4 h-4 text-amber-400" />
+          <span>Rendez-vous ReÃ§us</span>
           {stats.pendingAppointments > 0 && (
             <span className="px-1.5 py-0.5 rounded-full bg-amber-500 text-white text-[10px]">
               {stats.pendingAppointments}
@@ -396,10 +396,10 @@ export function AdminDashboard({
           className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 ${
             activeTab === 'services'
               ? 'bg-zinc-950 text-white shadow-md'
-              : 'bg-white text-zinc-600 border border-rose-100 hover:bg-rose-50'
+              : 'bg-white text-zinc-600 border border-amber-100 hover:bg-amber-50'
           }`}
         >
-          <Scissors className="w-4 h-4 text-pink-400" />
+          <Scissors className="w-4 h-4 text-amber-400" />
           <span>Gestion des Services ({services.length})</span>
         </button>
 
@@ -408,11 +408,11 @@ export function AdminDashboard({
           className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 ${
             activeTab === 'staff'
               ? 'bg-zinc-950 text-white shadow-md'
-              : 'bg-white text-zinc-600 border border-rose-100 hover:bg-rose-50'
+              : 'bg-white text-zinc-600 border border-amber-100 hover:bg-amber-50'
           }`}
         >
-          <User className="w-4 h-4 text-pink-400" />
-          <span>Équipe & Coiffeuses ({staffList.length})</span>
+          <User className="w-4 h-4 text-amber-400" />
+          <span>Ã‰quipe & Coiffeuses ({staffList.length})</span>
         </button>
 
         <button
@@ -420,21 +420,21 @@ export function AdminDashboard({
           className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 ${
             activeTab === 'disponibilites'
               ? 'bg-zinc-950 text-white shadow-md'
-              : 'bg-white text-zinc-600 border border-rose-100 hover:bg-rose-50'
+              : 'bg-white text-zinc-600 border border-amber-100 hover:bg-amber-50'
           }`}
         >
-          <Clock className="w-4 h-4 text-pink-400" />
-          <span>Disponibilités & Horaires</span>
+          <Clock className="w-4 h-4 text-amber-400" />
+          <span>DisponibilitÃ©s & Horaires</span>
         </button>
       </div>
 
       {/* ========================================================================= */}
-      {/* TAB 1: RENDEZ-VOUS REÇUS */}
+      {/* TAB 1: RENDEZ-VOUS REÃ‡US */}
       {/* ========================================================================= */}
       {activeTab === 'appointments' && (
         <div className="space-y-6">
           {/* Filters & Search */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/70 border border-rose-100 p-4 rounded-2xl">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/70 border border-amber-100 p-4 rounded-2xl">
             <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto no-scrollbar">
               {['Tous', 'en_attente', 'confirme', 'termine', 'annule'].map((stat) => (
                 <button
@@ -442,7 +442,7 @@ export function AdminDashboard({
                   onClick={() => setAppointmentFilter(stat)}
                   className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
                     appointmentFilter === stat
-                      ? 'bg-pink-600 text-white'
+                      ? 'bg-amber-600 text-white'
                       : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
                   }`}
                 >
@@ -457,7 +457,7 @@ export function AdminDashboard({
                 placeholder="Rechercher client, email..."
                 value={appointmentSearch}
                 onChange={(e) => setAppointmentSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-white border border-rose-200 rounded-full text-xs text-zinc-900 focus:outline-none focus:border-pink-500"
+                className="w-full pl-9 pr-4 py-2 bg-white border border-amber-200 rounded-full text-xs text-zinc-900 focus:outline-none focus:border-amber-500"
               />
               <div className="absolute left-3 top-2.5 text-zinc-400">
                 <Search className="w-3.5 h-3.5" />
@@ -467,8 +467,8 @@ export function AdminDashboard({
 
           {/* Appointments Table / Cards */}
           {filteredAppointments.length === 0 ? (
-            <div className="bg-white border border-rose-100 rounded-3xl p-10 text-center text-zinc-500 text-sm">
-              Aucun rendez-vous trouvé selon vos critères.
+            <div className="bg-white border border-amber-100 rounded-3xl p-10 text-center text-zinc-500 text-sm">
+              Aucun rendez-vous trouvÃ© selon vos critÃ¨res.
             </div>
           ) : (
             <div className="space-y-3">
@@ -484,7 +484,7 @@ export function AdminDashboard({
                 return (
                   <div
                     key={rdv.id}
-                    className="bg-white border border-rose-100 rounded-3xl p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4 shadow-sm hover:border-pink-300 transition-all"
+                    className="bg-white border border-amber-100 rounded-3xl p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4 shadow-sm hover:border-amber-300 transition-all"
                   >
                     <div className="space-y-2 flex-1">
                       <div className="flex items-center gap-3 flex-wrap">
@@ -495,14 +495,14 @@ export function AdminDashboard({
                           #{rdv.id.slice(0, 8)}
                         </span>
                         <span className="text-xs font-semibold text-zinc-500">
-                          {dateFmt} à {startTime}
+                          {dateFmt} Ã  {startTime}
                         </span>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs">
                         <div>
                           <span className="text-zinc-400">Client :</span>{' '}
-                          <strong className="text-zinc-900">{rdv.client_nom || 'Non renseigné'}</strong>
+                          <strong className="text-zinc-900">{rdv.client_nom || 'Non renseignÃ©'}</strong>
                           {rdv.client_telephone && (
                             <p className="text-zinc-500 mt-0.5">{rdv.client_telephone}</p>
                           )}
@@ -515,7 +515,7 @@ export function AdminDashboard({
                           <span className="text-zinc-400">Prestation :</span>{' '}
                           <strong className="text-zinc-900">{rdv.service?.nom || 'Prestation'}</strong>
                           <p className="text-zinc-500 mt-0.5">
-                            Coiffeuse : {rdv.staff ? `${rdv.staff.prenom} ${rdv.staff.nom}` : 'Non assignée'}
+                            Coiffeuse : {rdv.staff ? `${rdv.staff.prenom} ${rdv.staff.nom}` : 'Non assignÃ©e'}
                           </p>
                         </div>
 
@@ -534,7 +534,7 @@ export function AdminDashboard({
                     </div>
 
                     {/* Status Action Buttons */}
-                    <div className="flex items-center gap-2 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-rose-100 flex-wrap">
+                    <div className="flex items-center gap-2 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-amber-100 flex-wrap">
                       {rdv.statut === 'en_attente' && (
                         <>
                           <button
@@ -561,7 +561,7 @@ export function AdminDashboard({
                             onClick={() => handleUpdateStatus(rdv.id, 'termine')}
                             className="px-4 py-2 rounded-full text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors cursor-pointer"
                           >
-                            Marquer Terminé
+                            Marquer TerminÃ©
                           </button>
                           <button
                             disabled={isUpdating}
@@ -576,7 +576,7 @@ export function AdminDashboard({
                       {rdv.statut === 'termine' && (
                         <span className="inline-flex items-center gap-1 text-xs text-blue-600 font-semibold bg-blue-50 px-3 py-1 rounded-full">
                           <CheckCircle2 className="w-3 h-3 text-blue-600" />
-                          <span>Terminé</span>
+                          <span>TerminÃ©</span>
                         </span>
                       )}
 
@@ -586,7 +586,7 @@ export function AdminDashboard({
                           onClick={() => handleUpdateStatus(rdv.id, 'en_attente')}
                           className="px-3 py-1.5 rounded-full text-xs font-semibold text-zinc-600 bg-zinc-100 hover:bg-zinc-200 transition-colors cursor-pointer"
                         >
-                          Rétablir en attente
+                          RÃ©tablir en attente
                         </button>
                       )}
                     </div>
@@ -612,7 +612,7 @@ export function AdminDashboard({
                 setEditingService(null)
                 setIsServiceModalOpen(true)
               }}
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-md shadow-pink-500/20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0f0e0c] border border-amber-500/40 text-amber-300 shadow-md shadow-stone-950/15 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Ajouter une prestation</span>
@@ -624,13 +624,13 @@ export function AdminDashboard({
               <div
                 key={service.id}
                 className={`bg-white border rounded-3xl p-6 flex flex-col justify-between shadow-sm transition-all ${
-                  service.is_active ? 'border-rose-100 hover:border-pink-300' : 'border-zinc-200 opacity-60 bg-zinc-50'
+                  service.is_active ? 'border-amber-100 hover:border-amber-300' : 'border-zinc-200 opacity-60 bg-zinc-50'
                 }`}
               >
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-pink-600 bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-100">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-100">
                         {service.categorie}
                       </span>
                       {service.necessite_essai && (
@@ -652,17 +652,17 @@ export function AdminDashboard({
                   </div>
 
                   <div className="flex items-center gap-2 text-xs text-zinc-500">
-                    <Clock className="w-3.5 h-3.5 text-pink-500" />
+                    <Clock className="w-3.5 h-3.5 text-amber-500" />
                     <span>{formatDuration(service.duree_minutes)}</span>
-                    <span className="text-zinc-300">•</span>
+                    <span className="text-zinc-300">â€¢</span>
                     <span className={service.is_active ? 'text-emerald-600 font-semibold' : 'text-rose-500 font-semibold'}>
-                      {service.is_active ? 'Actif' : 'Désactivé'}
+                      {service.is_active ? 'Actif' : 'DÃ©sactivÃ©'}
                     </span>
                   </div>
                 </div>
 
                 {/* Actions */}
-                <div className="pt-4 mt-4 border-t border-rose-100/70 flex items-center justify-between gap-2">
+                <div className="pt-4 mt-4 border-t border-amber-100/70 flex items-center justify-between gap-2">
                   <button
                     onClick={() => handleToggleService(service)}
                     className={`px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer ${
@@ -671,7 +671,7 @@ export function AdminDashboard({
                         : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
                     }`}
                   >
-                    {service.is_active ? 'Désactiver' : 'Activer'}
+                    {service.is_active ? 'DÃ©sactiver' : 'Activer'}
                   </button>
 
                   <div className="flex items-center gap-1.5">
@@ -701,14 +701,14 @@ export function AdminDashboard({
           {/* Service Add/Edit Modal */}
           {isServiceModalOpen && (
             <div
-              className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn"
+              className="fixed inset-0 z-50 bg-black/70  flex items-center justify-center p-4 animate-fadeIn"
               onClick={() => setIsServiceModalOpen(false)}
             >
               <div
-                className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl border border-pink-100"
+                className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl border border-amber-100"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="flex items-center justify-between border-b border-rose-100 pb-3">
+                <div className="flex items-center justify-between border-b border-amber-100 pb-3">
                   <h3 className="text-xl font-bold text-zinc-950 font-serif italic">
                     {editingService ? 'Modifier la prestation' : 'Ajouter une prestation'}
                   </h3>
@@ -731,25 +731,25 @@ export function AdminDashboard({
                       required
                       defaultValue={editingService?.nom || ''}
                       placeholder="Ex: Soin Botox Capillaire"
-                      className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500"
+                      className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-amber-500"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-700">Catégorie *</label>
+                      <label className="text-xs font-bold text-zinc-700">CatÃ©gorie *</label>
                       <input
                         type="text"
                         name="categorie"
                         required
                         defaultValue={editingService?.categorie || 'Coupe & Coiffage'}
                         placeholder="Ex: Tresses, Soins..."
-                        className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500"
+                        className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-amber-500"
                       />
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-700">Durée (minutes) *</label>
+                      <label className="text-xs font-bold text-zinc-700">DurÃ©e (minutes) *</label>
                       <input
                         type="number"
                         name="duree_minutes"
@@ -757,7 +757,7 @@ export function AdminDashboard({
                         min={15}
                         step={5}
                         defaultValue={editingService?.duree_minutes || 45}
-                        className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500"
+                        className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-amber-500"
                       />
                     </div>
                   </div>
@@ -771,7 +771,7 @@ export function AdminDashboard({
                       min={0}
                       step={0.5}
                       defaultValue={editingService?.prix || 65}
-                      className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500"
+                      className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-amber-500"
                     />
                   </div>
 
@@ -781,21 +781,21 @@ export function AdminDashboard({
                       name="description"
                       rows={3}
                       defaultValue={editingService?.description || ''}
-                      placeholder="Détails de la prestation, étapes et bienfaits..."
-                      className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500 resize-none"
+                      placeholder="DÃ©tails de la prestation, Ã©tapes et bienfaits..."
+                      className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-amber-500 resize-none"
                     />
                   </div>
 
-                  <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-rose-50/60 border border-rose-100">
+                  <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-amber-50/60 border border-amber-100">
                     <input
                       type="checkbox"
                       id="necessite_essai"
                       name="necessite_essai"
                       defaultChecked={editingService?.necessite_essai || false}
-                      className="w-4 h-4 text-pink-600 rounded border-rose-300 focus:ring-pink-500"
+                      className="w-4 h-4 text-amber-600 rounded border-amber-300 focus:ring-amber-500"
                     />
                     <label htmlFor="necessite_essai" className="text-xs font-bold text-zinc-800 cursor-pointer">
-                      Nécessite un essai préalable avant le jour J (ex. Maquillage mariée)
+                      NÃ©cessite un essai prÃ©alable avant le jour J (ex. Maquillage mariÃ©e)
                     </label>
                   </div>
 
@@ -810,7 +810,7 @@ export function AdminDashboard({
                     <button
                       type="submit"
                       disabled={serviceActionLoading}
-                      className="px-6 py-2.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-md hover:scale-105 transition-all"
+                      className="px-6 py-2.5 rounded-full text-xs font-bold text-white bg-[#0f0e0c] border border-amber-500/40 text-amber-300 shadow-md hover:scale-105 transition-all"
                     >
                       {serviceActionLoading ? 'Enregistrement...' : 'Enregistrer'}
                     </button>
@@ -829,14 +829,14 @@ export function AdminDashboard({
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-zinc-950 font-serif italic">
-              Équipe de Coiffeuses ({staffList.length})
+              Ã‰quipe de Coiffeuses ({staffList.length})
             </h2>
             <button
               onClick={() => {
                 setEditingStaff(null)
                 setIsStaffModalOpen(true)
               }}
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-md shadow-pink-500/20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0f0e0c] border border-amber-500/40 text-amber-300 shadow-md shadow-stone-950/15 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Ajouter une coiffeuse</span>
@@ -848,12 +848,12 @@ export function AdminDashboard({
               <div
                 key={st.id}
                 className={`bg-white border rounded-3xl p-6 flex flex-col justify-between shadow-sm transition-all ${
-                  st.is_active ? 'border-rose-100 hover:border-pink-300' : 'border-zinc-200 opacity-60 bg-zinc-50'
+                  st.is_active ? 'border-amber-100 hover:border-amber-300' : 'border-zinc-200 opacity-60 bg-zinc-50'
                 }`}
               >
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-pink-500 to-rose-300 text-white font-bold flex items-center justify-center shrink-0 shadow-sm overflow-hidden relative">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-600 to-amber-300 text-white font-bold flex items-center justify-center shrink-0 shadow-sm overflow-hidden relative">
                       {st.avatar_url ? (
                         <Image
                           src={st.avatar_url}
@@ -872,33 +872,33 @@ export function AdminDashboard({
                       <h3 className="text-base font-bold text-zinc-950">
                         {st.prenom} {st.nom}
                       </h3>
-                      <p className="text-xs font-semibold text-pink-600">
+                      <p className="text-xs font-semibold text-amber-600">
                         {st.specialite || 'Coiffeuse Styliste'}
                       </p>
                     </div>
                   </div>
 
                   <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2">
-                    {st.bio || 'Pas de biographie renseignée.'}
+                    {st.bio || 'Pas de biographie renseignÃ©e.'}
                   </p>
 
                   <div className="space-y-1 text-xs text-zinc-500 pt-1">
                     {st.email && (
                       <p className="flex items-center gap-1.5 truncate">
-                        <Mail className="w-3 h-3 text-rose-400 shrink-0" />
+                        <Mail className="w-3 h-3 text-amber-600 shrink-0" />
                         {st.email}
                       </p>
                     )}
                     {st.telephone && (
                       <p className="flex items-center gap-1.5">
-                        <Phone className="w-3 h-3 text-rose-400 shrink-0" />
+                        <Phone className="w-3 h-3 text-amber-600 shrink-0" />
                         {st.telephone}
                       </p>
                     )}
                   </div>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-rose-100/70 flex items-center justify-between gap-2">
+                <div className="pt-4 mt-4 border-t border-amber-100/70 flex items-center justify-between gap-2">
                   <button
                     onClick={() => handleToggleStaff(st)}
                     className={`px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer ${
@@ -907,7 +907,7 @@ export function AdminDashboard({
                         : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
                     }`}
                   >
-                    {st.is_active ? 'Désactiver' : 'Activer'}
+                    {st.is_active ? 'DÃ©sactiver' : 'Activer'}
                   </button>
 
                   <div className="flex items-center gap-1.5">
@@ -937,14 +937,14 @@ export function AdminDashboard({
           {/* Staff Add/Edit Modal */}
           {isStaffModalOpen && (
             <div
-              className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn"
+              className="fixed inset-0 z-50 bg-black/70  flex items-center justify-center p-4 animate-fadeIn"
               onClick={() => setIsStaffModalOpen(false)}
             >
               <div
-                className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl border border-pink-100"
+                className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl border border-amber-100"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="flex items-center justify-between border-b border-rose-100 pb-3">
+                <div className="flex items-center justify-between border-b border-amber-100 pb-3">
                   <h3 className="text-xl font-bold text-zinc-950 font-serif italic">
                     {editingStaff ? 'Modifier la coiffeuse' : 'Ajouter une coiffeuse'}
                   </h3>
@@ -961,14 +961,14 @@ export function AdminDashboard({
 
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-700">Prénom *</label>
+                      <label className="text-xs font-bold text-zinc-700">PrÃ©nom *</label>
                       <input
                         type="text"
                         name="prenom"
                         required
                         defaultValue={editingStaff?.prenom || ''}
-                        placeholder="Ex: Aminata"
-                        className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500"
+                        placeholder="Ex: PÃ´le Maquillage"
+                        className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-amber-600"
                       />
                     </div>
                     <div className="space-y-1">
@@ -978,32 +978,32 @@ export function AdminDashboard({
                         name="nom"
                         required
                         defaultValue={editingStaff?.nom || ''}
-                        placeholder="Ex: Diallo"
-                        className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500"
+                        placeholder="Ex: & Regard"
+                        className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-amber-600"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-zinc-700">Spécialité</label>
+                    <label className="text-xs font-bold text-zinc-700">SpÃ©cialitÃ©</label>
                     <input
                       type="text"
                       name="specialite"
                       defaultValue={editingStaff?.specialite || ''}
-                      placeholder="Ex: Master Coloriste, Tresses Artistiques, Soins Botox..."
-                      className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500"
+                      placeholder="Ex: Maquillage CÃ©rÃ©monie, Pose Lace, Stream Pod..."
+                      className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-amber-600"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <label className="text-xs font-bold text-zinc-700">Téléphone</label>
+                      <label className="text-xs font-bold text-zinc-700">TÃ©lÃ©phone</label>
                       <input
                         type="tel"
                         name="telephone"
                         defaultValue={editingStaff?.telephone || ''}
-                        placeholder="+221 77 000 00 00"
-                        className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500"
+                        placeholder="+221 77 619 58 50"
+                        className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-amber-600"
                       />
                     </div>
                     <div className="space-y-1">
@@ -1012,20 +1012,20 @@ export function AdminDashboard({
                         type="email"
                         name="email"
                         defaultValue={editingStaff?.email || ''}
-                        placeholder="aminata@oulibij-beauty.sn"
-                        className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500"
+                        placeholder="Optionnel"
+                        className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-amber-600"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-zinc-700">Biographie & Présentation</label>
+                    <label className="text-xs font-bold text-zinc-700">Biographie & PrÃ©sentation</label>
                     <textarea
                       name="bio"
                       rows={3}
                       defaultValue={editingStaff?.bio || ''}
-                      placeholder="Parcours, années d'expérience et passion..."
-                      className="w-full px-4 py-2.5 bg-white border border-rose-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-pink-500 resize-none"
+                      placeholder="Parcours, annÃ©es d'expÃ©rience et passion..."
+                      className="w-full px-4 py-2.5 bg-white border border-amber-200 rounded-2xl text-zinc-950 text-sm focus:outline-none focus:border-amber-500 resize-none"
                     />
                   </div>
 
@@ -1040,7 +1040,7 @@ export function AdminDashboard({
                     <button
                       type="submit"
                       disabled={staffActionLoading}
-                      className="px-6 py-2.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-400 shadow-md hover:scale-105 transition-all"
+                      className="px-6 py-2.5 rounded-full text-xs font-bold text-white bg-[#0f0e0c] border border-amber-500/40 text-amber-300 shadow-md hover:scale-105 transition-all"
                     >
                       {staffActionLoading ? 'Enregistrement...' : 'Enregistrer'}
                     </button>
@@ -1053,7 +1053,7 @@ export function AdminDashboard({
       )}
 
       {/* ========================================================================= */}
-      {/* TAB 4: GESTION DES DISPONIBILITÉS */}
+      {/* TAB 4: GESTION DES DISPONIBILITÃ‰S */}
       {/* ========================================================================= */}
       {activeTab === 'disponibilites' && (
         <div className="space-y-6">
@@ -1063,7 +1063,7 @@ export function AdminDashboard({
                 Horaires de Travail par Coiffeuse
               </h2>
               <p className="text-xs text-zinc-500">
-                Configurez les jours et heures de travail de chaque membre de l&apos;équipe.
+                Configurez les jours et heures de travail de chaque membre de l&apos;Ã©quipe.
               </p>
             </div>
 
@@ -1073,7 +1073,7 @@ export function AdminDashboard({
               <select
                 value={selectedStaffForDispo}
                 onChange={(e) => setSelectedStaffForDispo(e.target.value)}
-                className="px-4 py-2 bg-white border border-rose-200 rounded-full text-xs font-semibold text-zinc-900 focus:outline-none focus:border-pink-500 shadow-sm"
+                className="px-4 py-2 bg-white border border-amber-200 rounded-full text-xs font-semibold text-zinc-900 focus:outline-none focus:border-amber-500 shadow-sm"
               >
                 {staffList.map((st) => (
                   <option key={st.id} value={st.id}>
@@ -1085,15 +1085,15 @@ export function AdminDashboard({
           </div>
 
           {/* Schedule Configuration Card */}
-          <div className="bg-white border border-rose-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
-            <div className="divide-y divide-rose-100">
+          <div className="bg-white border border-amber-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+            <div className="divide-y divide-amber-100">
               {daysOfWeek.map((day) => {
                 const currentDispo = disponibilites.find(
                   (d) => d.staff_id === selectedStaffForDispo && d.jour_semaine === day.dayNumber
                 )
-                const isWorking = currentDispo ? currentDispo.is_active : day.dayNumber !== 0
+                const isWorking = currentDispo ? currentDispo.is_active : true
                 const debut = currentDispo?.heure_debut ? currentDispo.heure_debut.slice(0, 5) : '09:00'
-                const fin = currentDispo?.heure_fin ? currentDispo.heure_fin.slice(0, 5) : '19:00'
+                const fin = currentDispo?.heure_fin ? currentDispo.heure_fin.slice(0, 5) : '21:00'
                 const isSaving = dispoSavingDay === day.dayNumber
 
                 return (
@@ -1115,7 +1115,7 @@ export function AdminDashboard({
                         id={`active_${day.dayNumber}`}
                         name="is_active"
                         defaultChecked={isWorking}
-                        className="w-4 h-4 text-pink-600 rounded focus:ring-pink-500"
+                        className="w-4 h-4 text-amber-600 rounded focus:ring-amber-500"
                       />
                       <label htmlFor={`active_${day.dayNumber}`} className="text-sm font-bold text-zinc-900 cursor-pointer">
                         {day.name}
@@ -1129,17 +1129,17 @@ export function AdminDashboard({
                           type="time"
                           name="heure_debut"
                           defaultValue={debut}
-                          className="px-2.5 py-1.5 bg-zinc-50 border border-rose-200 rounded-xl text-xs text-zinc-900 focus:outline-none focus:border-pink-500"
+                          className="px-2.5 py-1.5 bg-zinc-50 border border-amber-200 rounded-xl text-xs text-zinc-900 focus:outline-none focus:border-amber-500"
                         />
                       </div>
 
                       <div className="flex items-center gap-1.5 text-xs text-zinc-600">
-                        <span>À</span>
+                        <span>Ã€</span>
                         <input
                           type="time"
                           name="heure_fin"
                           defaultValue={fin}
-                          className="px-2.5 py-1.5 bg-zinc-50 border border-rose-200 rounded-xl text-xs text-zinc-900 focus:outline-none focus:border-pink-500"
+                          className="px-2.5 py-1.5 bg-zinc-50 border border-amber-200 rounded-xl text-xs text-zinc-900 focus:outline-none focus:border-amber-500"
                         />
                       </div>
 

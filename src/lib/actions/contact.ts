@@ -1,40 +1,48 @@
 'use server'
 
+import { siteConfig } from '@/config/site'
+
 export interface ContactActionResult {
   success: boolean
   error?: string
   message?: string
 }
 
-/**
- * Envoi de message de contact (mode autonome sans Supabase)
- * Valide les informations et confirme la réception avec possibilité de bascule WhatsApp.
- */
 export async function sendMessageContactAction(
   _prevState: ContactActionResult | null,
   formData: FormData
 ): Promise<ContactActionResult> {
   const nom = (formData.get('nom') as string)?.trim()
+  const telephone = (formData.get('telephone') as string)?.trim()
   const email = (formData.get('email') as string)?.trim()
   const message = (formData.get('message') as string)?.trim()
 
-  if (!nom || !email || !message) {
+  if (!nom || !message) {
     return {
       success: false,
-      error: 'Veuillez remplir tous les champs obligatoires (nom, email, message).',
+      error: 'Veuillez renseigner votre nom ainsi que votre message.',
     }
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(email)) {
+  if (!telephone && !email) {
     return {
       success: false,
-      error: 'Veuillez saisir une adresse e-mail valide.',
+      error: 'Veuillez indiquer votre numéro de téléphone ou une adresse e-mail pour vous recontacter.',
+    }
+  }
+
+  if (email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return {
+        success: false,
+        error: 'Veuillez saisir une adresse e-mail valide.',
+      }
     }
   }
 
   return {
     success: true,
-    message: 'Votre message a bien été transmis à l’équipe Oulibij Beauty. Vous pouvez également nous joindre directement sur WhatsApp pour une réponse immédiate.',
+    message: `Merci ${nom}, votre demande est enregistrée auprès d'${siteConfig.brandName}. Pour une prise en charge immédiate (9h-21h), cliquez sur le bouton WhatsApp au ${siteConfig.whatsappDisplay}.`,
   }
 }
