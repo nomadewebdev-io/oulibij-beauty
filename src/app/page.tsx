@@ -1,5 +1,6 @@
 import { HeroSection } from '@/components/home/HeroSection'
 import { ServicesSection } from '@/components/home/ServicesSection'
+import { BoutiqueSection } from '@/components/home/BoutiqueSection'
 import { TeamSection } from '@/components/home/TeamSection'
 import { GallerySection } from '@/components/home/GallerySection'
 import { TestimonialsSection } from '@/components/home/TestimonialsSection'
@@ -22,6 +23,7 @@ export default async function HomePage() {
     <div>
       <HeroSection />
       <ServicesSection initialServices={services} />
+      <BoutiqueSection />
       <TeamSection initialStaff={staff} />
       <GallerySection initialRealisations={realisations} />
       <TestimonialsSection />

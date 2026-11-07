@@ -13,7 +13,7 @@ Site vitrine et réservation directe sur WhatsApp du salon **OuliBij Beauté** (
 - **Services** :
   - **Maquillage** : cérémonie, simple et contouring
   - **Coiffure** : tissage, tresse, bouclage, pose lace, Stream Pod, teinture, soins
-  - **Divers** : cosmétiques, parfumerie, accessoires
+  - **Boutique (`/boutique`, `src/data/products.ts`)** : cosmétiques, parfumerie, accessoires
 
 ---
 

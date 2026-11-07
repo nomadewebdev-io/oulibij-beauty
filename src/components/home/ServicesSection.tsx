@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { Service } from '@/types'
 import { formatCurrency, formatDuration } from '@/lib/utils'
 import { siteConfig, getWhatsAppBookingUrl } from '@/config/site'
-import { Clock, ArrowRight, Scissors, Eye, Gem, Sparkles, WhatsAppBrand } from '@/components/ui/Icons'
+import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { Clock, ArrowRight, Scissors, Eye, Sparkles, WhatsAppBrand } from '@/components/ui/Icons'
 
 interface ServicesSectionProps {
   initialServices?: Service[]
@@ -13,9 +14,7 @@ interface ServicesSectionProps {
 }
 
 function getCategoryIcon(category: string) {
-  const lower = category.toLowerCase()
-  if (lower.includes('maquillage')) return Eye
-  if (lower.includes('divers') || lower.includes('cosmétique') || lower.includes('parfum')) return Gem
+  if (category.toLowerCase().includes('maquillage')) return Eye
   return Scissors
 }
 
@@ -40,18 +39,18 @@ export function ServicesSection({ initialServices = [], showAllLink = true }: Se
   return (
     <section id="prestations" className="py-20 px-4 sm:px-8 lg:px-12 border-t border-amber-900/10 bg-white scroll-mt-24">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <RevealOnScroll className="text-center max-w-2xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#fdf9f0] border border-amber-600/30 text-amber-800 text-xs font-bold tracking-wider uppercase mb-3">
             <Sparkles className="w-3.5 h-3.5 text-amber-700" />
-            <span>Maquillage • Coiffure • Cosmétiques &amp; Parfums</span>
+            <span>Maquillage • Coiffure</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0f0e0c] tracking-tight">
-            Nos Services &amp; Spécialités
+            Nos Prestations &amp; Spécialités
           </h2>
           <p className="mt-3 text-stone-600 text-sm sm:text-base">
-            Retrouvez l&apos;ensemble des prestations {siteConfig.brandName} à {siteConfig.district}. Tarifs indicatifs en Franc CFA — confirmation et devis sur-mesure sur WhatsApp.
+            Retrouvez les prestations maquillage et coiffure {siteConfig.brandName} à {siteConfig.district}. Tarifs indicatifs en Franc CFA — confirmation et devis sur-mesure sur WhatsApp.
           </p>
-        </div>
+        </RevealOnScroll>
 
         {categories.length > 2 && (
           <div className="flex items-center justify-center gap-2.5 overflow-x-auto pb-4 mb-10 no-scrollbar">
@@ -60,6 +59,7 @@ export function ServicesSection({ initialServices = [], showAllLink = true }: Se
               return (
                 <button
                   key={cat}
+                  type="button"
                   onClick={() => setActiveCategory(cat)}
                   className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all whitespace-nowrap cursor-pointer min-h-[44px] ${
                     isSelected
@@ -67,7 +67,7 @@ export function ServicesSection({ initialServices = [], showAllLink = true }: Se
                       : 'bg-[#faf8f4] text-stone-700 hover:bg-amber-50 hover:text-[#0f0e0c] border border-amber-900/15'
                   }`}
                 >
-                  {cat === 'Divers' ? 'Divers (Cosmétiques & Parfums)' : cat}
+                  {cat}
                 </button>
               )
             })}
@@ -75,60 +75,58 @@ export function ServicesSection({ initialServices = [], showAllLink = true }: Se
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredServices.map((service) => {
+          {filteredServices.map((service, index) => {
             const CategoryIcon = getCategoryIcon(service.categorie || '')
-            const isBoutique = (service.categorie || '').toLowerCase().includes('divers')
             const bookingUrl = getWhatsAppBookingUrl(service.nom)
 
             return (
-              <div
-                key={service.id}
-                className="bg-[#faf8f4] border border-amber-900/15 rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:border-amber-600/50 hover:bg-white hover:shadow-xl hover:shadow-stone-950/5 transition-all duration-300 group"
-              >
-                <div>
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300 bg-[#0f0e0c] px-3 py-1 rounded-full border border-amber-500/40">
-                        {service.categorie}
-                      </span>
-                      {service.necessite_essai && (
-                        <span className="text-[10px] font-bold uppercase text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300">
-                          Cérémonie
+              <RevealOnScroll key={service.id} delayMs={(index % 3) * 60}>
+                <div className="h-full bg-[#faf8f4] border border-amber-900/15 rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:-translate-y-1 hover:border-amber-600/50 hover:bg-white hover:shadow-xl hover:shadow-stone-950/5 transition-all duration-300 group">
+                  <div>
+                    <div className="flex items-start justify-between gap-4 mb-4">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300 bg-[#0f0e0c] px-3 py-1 rounded-full border border-amber-500/40">
+                          {service.categorie}
                         </span>
-                      )}
+                        {service.necessite_essai && (
+                          <span className="text-[10px] font-bold uppercase text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300">
+                            Cérémonie
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-base sm:text-lg font-black text-[#0f0e0c] group-hover:text-amber-800 transition-colors text-right">
+                        {formatCurrency(Number(service.prix), true)}
+                      </span>
                     </div>
-                    <span className="text-base sm:text-lg font-black text-[#0f0e0c] group-hover:text-amber-800 transition-colors text-right">
-                      {formatCurrency(Number(service.prix), true)}
-                    </span>
+
+                    <h3 className="text-lg font-bold text-[#0f0e0c] mb-2 flex items-center gap-2 group-hover:text-amber-800 transition-colors">
+                      <CategoryIcon className="w-4 h-4 text-amber-700 shrink-0" />
+                      <span>{service.nom}</span>
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-stone-600 leading-relaxed mb-6">
+                      {service.description}
+                    </p>
                   </div>
 
-                  <h3 className="text-lg font-bold text-[#0f0e0c] mb-2 flex items-center gap-2 group-hover:text-amber-800 transition-colors">
-                    <CategoryIcon className="w-4 h-4 text-amber-700 shrink-0" />
-                    <span>{service.nom}</span>
-                  </h3>
+                  <div className="pt-4 border-t border-amber-900/10 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-1.5 text-xs font-medium text-stone-600">
+                      <Clock className="w-3.5 h-3.5 text-amber-700" />
+                      <span>{formatDuration(service.duree_minutes)}</span>
+                    </div>
 
-                  <p className="text-xs sm:text-sm text-stone-600 leading-relaxed mb-6">
-                    {service.description}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-amber-900/10 flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-1.5 text-xs font-medium text-stone-600">
-                    <Clock className="w-3.5 h-3.5 text-amber-700" />
-                    <span>{formatDuration(service.duree_minutes)}</span>
+                    <a
+                      href={bookingUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-600 shadow-sm hover:shadow-md active:scale-95 transition-all min-h-[40px]"
+                    >
+                      <WhatsAppBrand className="w-3.5 h-3.5 text-white" />
+                      <span>Réserver</span>
+                    </a>
                   </div>
-
-                  <a
-                    href={bookingUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm hover:shadow-md active:scale-95 transition-all min-h-[40px]"
-                  >
-                    <WhatsAppBrand className="w-3.5 h-3.5 text-white" />
-                    <span>{isBoutique ? 'Commander' : 'Réserver'}</span>
-                  </a>
                 </div>
-              </div>
+              </RevealOnScroll>
             )
           })}
         </div>

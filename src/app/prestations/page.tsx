@@ -1,4 +1,5 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import { getServices, getServicesGroupedByCategory } from '@/lib/actions/services'
 import { PrestationsList } from '@/components/prestations/PrestationsList'
 import { siteConfig } from '@/config/site'
@@ -6,9 +7,14 @@ import { Sparkles } from '@/components/ui/Icons'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata = {
-  title: 'Prestations & Spécialités',
-  description: `Carte des prestations ${siteConfig.brandName} à ${siteConfig.district}, ${siteConfig.city} : maquillage (cérémonie, simple, contouring), coiffure (tissage, tresse, bouclage, pose lace, Stream Pod, teinture, soins) et boutique cosmétiques, parfumerie & accessoires.`,
+const baseUrl = siteConfig.seo.siteUrl.replace(/\/$/, '')
+
+export const metadata: Metadata = {
+  title: 'Prestations Maquillage & Coiffure',
+  description: `Carte des prestations ${siteConfig.brandName} à ${siteConfig.district}, ${siteConfig.city} : maquillage (cérémonie, simple, contouring) et coiffure féminine (tissage, tresse, bouclage, pose lace, Stream Pod, teinture, soins).`,
+  alternates: {
+    canonical: `${baseUrl}/prestations`,
+  },
 }
 
 export default async function PrestationsPage() {
@@ -26,10 +32,10 @@ export default async function PrestationsPage() {
             <span>Carte Officielle • {siteConfig.brandName}</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0f0e0c] tracking-tight font-serif italic">
-            Maquillage, Coiffure &amp; Parfumerie
+            Maquillage &amp; Coiffure
           </h1>
           <p className="mt-4 text-stone-600 text-sm sm:text-base leading-relaxed">
-            {siteConfig.tagline}. Découvrez nos prestations réalisées tous les jours de 9h à 21h à {siteConfig.fullAddress}.
+            {siteConfig.tagline}. Découvrez nos prestations salon réalisées tous les jours de 9h à 21h à {siteConfig.fullAddress}.
           </p>
         </div>
 

@@ -9,6 +9,7 @@ import {
   Scissors,
   Eye,
   Gem,
+  ShoppingBag,
   ArrowRight,
   Phone,
   WhatsAppBrand,
@@ -183,15 +184,25 @@ export default async function AProposPage() {
               </p>
 
               <div className="mt-auto w-full pt-4 border-t border-amber-900/10">
-                <a
-                  href={getWhatsAppBookingUrl(`${member.prenom} ${member.nom}`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition-all active:scale-95 shadow-sm min-h-[44px]"
-                >
-                  <WhatsAppBrand className="w-3.5 h-3.5 text-white" />
-                  <span>Prendre RDV sur WhatsApp</span>
-                </a>
+                {member.prenom.toLowerCase().includes('boutique') ? (
+                  <Link
+                    href="/boutique"
+                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-xs font-bold text-amber-300 bg-[#0f0e0c] hover:bg-stone-900 border border-amber-500/40 transition-all active:scale-95 shadow-sm min-h-[44px]"
+                  >
+                    <ShoppingBag className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Accéder à la Boutique</span>
+                  </Link>
+                ) : (
+                  <a
+                    href={getWhatsAppBookingUrl(`${member.prenom} ${member.nom}`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-600 transition-all active:scale-95 shadow-sm min-h-[44px]"
+                  >
+                    <WhatsAppBrand className="w-3.5 h-3.5 text-white" />
+                    <span>Prendre RDV sur WhatsApp</span>
+                  </a>
+                )}
               </div>
             </div>
           ))}

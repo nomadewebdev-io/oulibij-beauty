@@ -246,6 +246,9 @@ export const siteConfig: SiteConfig = {
       'Stream Pod Dakar',
       'tissage tresse bouclage Dakar',
       'cosmétiques parfumerie Dakar',
+      'boutique OuliBij Beauté',
+      'parfumerie Liberté 6',
+      'accessoires beauté Dakar',
     ],
     locale: 'fr_FR',
     ogImage: {
@@ -283,8 +286,8 @@ export const siteConfig: SiteConfig = {
     ],
   },
 
-  // Catégories officielles
-  categories: ['Tous', 'Maquillage', 'Coiffure', 'Divers'],
+  // Catégories officielles des prestations salon
+  categories: ['Tous', 'Maquillage', 'Coiffure'],
 
   // Prestations & produits réels d'OuliBij Beauté (tarifs indicatifs en FCFA)
   services: [
@@ -441,53 +444,6 @@ export const siteConfig: SiteConfig = {
       created_at: '2026-11-07T00:00:00.000Z',
       updated_at: '2026-11-07T00:00:00.000Z',
     },
-
-    // --- DIVERS (COSMÉTIQUES, PARFUMERIE, ACCESSOIRES) ---
-    {
-      id: '00000000-0000-0001-0001-000000000011',
-      salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Cosmétiques & Soins Beauté',
-      description:
-        'Gamme sélectionnée de produits cosmétiques, soins visage et corps, palettes maquillage et produits capillaires disponibles directement au salon.',
-      categorie: 'Divers',
-      duree_minutes: 0,
-      prix: 3000,
-      image_url: '/images/hero-1.jpg',
-      is_active: true,
-      necessite_essai: false,
-      created_at: '2026-11-07T00:00:00.000Z',
-      updated_at: '2026-11-07T00:00:00.000Z',
-    },
-    {
-      id: '00000000-0000-0001-0001-000000000012',
-      salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Parfumerie & Senteurs Raffinées',
-      description:
-        'Eaux de parfum, brumes corporelles et essences féminines au sillage élégant et tenace, à découvrir et tester chez OuliBij Beauté.',
-      categorie: 'Divers',
-      duree_minutes: 0,
-      prix: 5000,
-      image_url: '/images/hero-4.jpg',
-      is_active: true,
-      necessite_essai: false,
-      created_at: '2026-11-07T00:00:00.000Z',
-      updated_at: '2026-11-07T00:00:00.000Z',
-    },
-    {
-      id: '00000000-0000-0001-0001-000000000013',
-      salon_id: '00000000-0000-0000-0000-000000000001',
-      nom: 'Accessoires Beauté, Cils & Cheveux',
-      description:
-        'Bijoux de tête dorés, barrettes, parures, faux cils pour sublimer le regard, bonnets en satin et accessoires de coiffure.',
-      categorie: 'Divers',
-      duree_minutes: 0,
-      prix: 2000,
-      image_url: '/images/hero-2.jpg',
-      is_active: true,
-      necessite_essai: false,
-      created_at: '2026-11-07T00:00:00.000Z',
-      updated_at: '2026-11-07T00:00:00.000Z',
-    },
   ],
 
   // Pôles d'expertise du salon OuliBij Beauté (aucun profil fictif)
@@ -584,7 +540,7 @@ export const siteConfig: SiteConfig = {
       titre: 'Lissage Stream Pod, Soins & Accessoires Dorés',
       description: 'Détente vapeur brillante et finition par barrettes bijou disponibles dans notre espace boutique.',
       image_url: '/images/hero-2.jpg',
-      categorie: 'Divers',
+      categorie: 'Coiffure',
       date_realisation: '2026-11-04',
       created_at: '2026-11-07T00:00:00.000Z',
       updated_at: '2026-11-07T00:00:00.000Z',
@@ -626,6 +582,7 @@ export const siteConfig: SiteConfig = {
   navLinks: [
     { label: 'Accueil', href: '/' },
     { label: 'Prestations', href: '/prestations' },
+    { label: 'Boutique', href: '/boutique' },
     { label: 'Réalisations', href: '/realisations' },
     { label: 'À propos', href: '/a-propos' },
     { label: 'Contact & Accès', href: '/contact' },

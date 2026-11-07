@@ -65,6 +65,33 @@
   animation: spinSlow 12s linear infinite;
 }
 
+.reveal-scroll {
+  transition-property: opacity, transform;
+  transition-duration: 650ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-scroll-hidden {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+}
+
+.reveal-scroll-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-scroll,
+  .reveal-scroll-hidden,
+  .reveal-scroll-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

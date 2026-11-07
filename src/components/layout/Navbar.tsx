@@ -34,14 +34,14 @@ export function Navbar() {
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-7" aria-label="Navigation principale">
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-7" aria-label="Navigation principale">
           {siteConfig.navLinks.map((link) => {
             const isActive = pathname === link.href
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-all relative py-1 hover:text-amber-800 ${
+                className={`text-sm font-medium transition-all relative py-1 whitespace-nowrap hover:text-amber-800 ${
                   isActive ? 'text-[#0f0e0c] font-bold' : 'text-stone-600'
                 }`}
               >

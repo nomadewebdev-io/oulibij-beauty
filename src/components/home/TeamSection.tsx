@@ -1,7 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Staff } from '@/types'
-import { Sparkles, WhatsAppBrand } from '@/components/ui/Icons'
+import { ShoppingBag, Sparkles, WhatsAppBrand } from '@/components/ui/Icons'
 import { siteConfig, getWhatsAppBookingUrl } from '@/config/site'
 
 interface TeamSectionProps {
@@ -93,16 +94,26 @@ export function TeamSection({ initialStaff = [] }: TeamSectionProps) {
                     isPrimaryPole ? 'border-stone-800' : 'border-amber-900/10'
                   }`}
                 >
-                  <a
-                    href={getWhatsAppBookingUrl(`${member.prenom} ${member.nom}`)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-full text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition-all active:scale-95 min-h-[44px]"
-                    aria-label={`Contacter le ${member.prenom} sur WhatsApp`}
-                  >
-                    <WhatsAppBrand className="w-3.5 h-3.5 text-white shrink-0" />
-                    <span>Échanger sur WhatsApp</span>
-                  </a>
+                  {member.prenom.toLowerCase().includes('boutique') ? (
+                    <Link
+                      href="/boutique"
+                      className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-full text-xs font-bold text-amber-300 bg-[#0f0e0c] hover:bg-stone-900 border border-amber-500/40 shadow-sm transition-all active:scale-95 min-h-[44px]"
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      <span>Accéder à la Boutique</span>
+                    </Link>
+                  ) : (
+                    <a
+                      href={getWhatsAppBookingUrl(`${member.prenom} ${member.nom}`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-full text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-600 shadow-sm transition-all active:scale-95 min-h-[44px]"
+                      aria-label={`Contacter le ${member.prenom} sur WhatsApp`}
+                    >
+                      <WhatsAppBrand className="w-3.5 h-3.5 text-white shrink-0" />
+                      <span>Échanger sur WhatsApp</span>
+                    </a>
+                  )}
                 </div>
               </div>
             )
